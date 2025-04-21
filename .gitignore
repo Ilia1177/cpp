@@ -5,3 +5,4 @@ megaphone
 *.swp
 .*.swp
 .*.swo
+*.DS_Store
