@@ -1,15 +1,18 @@
-NAME = megaphone
-CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98
-SRCS = megaphone.cpp
-OBJS = $(SRCS:%.cpp=%.o)
+NAME 	= 	zombie
+CC 		=	c++
+CFLAGS	=	-Wall -Wextra -Werror -std=c++98
+SRCS	= 	main.cpp\
+	   		Zombie.cpp\
+	   		newZombie.cpp\
+	   		randomChump.cpp
+OBJS	=	$(SRCS:%.cpp=%.o)
 
 all 	: $(NAME)
 
 %.o		: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
-NAME	: $(OBJS)
+$(NAME)	: $(OBJS)
 	$(CC) $^ $(CFLAGS) -o $(NAME)
 
 clean	:
