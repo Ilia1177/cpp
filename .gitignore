@@ -1,0 +1,4 @@
+megaphone
+*.o
+*.dSYM
+*.swp
