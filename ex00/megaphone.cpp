@@ -1,7 +1,9 @@
-#include <string>
-#include <iostream>
-//#include <cctype>
-#define	FEED_BACK "* LOUD AND UNBEARABLE FEEDBACK NOISE *"
+#ifndef MEGAPHONE_CPP
+#define MEGAPHONE_CPP
+# include <string>
+# include <iostream>
+# define	FEED_BACK "* LOUD AND UNBEARABLE FEEDBACK NOISE *"
+#endif
 
 void megaphone(int ac, char **av)
 {
