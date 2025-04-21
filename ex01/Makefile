@@ -1,24 +1,22 @@
-NAME = phone_book 
-CC = c++
-CFLAGS = -Wall -Wextra -Werror -std=c++98
-SRCS = PhoneBook.cpp\
-	   Contact.cpp\
-	   main.cpp\
-
-OBJS = $(SRCS:%.cpp=%.o)
+NAME 	= 	zombie
+CC 		=	c++
+CFLAGS	=	-Wall -Wextra -Werror -std=c++98
+SRCS	= 	main.cpp\
+	   		Zombie.cpp\
+	   		zombieHorde.cpp
+OBJS	=	$(SRCS:%.cpp=%.o)
 
 all 	: $(NAME)
-
-$(NAME)	: $(OBJS)
-	$(CC) $^ $(CFLAGS) -o $(NAME)
 
 %.o		: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@
 
+$(NAME)	: $(OBJS)
+	$(CC) $^ $(CFLAGS) -o $(NAME)
 
 clean	:
 	@echo "Cleaning object..."
-	@rm -f $(OBJ)
+	@rm -f $(OBJS)
 	@echo "Folder is clean."
 
 fclean	: clean

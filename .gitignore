@@ -2,3 +2,6 @@ megaphone
 *.o
 *.dSYM
 *.swp
+*.swp
+.*.swp
+.*.swo
