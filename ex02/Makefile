@@ -1,26 +1,28 @@
-NAME 	= 	addresses
+NAME 	= 	fixed
 CC 		=	c++
 CFLAGS	=	-Wall -Wextra -Werror -std=c++98
-SRCS	= 	main.cpp
+SRCS	= 	main.cpp\
+	   		Fixed.cpp
+INCLUDE	=	-I./Fixed.hpp
+
 OBJS	=	$(SRCS:%.cpp=%.o)
 
 all 	: $(NAME)
 
 %.o		: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
-
+	$(CC) $(CFLAGS) -c $< -o $@ 
 $(NAME)	: $(OBJS)
-	$(CC) $^ $(CFLAGS) -o $(NAME)
+	$(CC) $^ $(CFLAGS) -o $(NAME) $(INCLUDE)
 
 clean	:
-	@echo "Deleting objects..."
+	@echo "Cleaning object..."
 	@rm -f $(OBJS)
-	@echo "Objects removed."
+	@echo "Folder is clean."
 
 fclean	: clean
-	@echo "Deleting executable..."
+	@echo "Cleaning everything..."
 	@rm -f $(NAME)
-	@echo "Executable removed."
+	@echo "Folder is like new."
 
 re		: fclean all
 
