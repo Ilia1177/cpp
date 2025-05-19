@@ -38,13 +38,10 @@ std::string	Contact::shortenStr(const std::string& str) const {
 	return (str);
 }
 
+
+
 void	Contact::printNames(void) const {
 
-	std::cout << std::setw(10) <<  "index" << "|";
-	std::cout << std::setw(10) <<  "first name" << "|";
-	std::cout << std::setw(10) <<  "last name" << "|";
-	std::cout << std::setw(10) <<  "nickname" << "|" << std::endl;
-	std::cout << std::setw(10) << "-----------------------------------------" << std::endl;
 	std::cout << std::setw(10) <<  Contact::getIndex() << "|";
 	std::cout << std::setw(10) <<  Contact::shortenStr(Contact::getFirstName()) << "|";
 	std::cout << std::setw(10) <<  Contact::shortenStr(Contact::getLastName()) << "|";

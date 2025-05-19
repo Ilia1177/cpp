@@ -5,18 +5,17 @@ int	main(void)
 	PhoneBook	phoneBook;
 	std::string	cmd;
 
-	while (1) {
+	while (true) {
 		std::cout << "type a command :";
-		std::getline(std::cin, cmd);
-		if (cmd == "ADD")
+		if (!std::getline(std::cin, cmd))
+			phoneBook.exitPhoneBook();
+		else if (cmd == "ADD")
 			phoneBook.addContact();
 		else if (cmd == "SEARCH")
 			phoneBook.searchContact();
 		else if (cmd == "EXIT")
 			phoneBook.exitPhoneBook();
-		//else if (cmd == "\n")
-		//	continue ;
-		else
+		else 
 			std::cout << DEFAULT << std::endl;
 	}
 }
