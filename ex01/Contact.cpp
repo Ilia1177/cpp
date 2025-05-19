@@ -1,14 +1,5 @@
 #include "PhoneBook.hpp"
 
-
-//	void	Contact::setName(const std::string& name) {
-//		name_ = name;
-//	}
-//
-//	void	Contact::setPhone(const std::string& phone) {
-//		phone_ = phone;
-//	}
-
 int			Contact::getIndex(void) const {
 	return (index_);
 }
@@ -37,8 +28,6 @@ std::string	Contact::shortenStr(const std::string& str) const {
 		return (str.substr(0, 9) + ".");
 	return (str);
 }
-
-
 
 void	Contact::printNames(void) const {
 
