@@ -1,8 +1,8 @@
-NAME 	= 	zombie
+NAME 	= 	clapTrap	
 CC 		=	c++
 CFLAGS	=	-Wall -Wextra -Werror -std=c++98
 SRCS	= 	main.cpp\
-	   		Fixed.cpp
+	   		ClapTrap.cpp
 
 OBJS	=	$(SRCS:%.cpp=%.o)
 
