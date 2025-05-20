@@ -1,15 +1,19 @@
 #include "ScavTrap.hpp"
 
 // Default constructor
-ScavTrap::ScavTrap(void)
-	: ClapTrap() {
+ScavTrap::ScavTrap(void): ClapTrap() {
     std::cout << "An unknown ScavTrap has arrived!" << std::endl;
+	setHitPoints(100);
+	setEnergyPoints(50);
+	setAttackDamage(20);
     return ;
 }
 
-ScavTrap::ScavTrap(const std::string& name)
-	: ClapTrap(name) {
+ScavTrap::ScavTrap(const std::string& name): ClapTrap(name) {
     std::cout <<  "ScavTrap " << name << " has arrived!" << std::endl;
+	setHitPoints(100);
+	setEnergyPoints(50);
+	setAttackDamage(20);
     return ;
 }
 

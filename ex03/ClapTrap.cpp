@@ -34,8 +34,7 @@ ClapTrap &ClapTrap::operator=(const ClapTrap &other) {
 }
 
 // Destructor
-ClapTrap::~ClapTrap(void)
-{
+ClapTrap::~ClapTrap(void) {
     std::cout << "ClapTrap " << getName() << " has left." << std::endl;
     return ;
 }
