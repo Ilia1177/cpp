@@ -37,13 +37,14 @@ void	PhoneBook::printTab(void) const {
 	std::cout << std::setw(10) <<  "first name" << "|";
 	std::cout << std::setw(10) <<  "last name" << "|";
 	std::cout << std::setw(10) <<  "nickname" << "|" << std::endl;
-	std::cout << std::setw(10) << "-----------------------------------------" << std::endl;
+	std::cout << std::setw(10) << "---------------------------------------------";
+	std::cout << std::endl;
 }
 
 void	PhoneBook::exitPhoneBook() const
 {
 	std::cout << "Exiting" << std::endl;
-	exit(0);
+	std::exit(0);
 }
 
 void	PhoneBook::searchContact() const
