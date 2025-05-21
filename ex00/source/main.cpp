@@ -1,9 +1,9 @@
-#include <Animal.hpp>
 #include <Cat.hpp>
+#include <Dog.hpp>
 
 int main( void ) {
-	Cat animal1;
+	Dog anim;
 	
-	animal1.makeSound();
+	anim.makeSound();
 	return 0;
 }

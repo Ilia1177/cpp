@@ -3,14 +3,14 @@
 // Default constructor
 Cat::Cat(void)
 {
-    std::cout << "Default constructor called" << std::endl;
+    std::cout << "Cat: Default constructor called" << std::endl;
     return ;
 }
 
 // Copy constructor
 Cat::Cat(const Cat &other)
 {
-    std::cout << "Copy constructor called" << std::endl;
+    std::cout << "Cat: Copy constructor called" << std::endl;
     (void) other;
     return ;
 }
@@ -18,7 +18,7 @@ Cat::Cat(const Cat &other)
 // Assignment operator overload
 Cat &Cat::operator=(const Cat &other)
 {
-    std::cout << "Assignment operator called" << std::endl;
+    std::cout << "Cat: Assignment operator called" << std::endl;
     (void) other;
     return (*this);
 }
@@ -26,7 +26,7 @@ Cat &Cat::operator=(const Cat &other)
 // Destructor
 Cat::~Cat(void)
 {
-    std::cout << "Destructor called" << std::endl;
+    std::cout << "Cat: Destructor called" << std::endl;
     return ;
 }
 
