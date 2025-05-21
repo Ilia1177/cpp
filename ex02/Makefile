@@ -1,9 +1,8 @@
-NAME = phone_book 
+NAME = the_job_of_your_dream
 CC = c++
 CFLAGS = -Wall -Wextra -Werror -std=c++98
-SRCS = PhoneBook.cpp\
-	   Contact.cpp\
-	   main.cpp\
+SRCS = Account.cpp\
+	   test.cpp\
 
 OBJS = $(SRCS:%.cpp=%.o)
 
@@ -18,7 +17,7 @@ $(NAME)	: $(OBJS)
 
 clean	:
 	@echo "Cleaning object..."
-	@rm -f $(OBJ)
+	@rm -f $(OBJS)
 	@echo "Folder is clean."
 
 fclean	: clean

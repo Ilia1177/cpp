@@ -1,6 +1,6 @@
 #include "PhoneBook.hpp"
 
-void	PhoneBook::saveInput(const std::string& str, std::string *input) {
+void	PhoneBook::saveInput(const std::string& str, std::string *input) const {
 	std::string value;
 	std::cout << str; 
 	while (value.empty()) {
@@ -46,13 +46,13 @@ void	PhoneBook::printTab(void) const {
 
 void	PhoneBook::exitPhoneBook() const {
 	std::cout << "Exiting" << std::endl;
-	exit(0);
+	std::exit(0);
 }
 
 void	PhoneBook::searchContact() const {
-	int			found;
-	int			i;
-	int			index;
+	int				found;
+	int				i;
+	int				index;
 	std::string		input;
 
 	if (contact_nb_ == 0) {
@@ -63,16 +63,14 @@ void	PhoneBook::searchContact() const {
 	for (i = 0; i < contact_nb_; ++i) {
 		contact_[i].printNames();
 	}
-	found = 0;
-	std::cout << "Enter index of contact to display: ";
-	if (!std::getline(std::cin, input))
-		exitPhoneBook();
-	std::stringstream ss(input);     // Create stringstream
-	ss >> index;                    // Convert to int
+	saveInput("Enter index of contact to display: ", &input);
+	std::stringstream ss(input);
+	ss >> index;
 	if (ss.fail()) {
 		std::cout << "Invalid number!" << std::endl;
 		return ;
 	}
+	found = 0;
 	for (i = 0; i < contact_nb_; ++i) {
 		if (contact_[i].getIndex() == index) {
 			contact_[i].printDetails();
