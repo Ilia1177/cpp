@@ -8,16 +8,16 @@ void	PhoneBook::addContact()
 	std::string secret;
 	std::string phone;
 
-	std::cout << "Name it please : "; 
+	std::cout << "Name it please: "; 
 	if (!std::getline(std::cin, first))
 		exitPhoneBook() ;
 	std::cout << "Give him a last name: ";
 	if (!std::getline(std::cin,  last))
 		exitPhoneBook() ;
-	std::cout << "little nickname : "; 
+	std::cout << "little nickname: "; 
 	if (!std::getline(std::cin, nickname))
 		exitPhoneBook() ;
-	std::cout << "A word about his terrible history : ";
+	std::cout << "A word about his terrible history: ";
 	if (!std::getline(std::cin, secret))
 		exitPhoneBook() ;
 	std::cout << "A number where we can contact him: ";
@@ -40,14 +40,12 @@ void	PhoneBook::printTab(void) const {
 	std::cout << std::setw(10) << "-----------------------------------------" << std::endl;
 }
 
-void	PhoneBook::exitPhoneBook() const
-{
+void	PhoneBook::exitPhoneBook() const {
 	std::cout << "Exiting" << std::endl;
 	exit(0);
 }
 
-void	PhoneBook::searchContact() const
-{
+void	PhoneBook::searchContact() const {
 	int			found;
 	int			i;
 	int			index;
