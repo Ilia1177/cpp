@@ -1,24 +1,31 @@
-NAME 	= 	clapTrap	
+NAME 	= 	animal	
 CC 		=	c++
 CFLAGS	=	-Wall -Wextra -Werror -std=c++98
+SRC_DIR = source/
+HDR_DIR = header/
+OBJ_DIR	= objet/
+INC		= -I$(HDR_DIR)
 SRCS	= 	main.cpp\
-	   		ClapTrap.cpp
-OBJS	=	$(SRCS:%.cpp=%.o)
+	   		Animal.cpp\
+			Dog.cpp\
+			Cat.cpp
+SRCS 	:= 	$(addprefix $(SRC_DIR), $(SRCS))
+OBJS	=	$(SRCS:$(SRC_DIR)%.cpp=$(OBJ_DIR)%.o)
 
-all 	: $(NAME)
+all 			: $(NAME)
 
-%.o		: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
+$(OBJ_DIR)%.o	: $(SRC_DIR)%.cpp
+	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
 
-$(NAME)	: $(OBJS)
-	$(CC) $^ $(CFLAGS) -o $(NAME)
+$(NAME)			: $(OBJS)
+	$(CC) $(INC) $^ $(CFLAGS) -o $(NAME)
 
-clean	:
+clean			:
 	@echo "Cleaning object..."
 	@rm -f $(OBJS)
 	@echo "Folder is clean."
 
-fclean	: clean
+fclean			: clean
 	@echo "Cleaning everything..."
 	@rm -f $(NAME)
 	@echo "Folder is like new."

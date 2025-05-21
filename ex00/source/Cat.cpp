@@ -1,14 +1,14 @@
-#include "Animal.hpp"
+#include <Cat.hpp>
 
 // Default constructor
-Animal::Animal(void)
+Cat::Cat(void)
 {
     std::cout << "Default constructor called" << std::endl;
     return ;
 }
 
 // Copy constructor
-Animal::Animal(const Animal &other)
+Cat::Cat(const Cat &other)
 {
     std::cout << "Copy constructor called" << std::endl;
     (void) other;
@@ -16,7 +16,7 @@ Animal::Animal(const Animal &other)
 }
 
 // Assignment operator overload
-Animal &Animal::operator=(const Animal &other)
+Cat &Cat::operator=(const Cat &other)
 {
     std::cout << "Assignment operator called" << std::endl;
     (void) other;
@@ -24,9 +24,12 @@ Animal &Animal::operator=(const Animal &other)
 }
 
 // Destructor
-Animal::~Animal(void)
+Cat::~Cat(void)
 {
     std::cout << "Destructor called" << std::endl;
     return ;
 }
 
+void	Cat::makeSound(void) const {
+	std::cout << "Miaou" << std::endl;
+}
