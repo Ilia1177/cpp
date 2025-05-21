@@ -42,6 +42,7 @@ class PhoneBook {
 		PhoneBook()	: contact_nb_(0) {};
 		void	searchContact() const;
 		void	addContact();
+		bool	isPrintable(const std::string& str) const;
 		void	exitPhoneBook() const;
 		void	printTab(void) const;
 		void	saveInput(const std::string& str, std::string *input) const;
