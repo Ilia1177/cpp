@@ -40,10 +40,11 @@ class Contact {
 class PhoneBook {
 	public :
 		PhoneBook()	: contact_nb_(0) {};
-		void				searchContact() const;
-		void				addContact();
-		void				exitPhoneBook() const;
-		void				printTab(void) const;
+		void	searchContact() const;
+		void	addContact();
+		void	exitPhoneBook() const;
+		void	printTab(void) const;
+		void	saveInput(const std::string& str, std::string *input);
 	private :
 		int		contact_nb_;
 		Contact	contact_[8];

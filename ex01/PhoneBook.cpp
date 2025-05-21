@@ -1,5 +1,19 @@
 #include "PhoneBook.hpp"
 
+void	PhoneBook::saveInput(const std::string& str, std::string *input) {
+	std::string value;
+	std::cout << str; 
+	while (value.empty()) {
+		if (!std::getline(std::cin, value)) {
+			exitPhoneBook();
+		} else if (value.empty()) {
+			std::cout << "This field cannot be empty. Please try again !" << std::endl;
+			std::cout << str; 
+		}
+	}
+	*input = value;
+}
+
 void	PhoneBook::addContact()
 {
 	std::string	first;
@@ -8,21 +22,11 @@ void	PhoneBook::addContact()
 	std::string secret;
 	std::string phone;
 
-	std::cout << "Name it please: "; 
-	if (!std::getline(std::cin, first))
-		exitPhoneBook() ;
-	std::cout << "Give him a last name: ";
-	if (!std::getline(std::cin,  last))
-		exitPhoneBook() ;
-	std::cout << "little nickname: "; 
-	if (!std::getline(std::cin, nickname))
-		exitPhoneBook() ;
-	std::cout << "A word about his terrible history: ";
-	if (!std::getline(std::cin, secret))
-		exitPhoneBook() ;
-	std::cout << "A number where we can contact him: ";
-	if (!std::getline(std::cin,  phone))
-		exitPhoneBook() ;
+	saveInput("Name it please: ", &first);
+	saveInput("Give him a last name: ", &last);
+	saveInput("little nickname: ", &nickname); 
+	saveInput("A word about his terrible history: ", &secret);
+	saveInput("A number where we can contact him: ", &phone);
 	if (contact_nb_ >= 8) {
 		contact_[7] = Contact(first, last, nickname, secret, phone, 7);
 	} else {
