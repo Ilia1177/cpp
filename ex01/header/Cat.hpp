@@ -9,7 +9,13 @@ class Cat: public Animal {
         Cat &operator=(const Cat &other);
         ~Cat();
 
-		void	makeSound( void ) const;
+		
+	bool	setIdea(const std::string&, int);
+	const std::string& getIdea(int) const;
+
+	void	makeSound( void ) const;
+	private:
+		Brain *_brain;
 };
 
 #endif

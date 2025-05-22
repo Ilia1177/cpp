@@ -23,7 +23,7 @@ $(OBJ_DIR)%.o	: $(SRC_DIR)%.cpp
 
 $(NAME)			: $(OBJS)
 	@mkdir -p $(dir $@)
-	$(CC) $(INC) $^ $(CFLAGS) -o $(NAME)
+	$(CC) $(INC) $(CFLAGS) $^ -o $(NAME)
 
 clean			:
 	@echo "Cleaning object..."

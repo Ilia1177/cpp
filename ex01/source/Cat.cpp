@@ -33,3 +33,12 @@ Cat::~Cat(void) {
 void	Cat::makeSound(void) const {
 	std::cout << "Miaou" << std::endl;
 }
+
+bool	Cat::setIdea(const std::string& idea, int nb) {
+	return this->_brain->setIdea(idea, nb);
+}
+
+
+const std::string& Cat::getIdea(int nb) const {
+	return this->_brain->getIdea(nb);
+}

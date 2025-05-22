@@ -20,16 +20,25 @@ Dog &Dog::operator=(const Dog &other) {
     std::cout << "Dog: Assignment operator called" << std::endl;
 	this->_type = other._type;
 	this->_brain = other._brain;
-    return (*this);
+	return (*this);
 }
 
 // Destructor
 Dog::~Dog(void) {
-	delete this->_brain;
     std::cout << "Dog: Destructor called" << std::endl;
+	delete this->_brain;
     return ;
 }
 
 void	Dog::makeSound(void) const {
 	std::cout << "Barf" << std::endl;
+}
+
+bool	Dog::setIdea(const std::string& idea, int nb) {
+	return this->_brain->setIdea(idea, nb);
+}
+
+
+const std::string& Dog::getIdea(int nb) const {
+	return this->_brain->getIdea(nb);
 }

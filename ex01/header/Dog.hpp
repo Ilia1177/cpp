@@ -7,9 +7,13 @@ class Dog: public Animal {
         Dog(void);
         Dog(const Dog& other);
         Dog &operator=(const Dog &other);
-        ~Dog();
+        virtual ~Dog();
 
-		void	makeSound( void ) const;
+		void				makeSound( void ) const;
+		bool				setIdea(const std::string&, int);
+		const std::string&	getIdea(int) const;
+	private:
+		Brain *_brain;
 };
 
 #endif
