@@ -7,8 +7,9 @@ int	main(int ac, char** av) {
 
 	zombies = NULL;
 	number = 0;
-	if (ac > 1)
+	if (ac > 1) {
 		number = std::atoi(av[1]);
+	}
 	if (number > 0) {
 		zombies = zombieHorde(number, "Zonzon");
 	} else if (number <= 0 || number > 1000) {
