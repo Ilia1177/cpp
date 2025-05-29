@@ -5,7 +5,7 @@ std::string	Zombie::getName(void) const {
 }
 
 void	Zombie::announce(void) const {
-	std::cout << Zombie::getName() << ANNOUNCE << std::end;
+	std::cout << Zombie::getName() << ANNOUNCE << std::endl;
 }
 
 Zombie::~Zombie() {
