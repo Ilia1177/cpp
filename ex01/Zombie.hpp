@@ -2,6 +2,7 @@
 #define		ZOMBIE_HPP
 # include	<iostream>
 # include	<string>
+# include	<sstream>
 # define	ANNOUNCE	": BraiiiiiiinnnzzzZ..."
 
 class Zombie {
