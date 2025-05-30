@@ -33,8 +33,10 @@ int	FileHandler::edit(const std::string& old_str, const std::string& new_str) {
 	int					found;
 
 	found = 0;
-	if (old_str == "")
+	if (old_str == "") {
+		std::cout << "Cannot replace empty string." << std::endl;
 		return (3);
+	}
 	while (std::getline(_inFile, curr_line)) {
 		index = curr_line.find(old_str);
 		while (index != std::string::npos) {
@@ -51,10 +53,9 @@ int	FileHandler::edit(const std::string& old_str, const std::string& new_str) {
 			curr_line = curr_line.substr(index + old_str.length());
 			index = curr_line.find(old_str);
 		} 
-		_outFile.write(curr_line.c_str(), curr_line.size());
+		_outFile << curr_line << std::endl;
 	}
 	if (found) {
-		_outFile << std::endl;
 		std::cout << old_str << " has been replaced." << std::endl;
 	} else if (!found) {
 		std::cout << old_str << " not found." << std::endl;
