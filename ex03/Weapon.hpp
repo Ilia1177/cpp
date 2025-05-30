@@ -12,25 +12,4 @@ class Weapon {
 		std::string	_type;
 };
 
-class HumanA {
-	public:
-		HumanA(std::string name, Weapon& weapon);
-		void		attack() const;
-		void		setWeapon(Weapon& weapon);
-	private:
-		std::string	_name;
-		Weapon&		_weapon;
-};
-
-class HumanB {
-	public:
-		HumanB(std::string name);
-		void		attack() const;
-		void		setWeapon(Weapon& weapon);
-		Weapon& 	getWeapon() const;
-	private:	
-		std::string	_name;
-		Weapon*		_weapon;
-};
-
 #endif
