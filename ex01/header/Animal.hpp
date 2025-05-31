@@ -12,8 +12,6 @@ class Animal
 		Animal &operator=(const Animal &other);
 		virtual ~Animal();
 
-		virtual bool				setIdea(const std::string&, int) = 0;
-		virtual const std::string&	getIdea(int) const = 0;
 		virtual void				makeSound() const;
 		const std::string&			getType() const; 
 	protected:

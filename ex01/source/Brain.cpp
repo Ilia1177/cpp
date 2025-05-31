@@ -7,19 +7,19 @@ Brain::Brain(void) {
 }
 
 // Copy constructor
-Brain::Brain(const Brain *other) {
+Brain::Brain(const Brain& other) {
     std::cout << "Brain: Copy constructor called" << std::endl;
 	for (size_t i = 0; i < 100; i++) {
-		this->ideas[i] = other->ideas[i];
+		this->ideas[i] = other.ideas[i];
 	}
     return ;
 }
 
 // Assignment operator overload
-Brain &Brain::operator=(const Brain *other) {
+Brain &Brain::operator=(const Brain& other) {
     std::cout << "Brain Assignment operator called" << std::endl;
 	for (size_t i = 0; i < 100; i++) {
-		this->ideas[i] = other->ideas[i];
+		this->ideas[i] = other.ideas[i];
 	}
     return (*this);
 }

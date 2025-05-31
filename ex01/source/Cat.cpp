@@ -8,18 +8,19 @@ Cat::Cat(void): Animal("Cat") {
 }
 
 // Copy constructor
-Cat::Cat(const Cat &other) {
+Cat::Cat(const Cat &other): Animal(other) {
     std::cout << "Cat: Copy constructor called" << std::endl;
-	this->_type = other._type;
-	this->_brain = new Brain(other._brain);
+	this->_brain = new Brain(*other._brain);
     return ;
 }
 
 // Assignment operator overload
 Cat &Cat::operator=(const Cat &other) {
     std::cout << "Cat: Assignment operator called" << std::endl;
-	this->_type = other._type;
-	this->_brain = other._brain;
+	if (this != &other)	{
+        Animal::operator=(other); // Call base assignment
+        *_brain = *other._brain;  // Deep copy Brain content
+    }
     return (*this);
 }
 
