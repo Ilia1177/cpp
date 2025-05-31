@@ -40,6 +40,7 @@ ClapTrap::~ClapTrap(void) {
 }
 
 void ClapTrap::attack(const std::string& target) {
+	std::cout << "ClapTrap attack !" << std::endl;
 	if (getEnergyPoints() > 0 && getHitPoints() > 0) {
 		std::cout << "CalpTrap " << getName();
 		std::cout << " attacks " << target << ", ";

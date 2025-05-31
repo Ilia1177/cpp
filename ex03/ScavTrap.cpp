@@ -27,6 +27,7 @@ ScavTrap::~ScavTrap(void)
 }
 
 void ScavTrap::attack(const std::string& target) {
+	std::cout << "ScavTrap attack !" << std::endl;
 	if (getEnergyPoints() > 0 && getHitPoints() > 0) {
 		std::cout << "ScavTrap " << getName();
 		std::cout << " attacks " << target << ", ";
