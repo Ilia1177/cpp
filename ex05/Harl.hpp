@@ -4,14 +4,9 @@
 # include <string>
 
 # define DEBUG_MSG 		"debug msg"
-# define INFO_MSG 		"info"
-# define WARNING_MSG 	"warning"
-# define ERROR_MSG 		"error"
-
-# define DEBUG_HASH 	64921139 
-# define INFO_HASH 		2251950 
-# define WARNING_HASH	1842428796
-# define ERROR_HASH		66247144
+# define INFO_MSG 		"info msg"
+# define WARNING_MSG 	"warning msg"
+# define ERROR_MSG 		"error msg"
 
 class Harl {
 	public :
