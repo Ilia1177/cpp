@@ -7,9 +7,9 @@ class WrongCat: public WrongAnimal {
         WrongCat(void);
         WrongCat(const WrongCat& other);
         WrongCat &operator=(const WrongCat &other);
-        virtual ~WrongCat();
+        ~WrongCat();
 
-		virtual void	makeSound( void ) const;
+		void	makeSound( void ) const;
 };
 
 #endif

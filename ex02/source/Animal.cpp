@@ -31,10 +31,4 @@ Animal::~Animal(void) {
     std::cout << "Animal: Destructor called" << std::endl;
     return ;
 }
-const std::string& Animal::getType() const {
-	return(_type);
-}
 
-void	Animal::makeSound(void) const {
-	return ;
-}

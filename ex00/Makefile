@@ -26,7 +26,7 @@ $(NAME)			: $(OBJS)
 
 clean			:
 	@echo "Cleaning object..."
-	@rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
 	@echo "Folder is clean."
 
 fclean			: clean
