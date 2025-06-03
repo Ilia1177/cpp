@@ -27,14 +27,12 @@ Dog &Dog::operator=(const Dog &other) {
 Dog::~Dog(void) {
     std::cout << "Dog: Destructor called" << std::endl;
 	delete this->_brain;
-    return;
+    return ;
 }
 
 void	Dog::makeSound(void) const {
 	std::cout << "Barf" << std::endl;
 }
-
-
 
 bool	Dog::setIdea(const std::string& idea, int nb) {
 	return this->_brain->setIdea(idea, nb);

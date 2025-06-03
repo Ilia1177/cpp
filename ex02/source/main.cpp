@@ -16,27 +16,26 @@ int main( void ) {
     }
 
 	
-	std::cout << "Stack manipulation: " << std::endl << std::endl;
-	Animal a;
-	Animal c;
-	Cat d;
+//	std::cout << "Stack manipulation: " << std::endl << std::endl;
+//	Animal a;
+//	Animal c;
+//	Cat d;
 
-	c = d;
+//	c = d;
 
-	std::cout << "Heap manipulation: " << std::endl << std::endl;
-	Cat *e = NULL;
-	Cat *f = new Cat;
-	Cat g(*f);
+//	std::cout << "Heap manipulation: " << std::endl << std::endl;
+//	Cat *e = NULL;
+//	Cat *f = new Cat;
+//	Cat g(*f);
+//
+//	Animal *h;
 
-	Animal *h;
+//	h = new Cat;
+//	e = f;
+//	delete f;
+//	delete h;
 
-	h = new Cat;
-	e = f;
-	delete f;
-	delete h;
-
-	std::cout << "Deep copy of brain: " << std::endl << std::endl;
-	
+//	std::cout << "Deep copy of brain: " << std::endl << std::endl;
 	Cat	felix;
 	Cat tom;
 
@@ -47,10 +46,6 @@ int main( void ) {
 	tom = felix;
 	std::cout << "tom: " << tom.getIdea(0) << std::endl;
 	
-	felix.setIdea("no idea foir felix", 0);
-	std::cout << "tom: " << tom.getIdea(0) << std::endl;
-
-
 	std::cout << "Array of animals: " << std::endl << std::endl;
 	Animal *animals[size];
 	for (int i = 0; i < size; ++i) {
