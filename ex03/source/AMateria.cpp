@@ -2,18 +2,24 @@
 
 // Default constructor
 AMateria::AMateria(void): _type(NULL) {
-    std::cout << "Default constructor called" << std::endl;
+#if PRINT
+    std::cout << "AMateria:: Default constructor called" << std::endl;
+#endif
     return ;
 }
 
 // Default constructor
 AMateria::AMateria(const std::string& type): _type(type) {
-    std::cout << "Default constructor called" << std::endl;
+#if PRINT
+    std::cout << "AMateria:: Default constructor called" << std::endl;
+#endif
     return ;
 }
 // Copy constructor
 AMateria::AMateria(const AMateria &other): _type(other._type) {
-    std::cout << "Copy constructor called" << std::endl;
+#if PRINT
+    std::cout << "AMateria:: Copy constructor called" << std::endl;
+#endif
     return ;
 }
 
@@ -23,7 +29,9 @@ AMateria &AMateria::operator=(const AMateria &other) {
 		std::cout << "Impossible asignement... type doesnt match" << std::endl;
 		return (*this);
 	} else if (this != &other) {
-		std::cout << "Assignment operator called" << std::endl;
+#if PRINT
+		std::cout << "AMaterie:: Assignment operator called" << std::endl;
+#endif
 		this->_type = other.getType();
 	}
     return (*this);
@@ -31,7 +39,9 @@ AMateria &AMateria::operator=(const AMateria &other) {
 
 // Destructor
 AMateria::~AMateria(void) {
-    std::cout << "Destructor called" << std::endl;
+#if PRINT
+    std::cout << "AMateria:: Destructor called" << std::endl;
+#endif
     return ;
 }
 
@@ -39,6 +49,12 @@ const std::string& AMateria::getType(void) const {
 	return this->_type;
 }
 
-
-
-
+void AMateria::use(ICharacter& target) {
+#if PRINT
+	std::cout << "use of AMateria" << std::endl;
+#endif
+	if (getType() == "cure")
+		std::cout << "* heals " << target.getName() << "’s wounds *" << std::endl;
+	else if (getType() == "ice")
+		std::cout << "* shoot an ice bolt at " << target.getName() << std::endl;
+}

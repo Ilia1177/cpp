@@ -12,6 +12,7 @@ class Character: public ICharacter
 
     public:
         Character(void);
+        Character(const std::string& name);
         Character(const Character& other);
         Character &operator=(const Character &other);
         virtual ~Character();

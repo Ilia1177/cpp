@@ -1,19 +1,34 @@
 #include "Character.hpp"
 
 // Default constructor
-Character::Character(void) {
+Character::Character(void): _name("Unknown"){
 	for (int i = 0; i < 4; ++i) {
 		_inventory[i] = NULL;
 	}
+#if PRINT
     std::cout << "CHARACTER:: Default constructor called" << std::endl;
+#endif
     return ;
 }
 
+// Default constructor
+Character::Character(const std::string& name): _name(name){
+	for (int i = 0; i < 4; ++i) {
+		_inventory[i] = NULL;
+	}
+#if PRINT
+    std::cout << "CHARACTER:: Default constructor called" << std::endl;
+#endif
+    return ;
+}
 // Copy constructor
 Character::Character(const Character &other) {
+#if PRINT
+	std::cout << "CHARACTER:: Copy constructor called" << std::endl;
+#endif
 	for (int i = 0; i < 4; ++i) {
-		std::cout << "CHARACTER:: Copy constructor called" << std::endl;
 		if (other._inventory[i]) {
+			delete _inventory[i];
 			_inventory[i] = other._inventory[i]->clone();
 		} else {
 			_inventory[i] = NULL;
@@ -24,10 +39,18 @@ Character::Character(const Character &other) {
 
 // Assignment operator overload
 Character &Character::operator=(const Character &other) {
-	if (this != &other) {
+#if PRINT
 		std::cout << "CHARACTER:: Assignment operator called" << std::endl;
+#endif
+	if (this != &other) {
 		for (int i = 0; i < 4; ++i) {
-			*_inventory[i] = *other._inventory[i];
+			if (_inventory[i])
+				delete _inventory[i];
+			if (other._inventory[i]) {
+				_inventory[i] = other._inventory[i]->clone();
+			} else {
+				_inventory[i] = NULL;
+			}
 		}
 	}
     return (*this);
@@ -35,10 +58,12 @@ Character &Character::operator=(const Character &other) {
 
 // Destructor
 Character::~Character(void) {
+#if PRINT
     std::cout << "CHARACTER:: Destructor called" << std::endl;
-	for (int i = 0; i < 4; ++i) {
+#endif
+	for (size_t i = 0; i < 4; i++) {
 		if (_inventory[i])
-		delete _inventory[i];
+			delete _inventory[i];
 	}
     return ;
 }
@@ -48,17 +73,31 @@ const std::string& Character::getName( void ) const {
 }
 
 void	Character::equip(AMateria* m) {
-	(void)m;
-	std::cout << "equip" << std::endl;
+#if PRINT
+	std::cout << "Character:: equip materia" << std::endl;
+#endif
+	for (size_t i = 0; i < 4; ++i) {
+		if (!_inventory[i]) {
+			_inventory[i] = m;
+			return ;
+		}
+	}
 }
 
 void	Character::unequip(int idx) {
-	(void)idx;
-	std::cout << "unequip" << std::endl;
+	if (idx >= 0 && idx < 4) {
+		_inventory[idx] = NULL;
+#if PRINT
+		std::cout << "Character:: unequip" << std::endl;
+#endif
+	}
 }
 
 void	Character::use(int idx, ICharacter& target) {
-	(void)target;
-	(void)idx;
-	std::cout << "use" << std::endl;
+	if (idx >= 0 && idx < 4 && _inventory[idx]) {
+		_inventory[idx]->use(target);
+#if PRINT
+		std::cout << "Character:: use" << std::endl;
+#endif
+	}
 }
