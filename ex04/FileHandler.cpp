@@ -53,7 +53,6 @@ int	FileHandler::edit(const std::string& old_str, const std::string& new_str) {
 				return (2);
 			}
 		} 
-		std::cout << "writing line: " << new_line << std::endl;
 		_outFile << new_line << std::endl;
 		prev_index = 0;
 		new_line.clear();

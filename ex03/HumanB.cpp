@@ -10,8 +10,10 @@ void	HumanB::attack() const {
 	std::cout << _name << ": attacks with their " << _weapon->getType() << std::endl;
 }
 
-void	HumanB::setWeapon(Weapon& weapon) {
-	if (!_weapon)
-		return ;
-	_weapon = &weapon;
+void	HumanB::setWeapon(Weapon *weapon) {
+	if (!weapon) {
+		_weapon = NULL;
+	} else {
+		_weapon = weapon;
+	}
 }	

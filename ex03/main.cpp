@@ -13,10 +13,13 @@ int main() {
 		Weapon club = Weapon("crude spiked club");
 		HumanB jim("Jim");
 		jim.attack();
-		jim.setWeapon(club);
+		jim.setWeapon(&club);
 		jim.attack();
 		club.setType("some other type of club");
 		jim.attack();
+		jim.setWeapon(NULL);
+		jim.attack();
+
 	}
 	return 0;
 }
