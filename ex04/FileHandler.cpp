@@ -28,32 +28,35 @@ int	FileHandler::openInfile(const std::string& file_name) {
 int	FileHandler::edit(const std::string& old_str, const std::string& new_str) {
 
 	const std::string	newName = _fileName + ".replace";
+	std::string			new_line;
 	std::string			curr_line;
-	std::size_t			index;
-	int					found;
+	std::size_t			index = 0;
+	std::size_t			prev_index = 0;
+	int					found = 0;
 
-	found = 0;
 	if (old_str == "") {
 		std::cout << "Cannot replace empty string." << std::endl;
 		return (3);
 	}
 	while (std::getline(_inFile, curr_line)) {
-		index = curr_line.find(old_str);
-		while (index != std::string::npos) {
+		while ((index = curr_line.find(old_str, prev_index)) != std::string::npos) {
 			found = 1;
-			if (!_outFile.is_open()) {
-				_outFile.open(newName.c_str());
-				if (!_outFile.is_open() || !_outFile) {
-					std::cerr << "error opening file" << std::endl;
-					return (2);
-				}
-			} 
-			_outFile.write(curr_line.c_str(), index);
-			_outFile.write(new_str.c_str(), new_str.length());
-			curr_line = curr_line.substr(index + old_str.length());
-			index = curr_line.find(old_str);
+			new_line.append(curr_line, prev_index, index - prev_index);
+			new_line.append(new_str);
+			prev_index = index + old_str.length();
 		} 
-		_outFile << curr_line << std::endl;
+		new_line.append(curr_line.substr(prev_index));
+		if (!_outFile.is_open()) {
+			_outFile.open(newName.c_str());
+			if (!_outFile.is_open() || !_outFile) {
+				std::cerr << "error opening file" << std::endl;
+				return (2);
+			}
+		} 
+		std::cout << "writing line: " << new_line << std::endl;
+		_outFile << new_line << std::endl;
+		prev_index = 0;
+		new_line.clear();
 	}
 	if (found) {
 		std::cout << old_str << " has been replaced." << std::endl;
