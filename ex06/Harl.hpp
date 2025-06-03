@@ -4,9 +4,9 @@
 # include <string>
 
 # define DEBUG_MSG 		"debug msg"
-# define INFO_MSG 		"info"
-# define WARNING_MSG 	"warning"
-# define ERROR_MSG 		"error"
+# define INFO_MSG 		"info msg"
+# define WARNING_MSG 	"warning msg"
+# define ERROR_MSG 		"error msg"
 
 # define DEBUG_HASH 	64921139 
 # define INFO_HASH 		2251950 

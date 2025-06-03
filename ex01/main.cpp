@@ -8,8 +8,8 @@ int	main(int ac, char** av) {
 	zombies = NULL;
 	number = 0;
 	if (ac > 1) {
-		std::stringstream ss(av[1]);     // Create stringstream
-		ss >> number;                    // Convert to int
+		std::stringstream ss(av[1]);
+		ss >> number;
 		if (ss.fail()) {
 			std::cout << "Invalid number!" << std::endl;
 			return (1);
