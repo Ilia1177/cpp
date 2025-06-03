@@ -14,7 +14,7 @@ Character::Character(const Character &other) {
 	for (int i = 0; i < 4; ++i) {
 		std::cout << "CHARACTER:: Copy constructor called" << std::endl;
 		if (other._inventory[i]) {
-			_inventory[i] = new AMateria(other._inventory[i]);
+			_inventory[i] = other._inventory[i]->clone();
 		} else {
 			_inventory[i] = NULL;
 		}
@@ -43,3 +43,22 @@ Character::~Character(void) {
     return ;
 }
 
+const std::string& Character::getName( void ) const {
+	return _name;
+}
+
+void	Character::equip(AMateria* m) {
+	(void)m;
+	std::cout << "equip" << std::endl;
+}
+
+void	Character::unequip(int idx) {
+	(void)idx;
+	std::cout << "unequip" << std::endl;
+}
+
+void	Character::use(int idx, ICharacter& target) {
+	(void)target;
+	(void)idx;
+	std::cout << "use" << std::endl;
+}

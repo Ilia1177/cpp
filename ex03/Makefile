@@ -8,7 +8,8 @@ INC		= -I$(HDR_DIR)
 SRCS	= 	main.cpp\
 	   		Character.cpp\
 			Cure.cpp\
-			Ice.cpp
+			Ice.cpp\
+			AMateria.cpp
 SRCS 	:= 	$(addprefix $(SRC_DIR), $(SRCS))
 OBJS	=	$(SRCS:$(SRC_DIR)%.cpp=$(OBJ_DIR)%.o)
 

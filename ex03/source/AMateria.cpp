@@ -12,7 +12,7 @@ AMateria::AMateria(const std::string& type): _type(type) {
     return ;
 }
 // Copy constructor
-AMateria::AMateria(const AMateria &other): _type(other.type) {
+AMateria::AMateria(const AMateria &other): _type(other._type) {
     std::cout << "Copy constructor called" << std::endl;
     return ;
 }
@@ -35,15 +35,10 @@ AMateria::~AMateria(void) {
     return ;
 }
 
-std::string& AMateria::getType(void) const {
+const std::string& AMateria::getType(void) const {
 	return this->_type;
 }
 
-void AMateria::use(ICharacter& target) {
-	if (getType() == "ice")
-		std::cout << "* shoot an ice bolt at " << target.name << std::endl;
-	else if (getType() == "cure")
-		std::cout << "* heals " << target.name << "’s wounds *" << std::endl;
-}
+
 
 

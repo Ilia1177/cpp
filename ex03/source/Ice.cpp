@@ -1,7 +1,7 @@
 #include "Ice.hpp"
 
 // Default constructor
-Ice::Ice(void): _type("ice") {
+Ice::Ice(void): AMateria("ice") {
     std::cout << "Ice:: Default constructor called" << std::endl;
     return ;
 }
@@ -25,6 +25,12 @@ Ice::~Ice(void) {
     return ;
 }
 
-AMateria *Cure::clone( void ) {
-	return new Cure;
+AMateria *Ice::clone( void ) const {
+	return new Ice;
+}
+
+void Ice::use(ICharacter& target) {
+	if (!target)
+		return ;
+	std::cout << "* shoot an ice bolt at " << target.getName() << std::endl;
 }
