@@ -34,7 +34,7 @@ Brain::~Brain(void) {
 
 const std::string& Brain::getIdea(int nb) const {
 	if (nb < 0 || nb >= 100) {
-        static const std::string empty = "";
+    	static const std::string empty = "";
         return empty;
     }
 	return ideas[nb];

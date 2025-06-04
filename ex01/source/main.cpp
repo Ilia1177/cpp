@@ -48,6 +48,7 @@ int main( void ) {
 	std::cout << "tom: " << tom.getIdea(0) << std::endl;
 	
 	felix.setIdea("no idea foir felix", 0);
+	std::cout << "felix: " << felix.getIdea(101) << std::endl;
 	std::cout << "tom: " << tom.getIdea(0) << std::endl;
 
 
