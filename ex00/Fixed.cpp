@@ -6,7 +6,7 @@ Fixed::Fixed(void): _rawValue(0) {
 }
 
 // Copy constructor
-Fixed::Fixed(const Fixed &other): _rawValue(other.getRawBits()) {
+Fixed::Fixed(const Fixed &other): _rawValue(other._rawValue) {
     std::cout << "Copy constructor called" << std::endl;
 }
 
@@ -19,7 +19,7 @@ Fixed &Fixed::operator=(const Fixed &other)
 }
 
 // Destructor
-Fixed::~Fixed(void): _rawValue (0) {
+Fixed::~Fixed(void) {
     std::cout << "Destructor called" << std::endl;
 }
 
