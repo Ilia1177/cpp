@@ -24,9 +24,9 @@ Fixed &Fixed::operator=(const Fixed &other) {
     return (*this);
 }
 
-std::ostream& operator<<(std::ostream& os, const Fixed& fixed) {
-    os << fixed.toFloat();  // Insert the floating-point representation
-    return os;              // Return the stream for chaining (e.g., `cout << a << b`)
+std::ostream &operator<<(std::ostream& os, const Fixed& fixed) {
+    os << fixed.toFloat();
+    return os;
 }
 
 Fixed::Fixed(const int n) {
