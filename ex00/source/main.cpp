@@ -4,20 +4,19 @@
 
 int main( void ) {
 	const Animal* meta = new Animal();
-	const Animal* j = new Dog();
-	const WrongAnimal* i = new WrongCat();
-	const Dog doggy;
+	const Animal* douglas = new Dog();
+	const WrongAnimal* wrong = new WrongCat();
+	const Cat felix;
 
-	std::cout << "type of j is: " << j->getType() << " " << std::endl;
-	std::cout << "type of i is: " << i->getType() << " " << std::endl;
-	std::cout << "i makes sound :" << std::endl;
-	i->makeSound();
-	std::cout << "j makes sound :" << std::endl;
-	j->makeSound();
+	std::cout << std::endl << "wrong (WrongCat) makes this noise: ";
+	wrong->makeSound();
+	std::cout << "douglas (Dog) makes this noise :";
+	douglas->makeSound();
+	std::cout << "meta (Animal) makes this noise :";
 	meta->makeSound();
-	std::cout << "doggy makes sound :" << std::endl;
-	doggy.makeSound();
+	std::cout << "felix (Cat) makes this noise :";
+	felix.makeSound();
 	delete meta;
-	delete j;
-	delete i;
+	delete douglas;
+	delete wrong;
 }

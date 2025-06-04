@@ -35,5 +35,6 @@ const std::string& Animal::getType() const {
 }
 
 void	Animal::makeSound(void) const {
+	std::cout << "* * *" << std::endl;
 	return ;
 }

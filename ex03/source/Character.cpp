@@ -101,3 +101,9 @@ void	Character::use(int idx, ICharacter& target) {
 #endif
 	}
 }
+
+AMateria *Character::getMateria(int idx) const {
+	if (idx >= 0 && idx < 4)
+		return (_inventory[idx]);
+	return NULL;
+}

@@ -3,7 +3,7 @@
 // Default constructor
 WrongAnimal::WrongAnimal(void)
 {
-    std::cout << "Default constructor called" << std::endl;
+    std::cout << "WrongAnimal: Default constructor called" << std::endl;
     return ;
 }
 
@@ -34,6 +34,7 @@ const std::string& WrongAnimal::getType( void ) const {
 }
 
 void	WrongAnimal::makeSound( void ) const {
+	std::cout << "WrongAnimal * * *" << std::endl;
 	return ;
 }
 

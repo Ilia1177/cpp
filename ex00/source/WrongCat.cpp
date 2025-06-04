@@ -8,7 +8,7 @@ WrongCat::WrongCat(void): WrongAnimal("WrongAnimal")
 }
 
 // Copy constructor
-WrongCat::WrongCat(const WrongCat &other): WrongAnimal("WrongAnimal")
+WrongCat::WrongCat(const WrongCat &other): WrongAnimal(other)
 {
     std::cout << "WrongCat: Copy constructor called" << std::endl;
     (void) other;
@@ -31,6 +31,6 @@ WrongCat::~WrongCat(void)
 }
 
 void	WrongCat::makeSound( void ) const {
-	std::cout << "Wrong sound of wrong cat" << std::endl;
+	std::cout << "Wrong miaou" << std::endl;
 	return ;
 }
