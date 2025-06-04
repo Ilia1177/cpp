@@ -85,24 +85,24 @@ Fixed Fixed::operator/(const Fixed &other) const {
 
 // Increment / Decrement
 Fixed &Fixed::operator++() {
-	++this->_rawValue;
+	this->_rawValue += 1;
 	return (*this);
 }
 
 Fixed Fixed::operator++(int) {
 	Fixed	temp = *this;
-	++this->_rawValue;
+	this->_rawValue += 1;
 	return (temp);
 }
 
 Fixed &Fixed::operator--() {
-    --this->_rawValue;
+    this->_rawValue -= 1;
     return (*this);
 }
 
 Fixed Fixed::operator--(int) {
 	Fixed	temp = *this;
-	--this->_rawValue;
+	this->_rawValue -= 1;
     return (temp);
 }
 

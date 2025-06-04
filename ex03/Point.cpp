@@ -34,10 +34,6 @@ Point::~Point(void) {
     return ;
 }
 
-Fixed Point::getY( void ) const {
-	return _y;
-}
+Fixed Point::getY( void ) const { return _y; }
 
-Fixed Point::getX( void ) const {
-	return _x;
-}
+Fixed Point::getX( void ) const { return _x; }
