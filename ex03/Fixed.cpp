@@ -32,6 +32,18 @@ bool Fixed::operator>(const Fixed &other) const {
     return (false);
 }
 
+bool Fixed::operator==(const Fixed &other) const {
+	if (this->_rawValue == other._rawValue)
+		return (true);
+	return (false);
+}
+
+bool Fixed::operator!=(const Fixed &other) const {
+	if (this->_rawValue != other._rawValue)
+		return (true);
+	return (false);
+}
+
 bool Fixed::operator<(const Fixed &other) const {
 	if (this->_rawValue < other._rawValue)
 		return (true);
@@ -76,7 +88,7 @@ Fixed Fixed::operator/(const Fixed &other) const {
 	Fixed	result(0);
 
 	if (other._rawValue == 0) {
-		std::cout << "Error: 0 divisions" << std::endl;
+		std::cout << "Error: cannot divide by 0" << std::endl;
 		return (result);
 	}
 	result._rawValue = (this->_rawValue << _fractionalBits) / other._rawValue;
@@ -85,28 +97,28 @@ Fixed Fixed::operator/(const Fixed &other) const {
 
 // Increment / Decrement
 Fixed &Fixed::operator++() {
-	++this->_rawValue;
+	this->_rawValue += 1;
 	return (*this);
 }
 
 Fixed Fixed::operator++(int) {
 	Fixed	temp = *this;
-	++this->_rawValue;
+	this->_rawValue += 1;
 	return (temp);
 }
 
 Fixed &Fixed::operator--() {
-    --this->_rawValue;
+    this->_rawValue -= 1;
     return (*this);
 }
 
 Fixed Fixed::operator--(int) {
 	Fixed	temp = *this;
-	--this->_rawValue;
+	this->_rawValue -= 1;
     return (temp);
 }
 
-const Fixed &Fixed::max(Fixed &a, Fixed &b) {
+Fixed &Fixed::max(Fixed &a, Fixed &b) {
     return (a > b) ? a : b;
 }
 
@@ -114,7 +126,7 @@ const Fixed &Fixed::max(const Fixed &a, const Fixed &b) {
     return (a > b) ? a : b;
 }
 
-const Fixed &Fixed::min(Fixed &a, Fixed &b) {
+Fixed &Fixed::min(Fixed &a, Fixed &b) {
     return (a < b) ? a : b;
 }
 
@@ -122,14 +134,11 @@ const Fixed &Fixed::min(const Fixed &a, const Fixed &b) {
 	return (a < b) ? a : b;
 }
 
-// Insert the floating-point representation
-// Return the stream for chaining (e.g., `cout << a << b`)
 std::ostream& operator<<(std::ostream& os, const Fixed& fixed) {
     os << fixed.toFloat();
 	return os;
 }
 
-// Right-shift to undo scaling
 int Fixed::toInt(void) const {
     return _rawValue >> _fractionalBits;
 }

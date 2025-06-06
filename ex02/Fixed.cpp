@@ -32,6 +32,18 @@ bool Fixed::operator>(const Fixed &other) const {
     return (false);
 }
 
+bool Fixed::operator==(const Fixed &other) const {
+	if (this->_rawValue == other._rawValue)
+		return (true);
+	return (false);
+}
+
+bool Fixed::operator!=(const Fixed &other) const {
+	if (this->_rawValue != other._rawValue)
+		return (true);
+	return (false);
+}
+
 bool Fixed::operator<(const Fixed &other) const {
 	if (this->_rawValue < other._rawValue)
 		return (true);
@@ -106,7 +118,7 @@ Fixed Fixed::operator--(int) {
     return (temp);
 }
 
-const Fixed &Fixed::max(Fixed &a, Fixed &b) {
+Fixed &Fixed::max(Fixed &a, Fixed &b) {
     return (a > b) ? a : b;
 }
 
@@ -114,7 +126,7 @@ const Fixed &Fixed::max(const Fixed &a, const Fixed &b) {
     return (a > b) ? a : b;
 }
 
-const Fixed &Fixed::min(Fixed &a, Fixed &b) {
+Fixed &Fixed::min(Fixed &a, Fixed &b) {
     return (a < b) ? a : b;
 }
 
