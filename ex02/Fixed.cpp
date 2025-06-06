@@ -76,7 +76,7 @@ Fixed Fixed::operator/(const Fixed &other) const {
 	Fixed	result(0);
 
 	if (other._rawValue == 0) {
-		std::cout << "Error: 0 divisions" << std::endl;
+		std::cout << "Error: cannot divide by 0" << std::endl;
 		return (result);
 	}
 	result._rawValue = (this->_rawValue << _fractionalBits) / other._rawValue;
@@ -122,14 +122,11 @@ const Fixed &Fixed::min(const Fixed &a, const Fixed &b) {
 	return (a < b) ? a : b;
 }
 
-// Insert the floating-point representation
-// Return the stream for chaining (e.g., `cout << a << b`)
 std::ostream& operator<<(std::ostream& os, const Fixed& fixed) {
     os << fixed.toFloat();
 	return os;
 }
 
-// Right-shift to undo scaling
 int Fixed::toInt(void) const {
     return _rawValue >> _fractionalBits;
 }

@@ -11,8 +11,9 @@ all 	: $(NAME)
 
 %.o		: %.cpp
 	$(CC) $(CFLAGS) -c $< -o $@ 
+
 $(NAME)	: $(OBJS)
-	$(CC) $^ $(CFLAGS) -o $(NAME) $(INCLUDE)
+	$(CC) $(CFLAGS) $^ -o $(NAME) $(INCLUDE)
 
 clean	:
 	@echo "Cleaning object..."

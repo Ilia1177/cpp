@@ -1,18 +1,29 @@
 #include "Point.hpp"
 
 int main( void ) {
-	Point a(-1, 1);
-	Point const b( 0, 5 );
-	Point c(5, 3);
+	Point a(-4, .0f);
+	Point const b( 0.0f, 8.0f );
+	Point c(6, 0);
+	Point pt(6,0); // out
+	Point ptin(-1.36053f, 2.16182f);
 
-	Point pt(5,3);
-
+	std::cout << "a=" << a << std::endl;
+	std::cout << "b=" << b << std::endl;
+	std::cout << "c=" << c << std::endl;
+	std::cout << "pt=" << pt << std::endl;
 	if (bsp(a, b, c, pt))
-		std::cout << "point is IN" << std::endl;
+		std::cout << pt << " is IN" << std::endl;
 	else
-		std::cout << "point is OUT" << std::endl;
+		std::cout << pt << " is OUT" << std::endl;
 
-	std::cout << "aX=" << a.getX() << std::endl;
-	std::cout << "aY=" << a.getY() << std::endl;
+	if (bsp(a, b, c, ptin))
+		std::cout << ptin << " is IN" << std::endl;
+	else
+		std::cout << ptin << "point is OUT" << std::endl;
+	c = a;
+	std::cout << "a=" << a << std::endl;
+	std::cout << "c=" << c << std::endl;
+
+
 	return (0);
 }

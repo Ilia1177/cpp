@@ -19,4 +19,4 @@ bool bsp( Point const a, Point const b, Point const c, Point const point) {
 	neg = (d1 <= 0) || (d2 <= 0) || (d3 <= 0);
 	pos = (d1 >= 0) || (d2 >= 0) || (d3 >= 0);
 	return !(neg && pos);
-}	
+}
