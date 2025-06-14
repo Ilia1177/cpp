@@ -18,8 +18,7 @@ FragTrap::FragTrap(const std::string& name): ClapTrap(name) {
 }
 
 // Destructor
-FragTrap::~FragTrap(void)
-{
+FragTrap::~FragTrap(void) {
     std::cout << "FragTrap " << getName() << " has left." << std::endl;
     return ;
 }
@@ -31,5 +30,50 @@ void	FragTrap::highFivesGuys(void) {
 		std::cout << "FragTrap " << getName();
 		std::cout << " is out of service!" << std::endl;
 	}
+
 }
 
+void FragTrap::attack(const std::string& target) {
+	if (getEnergyPoints() > 0 && getHitPoints() > 0) {
+		std::cout << "FragTrap " << getName();
+		std::cout << " attacks " << target << ", ";
+		std::cout << " causing " << getAttackDamage();
+		std::cout << " points of damage!" << std::endl;
+		setEnergyPoints(getEnergyPoints() - 1);
+	}
+	else {
+		std::cout << "FragTrap " << getName();
+		std::cout << " is out of service!" << std::endl;
+	}
+}
+
+void FragTrap::takeDamage(unsigned int amount) {
+	if (getEnergyPoints() > 0 && getHitPoints() > 0) {
+		std::cout << "FragTrap " << getName();
+		std::cout << " got " << amount;
+		std::cout << " points of damage!" << std::endl;
+		if (amount >= getHitPoints()) {
+			setHitPoints(0);
+		} else {
+			setHitPoints(getHitPoints() - amount);
+		}
+	}
+	else {
+		std::cout << "FragTrap " << getName();
+		std::cout << " is out of service!" << std::endl;
+	}
+}
+
+void FragTrap::beRepaired(unsigned int amount) {
+	if (getEnergyPoints() > 0 && getHitPoints() > 0) {
+		std::cout << "FragTrap " << getName();
+		std::cout << " got repaired by " << amount;
+		std::cout << " hit points!" << std::endl;
+		setHitPoints(getHitPoints() + amount);
+		setEnergyPoints(getEnergyPoints() - 1);
+	}
+	else {
+		std::cout << "FragTrap " << getName();
+		std::cout << " is out of service!" << std::endl;
+	}
+}
