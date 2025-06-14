@@ -2,13 +2,13 @@
 
 // Default constructor
 ClapTrap::ClapTrap(void):
-	_name(NULL), _hitPoints(100), _energyPoints(50), _attackDamage(20) {
+	_name("Unknown"), _hitPoints(10), _energyPoints(10), _attackDamage(0) {
     std::cout << "An unknown ClapTrap has arrived" << std::endl;
     return ;
 }
 
 ClapTrap::ClapTrap(const std::string& name):
-	_name(name), _hitPoints(100), _energyPoints(50), _attackDamage(20) {
+	_name(name), _hitPoints(10), _energyPoints(10), _attackDamage(0) {
     std::cout << "ClapTrap " << name << " has arrived!" << std::endl;
     return ;
 }

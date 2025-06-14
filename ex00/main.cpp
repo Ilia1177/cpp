@@ -10,5 +10,7 @@ int main( void ) {
 	hugo.beRepaired(2);
 	hugo.takeDamage(9);
 	hugo.attack("bertrand");
+	hugo.takeDamage(40);
+	hugo.takeDamage(40);
 	return 0;
 }

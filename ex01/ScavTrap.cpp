@@ -18,8 +18,7 @@ ScavTrap::ScavTrap(const std::string& name): ClapTrap(name) {
 }
 
 // Destructor
-ScavTrap::~ScavTrap(void)
-{
+ScavTrap::~ScavTrap(void) {
     std::cout << "Scavtrap " << getName() << " is gone." << std::endl;
     return ;
 }
