@@ -21,8 +21,19 @@ int main( void ) {
 
 		c = a;
 
-		if (b > c)
+		if (b < c)
 			std::cout << "b=" << b << " is < than c=" << c << std::endl;
+		if (b > c)
+			std::cout << "b=" << b << " is > than c=" << c << std::endl;
+		if (b >= c)
+			std::cout << "b=" << b << " is >= than c=" << c << std::endl;
+
+		if (b <= c)
+			std::cout << "b=" << b << " is <= than c=" << c << std::endl;
+		if (b == c)
+			std::cout << "b is equal to c" << std::endl;
+		if (b != c)
+			std::cout << "b is not equal to c" << std::endl;
 
 		Fixed zero( 0.0005f );
 		std::cout << b / (a + 0.02f) << std::endl;
