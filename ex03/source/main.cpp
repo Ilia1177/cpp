@@ -24,6 +24,8 @@ int main()
 	floor = dynamic_cast<Character*>(me)->getMateria(1);
 	me->unequip(1);
 	delete floor;
+
+
 	delete bob;
 	delete me;
 	delete src;

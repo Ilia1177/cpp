@@ -21,6 +21,7 @@ Character::Character(const std::string& name): _name(name){
 #endif
     return ;
 }
+
 // Copy constructor
 Character::Character(const Character &other) {
 #if PRINT

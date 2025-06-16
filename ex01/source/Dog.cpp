@@ -34,12 +34,9 @@ void	Dog::makeSound(void) const {
 	std::cout << "Barf" << std::endl;
 }
 
-
-
 bool	Dog::setIdea(const std::string& idea, int nb) {
 	return this->_brain->setIdea(idea, nb);
 }
-
 
 const std::string& Dog::getIdea(int nb) const {
 	return this->_brain->getIdea(nb);

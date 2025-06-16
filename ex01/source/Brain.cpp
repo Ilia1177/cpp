@@ -18,7 +18,7 @@ Brain::Brain(const Brain& other) {
 // Assignment operator overload
 Brain &Brain::operator=(const Brain& other) {
 	if (this != &other) {
-		std::cout << "Brain Assignment operator called" << std::endl;
+		std::cout << "Brain: Assignment operator called" << std::endl;
 		for (size_t i = 0; i < 100; i++) {
 			this->ideas[i] = other.ideas[i];
 		}
