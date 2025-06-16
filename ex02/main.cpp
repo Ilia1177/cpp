@@ -7,6 +7,7 @@ int main( void ) {
 
 	FragTrap jeanLouis("loulou");
 
+	return (0);
 	std::cout << "Clap hugo hit points: " << hugo.getHitPoints() << std::endl;
 	std::cout << "Clap hugo energy points: " << hugo.getEnergyPoints() << std::endl;
 	std::cout << "Clap hugo attack damage: " << hugo.getAttackDamage() << std::endl;

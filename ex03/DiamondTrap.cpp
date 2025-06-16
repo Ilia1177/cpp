@@ -1,7 +1,7 @@
 #include "DiamondTrap.hpp"
 
 // Default constructor
-DiamondTrap::DiamondTrap(void): ClapTrap(), FragTrap() {
+DiamondTrap::DiamondTrap(void): ScavTrap(), FragTrap() {
     std::cout << "An unknown DiamonTrap has arrived" << std::endl;
 	setHitPoints(100);
 	setEnergyPoints(50); //Scav
@@ -10,7 +10,7 @@ DiamondTrap::DiamondTrap(void): ClapTrap(), FragTrap() {
 }
 
 DiamondTrap::DiamondTrap(const std::string& name)
-	: ClapTrap(name + "_clap_name"), FragTrap(), _name(name) {
+	: ClapTrap(name + "_clap_name"), ScavTrap(), FragTrap(), _name(name) {
     std::cout << "DiamondTrap " << this->_name << " has arrived!" << std::endl;
 	setHitPoints(100);
 	setEnergyPoints(50); //Scav
