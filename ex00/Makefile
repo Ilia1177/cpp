@@ -11,7 +11,7 @@ all 	: $(NAME)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME)	: $(OBJS)
-	$(CC) $^ $(CFLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $^ -o $(NAME)
 
 clean	:
 	@echo "Cleaning object..."

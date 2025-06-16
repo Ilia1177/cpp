@@ -18,6 +18,15 @@ DiamondTrap::DiamondTrap(const std::string& name)
     return ;
 }
 
+DiamondTrap &DiamondTrap::operator=(const DiamondTrap &other) {
+	std::cout << "DIAMOND !! Assignment operator called" << std::endl;
+	this->_name = other._name;
+	setName(other.getName());
+	setAttackDamage(other.getAttackDamage());
+	setEnergyPoints(other.getEnergyPoints());
+	setHitPoints(other.getHitPoints());
+	return (*this);
+}
 // Destructor
 DiamondTrap::~DiamondTrap(void) {
     std::cout << "DiamondTrap Destructor called" << std::endl;

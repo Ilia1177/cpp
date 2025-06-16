@@ -25,7 +25,7 @@ ClapTrap::ClapTrap(const ClapTrap &other):
 
 // Assignment operator overload
 ClapTrap &ClapTrap::operator=(const ClapTrap &other) {
-    std::cout << "Assignment operator called" << std::endl;
+    std::cout << "CLAP !! Assignment operator called" << std::endl;
 	setName(other.getName());
     setAttackDamage(other.getAttackDamage());
 	setEnergyPoints(other.getEnergyPoints());

@@ -23,6 +23,15 @@ FragTrap::~FragTrap(void) {
     return ;
 }
 
+FragTrap &FragTrap::operator=(const FragTrap &other) {
+	std::cout << "FRAG !! Assignment operator called" << std::endl;
+	setName(other.getName());
+	setAttackDamage(other.getAttackDamage());
+	setEnergyPoints(other.getEnergyPoints());
+	setHitPoints(other.getHitPoints());
+	return (*this);
+}
+
 void	FragTrap::highFivesGuys(void) {
 	if (getHitPoints() > 0 && getEnergyPoints() > 0) {
 		std::cout << "Give me five !" << std::endl;

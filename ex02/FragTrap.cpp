@@ -17,6 +17,14 @@ FragTrap::FragTrap(const std::string& name): ClapTrap(name) {
     return ;
 }
 
+FragTrap &FragTrap::operator=(const FragTrap &other) {
+	std::cout << "FRAG !! Assignment operator called" << std::endl;
+	setName(other.getName());
+	setAttackDamage(other.getAttackDamage());
+	setEnergyPoints(other.getEnergyPoints());
+	setHitPoints(other.getHitPoints());
+	return (*this);
+}
 // Destructor
 FragTrap::~FragTrap(void) {
     std::cout << "FragTrap " << getName() << " has left." << std::endl;

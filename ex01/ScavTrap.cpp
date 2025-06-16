@@ -17,6 +17,15 @@ ScavTrap::ScavTrap(const std::string& name): ClapTrap(name) {
     return ;
 }
 
+ScavTrap &ScavTrap::operator=(const ScavTrap &other) {
+	std::cout << "SCAV !! Assignment operator called" << std::endl;
+	setName(other.getName());
+	setAttackDamage(other.getAttackDamage());
+	setEnergyPoints(other.getEnergyPoints());
+	setHitPoints(other.getHitPoints());
+	return (*this);
+}
+
 // Destructor
 ScavTrap::~ScavTrap(void) {
     std::cout << "Scavtrap " << getName() << " is gone." << std::endl;

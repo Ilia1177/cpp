@@ -12,7 +12,9 @@ int main( void ) {
 	ClapTrap copy_clap;
 	DiamondTrap	copy_diamond;
 
+	std::cout << "COPY START" << std::endl;
 	copy_frag = frag;
+	std::cout << "COPY END" << std::endl;
 	copy_clap = clap;
 	copy_scav = scav;
 	copy_diamond = jp;
@@ -20,6 +22,11 @@ int main( void ) {
 	std::cout << "Frag  hit points   : " << frag.getHitPoints() << std::endl;
 	std::cout << "Frag  energy points: " << frag.getEnergyPoints() << std::endl;
 	std::cout << "Frag  attack damage: " << frag.getAttackDamage() << std::endl;
+
+	std::cout << "copy_Frag  hit points   : " << copy_frag.getHitPoints() << std::endl;
+	std::cout << "copy_Frag  energy points: " << copy_frag.getEnergyPoints() << std::endl;
+	std::cout << "copy_Frag  attack damage: " << copy_frag.getAttackDamage() << std::endl;
+	std::cout << copy_frag.getName() << std::endl;
 
 	std::cout << "scav hit points   : " << scav.getHitPoints() << std::endl;
 	std::cout << "scav energy points: " << scav.getEnergyPoints() << std::endl;
@@ -34,6 +41,7 @@ int main( void ) {
 	scav.guardGate();
 	clap.takeDamage(35);
 	jp.whoAmI();
+	copy_diamond.whoAmI();
 	jp.guardGate();
 	jp.highFivesGuys();
 	std::cout << "clap hit points   : " << clap.getHitPoints() << std::endl;

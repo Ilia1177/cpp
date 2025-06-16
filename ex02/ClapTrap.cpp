@@ -19,13 +19,13 @@ ClapTrap::ClapTrap(const ClapTrap &other):
 	_hitPoints(other.getHitPoints()),
 	_energyPoints(other.getEnergyPoints()),
 	_attackDamage(other.getAttackDamage()) {
-    std::cout << "Copy constructor called" << std::endl;
+    std::cout << "Clap !! Copy constructor called" << std::endl;
     return ;
 }
 
 // Assignment operator overload
 ClapTrap &ClapTrap::operator=(const ClapTrap &other) {
-    std::cout << "Assignment operator called" << std::endl;
+    std::cout << "CLAP !! Assignment operator called" << std::endl;
 	setName(other.getName());
     setAttackDamage(other.getAttackDamage());
 	setEnergyPoints(other.getEnergyPoints());
