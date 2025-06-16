@@ -16,7 +16,7 @@ int main( void ) {
 	{
 		std::cout << std::endl << "2 part:" << std::endl;
 		Fixed a;
-		Fixed const b( Fixed( 5.05f ) * Fixed( 2 ) );
+		Fixed b( Fixed( 5.05f ) * Fixed( 2 ) );
 		Fixed c = 50;
 
 		c = a;
@@ -25,14 +25,13 @@ int main( void ) {
 			std::cout << "b=" << b << " is < than c=" << c << std::endl;
 		if (b > c)
 			std::cout << "b=" << b << " is > than c=" << c << std::endl;
-		if (b >= c)
+		if (b++ >= c)
 			std::cout << "b=" << b << " is >= than c=" << c << std::endl;
-
-		if (b <= c)
+		if (++b <= c)
 			std::cout << "b=" << b << " is <= than c=" << c << std::endl;
-		if (b == c)
+		if (b-- == ++c)
 			std::cout << "b is equal to c" << std::endl;
-		if (b != c)
+		if (--b != ++c)
 			std::cout << "b is not equal to c" << std::endl;
 
 		Fixed zero( 0.0005f );
