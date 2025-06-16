@@ -4,7 +4,7 @@ int main( void ) {
 	DiamondTrap jp = DiamondTrap("Jean-Pierre");
 	
 	DiamondTrap John;
-	return(0);
+	//return(0);
 	ScavTrap scav = ScavTrap("skarlatine");
 	ClapTrap clap("clapinette");
 	FragTrap frag("Frangipane");

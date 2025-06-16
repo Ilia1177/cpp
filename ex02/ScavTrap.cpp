@@ -50,34 +50,3 @@ void	ScavTrap::guardGate( void ) {
 		std::cout << "ScavTrap " << getName();
 		std::cout << " is now in Gate keeper mode!" << std::endl;
 }
-
-void ScavTrap::takeDamage(unsigned int amount) {
-	if (getEnergyPoints() > 0 && getHitPoints() > 0) {
-		std::cout << "ScavTrap " << getName();
-		std::cout << " got " << amount;
-		std::cout << " points of damage!" << std::endl;
-		if (amount >= getHitPoints()) {
-			setHitPoints(0);
-		} else {
-			setHitPoints(getHitPoints() - amount);
-		}
-	}
-	else {
-		std::cout << "ScavTrap " << getName();
-		std::cout << " is out of service!" << std::endl;
-	}
-}
-
-void ScavTrap::beRepaired(unsigned int amount) {
-	if (getEnergyPoints() > 0 && getHitPoints() > 0) {
-		std::cout << "ScavTrap " << getName();
-		std::cout << " got repaired by " << amount;
-		std::cout << " hit points!" << std::endl;
-		setHitPoints(getHitPoints() + amount);
-		setEnergyPoints(getEnergyPoints() - 1);
-	}
-	else {
-		std::cout << "ScavTrap " << getName();
-		std::cout << " is out of service!" << std::endl;
-	}
-}
