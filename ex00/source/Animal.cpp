@@ -20,8 +20,9 @@ Animal::Animal(const std::string& type) {
 }
 // Assignment operator overload
 Animal &Animal::operator=(const Animal &other) {
-    std::cout << "Animal: Assignment operator called" << std::endl;
-    this->_type = other._type;
+	std::cout << "Animal: Assignment operator called" << std::endl;
+	if (this != &other)
+		this->_type = other._type;
     return (*this);
 }
 

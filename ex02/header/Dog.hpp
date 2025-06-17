@@ -9,9 +9,9 @@ class Dog: public Animal {
         Dog &operator=(const Dog &other);
         ~Dog();
 
-		virtual void				makeSound( void ) const;
-		virtual bool				setIdea(const std::string&, int);
-		virtual const std::string&	getIdea(int) const;
+		void				makeSound( void ) const;
+		bool				setIdea(const std::string&, int);
+		const std::string&	getIdea(int) const;
 	private:
 		Brain *_brain;
 };

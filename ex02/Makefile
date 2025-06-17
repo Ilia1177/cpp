@@ -1,6 +1,6 @@
 NAME 	= 	animal	
 CC 		=	c++
-CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -g -O0
+CFLAGS	=	-Wall -Wextra -Werror -std=c++98
 SRC_DIR = source/
 HDR_DIR = header/
 OBJ_DIR	= objet/
@@ -12,6 +12,7 @@ SRCS	= 	main.cpp\
 			WrongAnimal.cpp\
 			WrongCat.cpp\
 			Brain.cpp
+
 SRCS 	:= 	$(addprefix $(SRC_DIR), $(SRCS))
 OBJS	=	$(SRCS:$(SRC_DIR)%.cpp=$(OBJ_DIR)%.o)
 

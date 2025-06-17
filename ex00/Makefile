@@ -11,6 +11,7 @@ SRCS	= 	main.cpp\
 			Cat.cpp\
 			WrongAnimal.cpp\
 			WrongCat.cpp
+
 SRCS 	:= 	$(addprefix $(SRC_DIR), $(SRCS))
 OBJS	=	$(SRCS:$(SRC_DIR)%.cpp=$(OBJ_DIR)%.o)
 

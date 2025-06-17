@@ -3,7 +3,7 @@
 #include <WrongCat.hpp>
 
 int main( void ) {
-	const int size = 3;
+	const int size = 1;
 
 	Dog basic;
     {
@@ -15,38 +15,17 @@ int main( void ) {
         tmp = basic2;
     }
 
-	
-//	std::cout << "Stack manipulation: " << std::endl << std::endl;
-//	Animal a;
-//	Animal c;
-//	Cat d;
-
-//	c = d;
-
-//	std::cout << "Heap manipulation: " << std::endl << std::endl;
-//	Cat *e = NULL;
-//	Cat *f = new Cat;
-//	Cat g(*f);
-//
-//	Animal *h;
-
-//	h = new Cat;
-//	e = f;
-//	delete f;
-//	delete h;
-
-//	std::cout << "Deep copy of brain: " << std::endl << std::endl;
 	Cat	felix;
 	Cat tom;
 
-
-
-	felix.setIdea("felix's idea is great", 0);
-	std::cout << std::endl << "felix: " << felix.getIdea(0) << std::endl;
+	felix.setIdea("this is felix's idea !", 0);
+	std::cout << std::endl << "felix's idea -> " << felix.getIdea(0) << std::endl;
+	felix.setIdea("this is tom's idea !", 0);
 	tom = felix;
-	std::cout << "tom: " << tom.getIdea(0) << std::endl;
+	std::cout << "but tom has been cheating on felix..." << std::endl;
+	std::cout << "tom's idea -> " << tom.getIdea(0) << std::endl;
 	
-	std::cout << "Array of animals: " << std::endl << std::endl;
+	std::cout << std::endl << "Array of animals: " << std::endl << std::endl;
 	Animal *animals[size];
 	for (int i = 0; i < size; ++i) {
 		if (i % 2 == 0)

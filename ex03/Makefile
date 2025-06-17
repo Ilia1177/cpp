@@ -1,4 +1,4 @@
-NAME 	= 	animal	
+NAME 	= 	materia	
 CC 		=	c++
 PRINT	?=	0
 CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -g -O0 -DPRINT=$(PRINT)

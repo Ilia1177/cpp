@@ -34,7 +34,7 @@ Brain::~Brain(void) {
 
 const std::string& Brain::getIdea(int nb) const {
 	if (nb < 0 || nb >= 100) {
-    	static const std::string empty = "";
+    	static const std::string empty = "Error: idea goes from 0 to 99";
         return empty;
     }
 	return ideas[nb];
@@ -45,6 +45,7 @@ bool Brain::setIdea(const std::string& idea, int nb) {
 		this->ideas[nb] = idea;
 		return true;
 	}
+	std::cout << "Error: idea goes from 0 to 99" << std::endl;
 	return false;
 }
 
