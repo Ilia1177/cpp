@@ -1,5 +1,5 @@
 NAME 	= 	materia	
-CC 		=	c++
+CCXX 		=	c++
 PRINT	?=	0
 CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -DPRINT=$(PRINT)
 SRC_DIR = source/
@@ -19,11 +19,11 @@ all 			: $(NAME)
 
 $(OBJ_DIR)%.o	: $(SRC_DIR)%.cpp
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
+	$(CCXX) $(CFLAGS) -c $< -o $@ $(INC)
 
 $(NAME)			: $(OBJS)
 	@mkdir -p $(dir $@)
-	$(CC) $(INC) $(CFLAGS) $^ -o $(NAME)
+	$(CCXX) $(INC) $(CFLAGS) $^ -o $(NAME)
 
 clean			:
 	@echo "Cleaning object..."

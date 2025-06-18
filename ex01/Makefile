@@ -1,5 +1,5 @@
 NAME 	= 	animal	
-CC 		=	c++
+CCXX 		=	c++
 CFLAGS	=	-Wall -Wextra -Werror -std=c++98
 SRC_DIR = source/
 HDR_DIR = header/
@@ -20,11 +20,11 @@ all 			: $(NAME)
 
 $(OBJ_DIR)%.o	: $(SRC_DIR)%.cpp
 	@mkdir -p $(dir $@)
-	$(CC) $(CFLAGS) -c $< -o $@ $(INC)
+	$(CCXX) $(CFLAGS) -c $< -o $@ $(INC)
 
 $(NAME)			: $(OBJS)
 	@mkdir -p $(dir $@)
-	$(CC) $(INC) $(CFLAGS) $^ -o $(NAME)
+	$(CCXX) $(INC) $(CFLAGS) $^ -o $(NAME)
 
 clean			:
 	@echo "Cleaning object..."
