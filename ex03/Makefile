@@ -1,7 +1,7 @@
 NAME 	= 	materia	
 CC 		=	c++
 PRINT	?=	0
-CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -g -O0 -DPRINT=$(PRINT)
+CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -DPRINT=$(PRINT)
 SRC_DIR = source/
 HDR_DIR = header/
 OBJ_DIR	= objet/

@@ -3,7 +3,7 @@
 #include <WrongCat.hpp>
 
 int main( void ) {
-	const int size = 3;
+	const int size = 10;
 
 	Dog basic;
     {
@@ -14,12 +14,12 @@ int main( void ) {
         Cat tmp;
         tmp = basic2;
     }
+
 	std::cout << "Stack manipulation: " << std::endl << std::endl;
 	Animal a;
-	Animal c;
-	Cat d;
+	Cat b;
 
-	c = d;
+	a = b;
 
 	std::cout << "Heap manipulation: " << std::endl << std::endl;
 	Cat *e = NULL;
@@ -49,8 +49,6 @@ int main( void ) {
 
 	Cat mauer = felix;
 	std::cout << "Mauer: " << mauer.getIdea(0) << std::endl;
-
-
 
 	std::cout << "Array of animals: " << std::endl << std::endl;
 	Animal *animals[size];

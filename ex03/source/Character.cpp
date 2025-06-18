@@ -45,8 +45,9 @@ Character &Character::operator=(const Character &other) {
 #endif
 	if (this != &other) {
 		for (int i = 0; i < 4; ++i) {
-			if (_inventory[i])
+			if (this->_inventory[i]) {
 				delete _inventory[i];
+			}
 			if (other._inventory[i]) {
 				_inventory[i] = other._inventory[i]->clone();
 			} else {
@@ -60,11 +61,12 @@ Character &Character::operator=(const Character &other) {
 // Destructor
 Character::~Character(void) {
 #if PRINT
-    std::cout << "CHARACTER:: Destructor called" << std::endl;
+    std::cout << getName() << " CHARACTER Destructor called" << std::endl;
 #endif
 	for (size_t i = 0; i < 4; i++) {
-		if (_inventory[i])
+		if (_inventory[i]) {
 			delete _inventory[i];
+		}
 	}
     return ;
 }
@@ -83,6 +85,8 @@ void	Character::equip(AMateria* m) {
 			return ;
 		}
 	}
+	std::cout << "Inventory of " << getName() << " is full." << std::endl;
+	return ;
 }
 
 void	Character::unequip(int idx) {
@@ -91,6 +95,9 @@ void	Character::unequip(int idx) {
 #if PRINT
 		std::cout << "Character:: unequip" << std::endl;
 #endif
+		return ;
+	} else {
+		std::cout << "Error: inventory index goes from 0 to 3." << std::endl;
 	}
 }
 
@@ -100,11 +107,32 @@ void	Character::use(int idx, ICharacter& target) {
 #if PRINT
 		std::cout << "Character:: use" << std::endl;
 #endif
+	} else if (idx >= 4 || idx < 0) {
+		std::cout << "Error: inventory index goes from 0 to 3." << std::endl;
+	} else if (idx >= 0 && idx < 4 && !_inventory[idx]) {
+		std::cout << "Slot " << idx << " is empty." << std::endl;
 	}
+
+
 }
 
 AMateria *Character::getMateria(int idx) const {
 	if (idx >= 0 && idx < 4)
 		return (_inventory[idx]);
+	else
+		std::cout << "Error: inventory index goes from 0 to 3." << std::endl;
 	return NULL;
+}
+
+void Character::printInventory() const {
+	std::cout << "inventory of " << getName() << ":" << std::endl;
+	for (int i = 0; i < 4; ++i) {
+		std::cout << i << " / ";
+		if (_inventory[i]) {
+			std::cout << this->_inventory[i]->getType() << " -- ";
+			std::cout << _inventory[i] << std::endl;
+		} else {
+			std::cout << "EMPTY SLOT -- " << _inventory[i] << std::endl;
+		}
+	}
 }

@@ -15,14 +15,16 @@ class Character: public ICharacter
         Character(const std::string& name);
         Character(const Character& other);
         Character &operator=(const Character &other);
-        virtual ~Character();
+        ~Character();
 
 		AMateria* getMateria(int) const;
-		virtual const std::string&	getName() const;
-		virtual void				equip(AMateria* m);
-		virtual void				unequip(int idx);
-		virtual void				use(int idx, ICharacter& target);
+		const std::string&	getName() const;
+		void				equip(AMateria* m);
+		void				unequip(int idx);
+		void				use(int idx, ICharacter& target);
+		void				printInventory( void ) const;
 };
+
 
 #endif
 
