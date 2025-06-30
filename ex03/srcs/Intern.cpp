@@ -29,25 +29,35 @@ Intern::~Intern(void) {
     return ;
 }
 
-AForm* Intern::makeForm(const std::string& name, const std::string& target) const {
-	AForm *contract;
+AForm* Intern::makePresidentialForm(const std::string& target) const {
+	return new PresidentialPardonForm(target);
+}
 
+AForm* Intern::makeRobotomyForm(const std::string& target) const {
+	return new RobotomyRequestForm(target);
+}
+
+AForm* Intern::makeShrubberyForm(const std::string& target) const {
+	return new ShrubberyCreationForm(target);
+}
+
+
+AForm* Intern::makeForm(const std::string& name, const std::string& target) const
+{
 	std::string availableForms[3] = {	"Shrubbery creation",
 										"Robotomy request",
 										"Presidential pardon" };
+	AForm* (Intern::*actualForm[3])(const std::string&) const = {	&Intern::makeShrubberyForm,
+																	&Intern::makeRobotomyForm,
+																	&Intern::makePresidentialForm };
 
-	for (int i = 0; name != availableForms[i] && i < 3; i++);
-
-	if (name == "Robotomy request")
-		contract = new RobotomyRequestForm(target);
-	else if (name == "Shrubbery creation")
-		contract = new ShrubberyCreationForm(target);
-	else if (name == "Presidential pardon")
-		contract = new PresidentialPardonForm(target);
-	else 
-		throw Intern::InvalidTypeForm();
-	std::cout << "Intern creates " << contract->getName() << std::endl;
-	return contract;
+	for (int i = 0; i < 3; i++) {
+		if (name == availableForms[i]) {
+			std::cout << "Intern creates " << availableForms[i] << std::endl;
+			return (this->*actualForm[i])(target);
+		}
+	}
+	throw Intern::InvalidTypeForm();
 }
 
 const char* Intern::InvalidTypeForm::what() const throw() {

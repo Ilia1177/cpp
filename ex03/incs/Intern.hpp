@@ -11,7 +11,11 @@ class Intern
         Intern(const Intern& other);
         Intern &operator=(const Intern &other);
         ~Intern();
-		AForm* makeForm(const std::string& name, const std::string& target) const;
+
+		AForm	*makeForm(const std::string& name, const std::string& target) const;
+		AForm	*makePresidentialForm(const std::string& target) const;
+		AForm	*makeRobotomyForm(const std::string& target) const;
+		AForm	*makeShrubberyForm(const std::string& target) const;
 
 		class InvalidTypeForm: public std::exception {
 			public:

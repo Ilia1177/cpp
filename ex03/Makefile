@@ -1,6 +1,6 @@
 NAME 	= 	bureaucrat	
 CC 		=	c++
-CFLAGS	=	-Wall -Wextra -Werror -std=c++98
+CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -g
 SRC_DIR = srcs/
 INC_DIR = incs/
 OBJ_DIR	= objs/
