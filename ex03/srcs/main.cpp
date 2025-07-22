@@ -6,6 +6,14 @@
 
 // Intern makeform tests
 void Intern_tests(Bureaucrat& johnson) {
+	std::cout << std::endl << "---- Subject Test" << std::endl << "What do you want ? "; 
+	{
+		Intern someRandomIntern;
+		AForm* rrf;
+		rrf = someRandomIntern.makeForm("robotomy request", "Bender");
+		std::cout << *rrf << std::endl;
+	}
+	
 	Intern		marc;
 	AForm		*newForm = nullptr;
 	std::string	demand;
