@@ -31,31 +31,34 @@ ScalarConverter::~ScalarConverter(void)
 
 void ScalarConverter::convert(const std::string& str) {
 
-	//size_t len = str.length();
-
-	e_type type = getType(str);
+	try {
+		std::cout << "char: ";
+		char charValue = convertToChar(str);
+		std::cout << "'" << charValue << "'" << std::endl;
+	} catch (std::exception &e) {
+		std::cout << "Impossible conversion" << std::endl;
+	}
 
 	try {
-		printChar(str);
-	} catch (const char
-	printInt(str);
-	printFloat(str);
-	printDouble(str);
+		std::cout << "int: ";
+		int intValue = convertToInt(str);
+		std::cout << intValue << std::endl;
+	} catch (std::exception &e) {
+		std::cout << "Impossible conversion" << std::endl;
+	}
 
-	if (type == INT) {
-		//intConversion(str);
-		std::cout << "Is INT !!" << std::endl;	
-	} else if (type == FLOAT) {
-		std::cout << "Is FLOAT !!" << std::endl;
-	} else if (type == DOUBLE) {
-	 	std::cout << "Is DOUBLE !!" << std::endl;
-	} else if (type == INFINITE) {
-	 	std::cout << "Is INFINITE !!" << std::endl;
-	} else if (type == CHAR) {
-	 	std::cout << "Is CHAR !! " << std::endl;
-	} else if (type == FAULT) {
-		std::cout << "// FAULT //" << std::endl;	
-	} else {
-		std::cout << "...... error" << std::endl;	
+	try {
+		std::cout << "float: ";
+		float floatValue = convertToFloat(str);
+		std::cout << std::fixed << floatValue << "f" << std::endl;
+	} catch (std::exception &e) {
+		std::cout << "Impossible conversion" << std::endl;
+	}
+	try {
+		std::cout << "double: ";
+		double doubleValue = convertToDouble(str);
+		std::cout << std::fixed << doubleValue  << std::endl;
+	} catch (std::exception &e) {
+		std::cout << "Impossible conversion" << std::endl;
 	}
 }

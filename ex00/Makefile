@@ -8,6 +8,7 @@ INCS		= -I$(INC_DIR)
 SRCS	= 	main.cpp\
 	   		convertType.cpp\
 			ScalarConverter.cpp\
+			ImpossibleConversion.cpp\
 
 SRCS 	:= 	$(addprefix $(SRC_DIR), $(SRCS))
 OBJS	=	$(SRCS:$(SRC_DIR)%.cpp=$(OBJ_DIR)%.o)
