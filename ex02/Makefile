@@ -1,4 +1,4 @@
-NAME 	= 	serialize	
+NAME 	= 	identify	
 CC 		=	c++
 CFLAGS	=	-Wall -Wextra -Werror -std=c++98
 SRC_DIR = srcs/
@@ -6,7 +6,8 @@ INC_DIR = incs/
 OBJ_DIR	= objs/
 INCS		= -I$(INC_DIR)
 SRCS	= 	main.cpp\
-	   		Serializer.cpp\
+	   		utils.cpp\
+			Base.cpp
 
 SRCS 	:= 	$(addprefix $(SRC_DIR), $(SRCS))
 OBJS	=	$(SRCS:$(SRC_DIR)%.cpp=$(OBJ_DIR)%.o)

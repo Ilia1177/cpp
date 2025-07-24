@@ -4,15 +4,6 @@
 # include <cerrno>
 # include <climits>
 
-//enum e_type {
-//	CHAR = 0,
-//	INT = 1,
-//	FLOAT = 2,
-//	DOUBLE = 3,
-//	INFINITE = 4,
-//	FAULT = -1
-//};
-
 class ScalarConverter
 {
 	public:

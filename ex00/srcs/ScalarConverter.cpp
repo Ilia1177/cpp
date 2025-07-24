@@ -1,14 +1,12 @@
 #include "ScalarConverter.hpp"
 
 // Default constructor
-ScalarConverter::ScalarConverter(void)
-{
+ScalarConverter::ScalarConverter(void) {
     std::cout << "Default constructor called" << std::endl;
 }
 
 // Copy constructor
-ScalarConverter::ScalarConverter(const ScalarConverter &other)
-{
+ScalarConverter::ScalarConverter(const ScalarConverter &other) {
     std::cout << "Copy constructor called" << std::endl;
 	*this = other;
     return ;
