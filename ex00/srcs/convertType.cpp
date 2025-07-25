@@ -1,6 +1,5 @@
 #include "ScalarConverter.hpp"
 #include "ImpossibleConversion.hpp"
-#include <cinttypes>
 #include <iostream>
 
 //e_type getType(const std::string& str) {
@@ -18,12 +17,6 @@
 //	return(FAULT);
 //}
 
-size_t ft_strlen(const std::string& str)
-{
-	size_t len;
-	for (len = 0; str[len] != 0; len++);
-	return len;
-}
 
 bool isDigit(int c) {
 	if (c >= '0' && c <= '9')
@@ -72,22 +65,12 @@ bool isFloat(const std::string& str)
 		if (!isDigit(str[i]))
 			return false;
 	}
-//	while (i < ft_strlen(str) && str[i] != '.') {
-//		if (!isDigit(str[i]))
-//			return false;
-//		i++;
-//	}
 	if (str[i++] != '.')
 		return false;
 	for (; i < ft_strlen(str) && str[i] != 'f'; i++) {
 		if (!isDigit(str[i]))
 			return false;
 	}
-//	while (i < ft_strlen(str) && str[i] != 'f') {
-//		if (!isDigit(str[i]))
-//			return false;
-//		i++;
-//	}
 	if (str[i++] != 'f' || i != ft_strlen(str))
 		return false;
 	return true;
@@ -116,30 +99,50 @@ bool isDouble(const std::string& str)
 	return true;
 }
 
-
+// converting function //
 int convertToInt(const std::string& str)
 {
-	if (isChar(str))
+    char cstr[20];
+    char* endptr = NULL;
+	bool floatSign = false;
+
+    errno = 0;
+	if (::isChar(str)) 
 		return static_cast<int>(str[1]);
-    try {
-        int value = std::stoi(str);  // Direct conversion to int
-        return value;
-    } catch (...) {
+	ft_c_str(str, cstr, 20);
+    long value = std::strtol(cstr, &endptr, 10);
+
+    if (errno == ERANGE || value < INT_MIN || value > INT_MAX) {
         throw ImpossibleConversion();
-    }
+    } else if (*endptr != '\0' && *endptr != '.') {
+		throw ImpossibleConversion();
+	} else if (*endptr == '.') {
+		for (size_t i = 1; i < ft_strlen(endptr); i++) {
+			if (endptr[i] == 'f' && floatSign == false) {
+				floatSign = true;
+			} else if (endptr[i] == 'f' && floatSign == true) {
+				throw ImpossibleConversion();
+			} else if (!::isDigit(endptr[i])) {
+				throw ImpossibleConversion();
+			}
+		}
+		if (ft_strlen(endptr) == 1 && cstr - endptr == 0)
+			throw ImpossibleConversion();
+	}
+
+    return static_cast<int>(value);
 }
 
 char convertToChar(const std::string& str)
 {
-	if (isChar(str))
+	if (::isChar(str))
 		return static_cast<char>(str[1]);
-	if (!isInt(str))
-		throw ImpossibleConversion();
+
 	try {
 		int value = convertToInt(str);
-		if (value >= 32 && value <= 126)
+		if (value >= 32 && value <= 126) {
 			return static_cast<char>(value);
-		else {
+		} else {
 			throw ImpossibleConversion();
 		}
 	} catch (...) {
@@ -148,37 +151,37 @@ char convertToChar(const std::string& str)
 }
 
 float convertToFloat(const std::string& str) {
-	if (isChar(str)) {
+	char *endptr = NULL;
+	char cstr[256];
+	errno = 0;
+	if (::isChar(str)) {
 		return static_cast<float>(str[1]);
 	}
+	ft_c_str(str, cstr, 256);
     if (notANumber(str)) {
-        return NAN;
+        return getNaNf();
     }
-	try {
-		float floatValue =  std::stof(str);
-		return floatValue;
-	} catch (...) {
+	float floatValue =  std::strtof(cstr, &endptr);
+	if (errno == ERANGE || endptr == cstr)
 		throw ImpossibleConversion();
-	}
+	return floatValue;
 }
 
 double convertToDouble(const std::string& str)
 {
-	if (isChar(str)) {
+	char cstr[256];
+	char *endptr;
+	errno = 0;
+
+	if (isChar(str))
 		return static_cast<double>(str[1]);
-	} else if (notANumber(str)) {
-        return NAN;
+	if (notANumber(str)) {
+        return getNaNd();
     }
-	try {
-		double doubleValue =  std::stod(str);
-		return doubleValue;
-	} catch (...) {
+	ft_c_str(str, cstr, 256);
+	double doubleValue =  std::strtod(cstr, &endptr);
+	if (errno == ERANGE || cstr == endptr)
 		throw ImpossibleConversion();
-	}
+	return doubleValue;
 }
 
-bool	notANumber(const std::string& str) {
-	if (!isInt(str) && !isDouble(str) && !isFloat(str))
-		return true;
-	return false;
-}

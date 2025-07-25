@@ -1,6 +1,14 @@
 NAME 	= 	scalarConverter	
-CC 		=	c++
-CFLAGS	=	-Wall -Wextra -Werror -std=c++98
+OS = $(shell uname)
+
+ifeq ($(OS), Darwin)
+	CFLAGS	=	-Wall -Wextra -Werror -std=c++98 
+	CC 		=	/usr/local/bin/g++-15
+else
+	CC 		=	c++
+	CFLAGS	= 	-Wall -Wextra -Werror -std=c++98 
+endif
+
 SRC_DIR = srcs/
 INC_DIR = incs/
 OBJ_DIR	= objs/
@@ -9,6 +17,7 @@ SRCS	= 	main.cpp\
 	   		convertType.cpp\
 			ScalarConverter.cpp\
 			ImpossibleConversion.cpp\
+			utils.cpp
 
 SRCS 	:= 	$(addprefix $(SRC_DIR), $(SRCS))
 OBJS	=	$(SRCS:$(SRC_DIR)%.cpp=$(OBJ_DIR)%.o)
