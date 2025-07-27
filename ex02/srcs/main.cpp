@@ -7,6 +7,12 @@ int main() {
 	
 	delete a;
 	{
+		std::cout << "empty array" << std::endl;
+		const Array<int> *arr = new Array<int>();
+		std::cout << *arr << std::endl;
+		delete arr;
+	}
+	{
 		Array<int> *arr = new Array<int>(5);
 
 		std::cout << "Int Array:" << std::endl;
@@ -38,6 +44,23 @@ int main() {
 		}
 		delete arr;
 	}
+	{
+		Array<float> *arr = new Array<float>(5);
+
+		std::cout << "float Array:" << std::endl;
+		try {
+			std::cout << *arr << std::endl;
+			(*arr)[0] = 48.98f;
+			(*arr)[1] = 49.54f;
+			(*arr)[2] = 50;
+			std::cout << *arr << std::endl;
+			(*arr)[20] = 20;
+		} catch (std::exception &e) {
+			std::cout << "exception caugth: " << e.what() << std::endl;
+		}
+		delete arr;
+	}
+
 
 	{
 		Array<double> *arr = new Array<double>(5);
@@ -50,6 +73,23 @@ int main() {
 			(*arr)[2] = 50.2;
 			std::cout << *arr << std::endl;
 			(*arr)[20] = 20;
+		} catch (std::exception &e) {
+			std::cout << "exception caugth: " << e.what() << std::endl;
+		}
+		delete arr;
+	}
+
+	{
+		Array<bool> *arr = new Array<bool>(5);
+
+		std::cout << "Bool Array:" << std::endl;
+		try {
+			std::cout << *arr << std::endl;
+			(*arr)[0] = false;
+			(*arr)[1] = true;
+			(*arr)[2] = 0;
+			(*arr)[3] = 1;
+			std::cout << *arr << std::endl;
 		} catch (std::exception &e) {
 			std::cout << "exception caugth: " << e.what() << std::endl;
 		}
@@ -72,7 +112,6 @@ int main() {
 		}
 		delete arr;
 	}
-
 	{
 		Array<std::pair<int, std::string> > *arr = new Array<std::pair<int, std::string> >(8);
 
@@ -89,6 +128,11 @@ int main() {
 		}
 		delete arr;
 	}
+
+	std::cout << "stack array of int" << std::endl;
+	Array<int> inStack(5);
+	inStack[1] = 3;
+	std::cout << inStack << std::endl;
 	return 0;
 }
 
