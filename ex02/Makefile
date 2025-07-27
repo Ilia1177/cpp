@@ -1,6 +1,13 @@
 NAME 	= 	bureaucrat	
-CC 		=	c++
-CFLAGS	=	-Wall -Wextra -Werror -std=c++98
+OS = $(shell uname)
+
+ifeq ($(OS), Darwin)
+        CFLAGS	= -Wall -Wextra -Werror -std=c++98 
+        CC		= /usr/local/bin/g++-15
+else
+        CC		= c++
+        CFLAGS	= -Wall -Wextra -Werror -std=c++98 
+endif
 SRC_DIR = srcs/
 INC_DIR = incs/
 OBJ_DIR	= objs/
@@ -28,13 +35,13 @@ $(NAME)			: $(OBJS)
 clean			:
 	@echo "Cleaning object..."
 	@rm -rf $(OBJ_DIR)
-	@echo "Folder is clean."
+	@echo "Objects removed."
 
 fclean			: clean
 	@echo "Cleaning everything..."
 	@rm -f $(NAME)
 	@rm -f *_shrubbery
-	@echo "Folder is like new."
+	@echo "Binary removed."
 
 re		: fclean all
 
