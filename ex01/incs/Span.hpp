@@ -24,7 +24,6 @@ class Span
 		const int	*begin(void) const;
 		const int	*end(void) const;
 
-
 	private:
 		size_t	_size;
 		size_t	_index;
