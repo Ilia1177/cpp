@@ -1,43 +1,39 @@
 #ifndef BITCOINEXCHANGE_HPP
 # define BITCOINEXCHANGE_HPP
-#include <fstream>
+# include <fstream>
+# include <fstream>
+# include <climits>
+#include <iomanip> // for std::setw, std::setfill
 # include <iostream>
 # include <map>
 # include <exception>
 # include <stdexcept>
 # include <string>
 # include <cstdlib>
+# include <ctime>
 
 typedef struct date_s {
 	int year;
 	int month;
 	int day;
-	date_s(int y, int m, int d) : year(y), month(m), day(d) {}
-	void print() const { std::cout << year << "-" << "-" << month << "-" << day << std::endl; }
-	bool operator<(const date_s& other) const {
-        if (year != other.year) return year < other.year;
-        if (month != other.month) return month < other.month;
-        return day < other.day;
-	}
+	date_s(int y, int m, int d);
+	date_s(void);
+	void print() const;
+	bool operator<(const date_s& other) const;
+	date_s& operator--();
 } date_t;
 
 typedef struct rate_s {
-enum Type { INT, FLOAT, NONE } type;
+	enum Type { INT, FLOAT, NONE } type;
     union { int i; float f; } value;
-
-    rate_s(int val) { type = INT; value.i = val; }
-    rate_s(float val) { type = FLOAT; value.f = val; }
-	rate_s() { type = NONE; value.f = 0.0f; }
-
-    void print() const {
-        if (type == INT)
-            std::cout << value.i;
-        else
-            std::cout << value.f;
-    }
+    rate_s(int val);
+	rate_s(float val);
+	rate_s(void);
+    void print() const;
+	rate_s operator*(const rate_s&) const;
 } rate_t;
 
-
+// bad date == std::invalid_argument("bad date format");
 class BitcoinExchange
 {
     public:
@@ -48,17 +44,26 @@ class BitcoinExchange
         ~BitcoinExchange();
 
 		void 	getData(const std::string& dbName);
-		void 	outputPrice(const std::string& inFile) const;
+		void 	outputPrice(const std::string& inFile);
 		date_t 	getDate(std::string& line);
 		rate_t 	getRate(std::string& line);
 		void 	printAll();
+		rate_t 	rateAt(const date_t) const;
 		
 	private:
 		std::map<date_t, rate_t> _rates;
+		date_t  				_lowestDate;
 };
 
-bool isInt(const std::string& str);
-bool isFloat(const std::string& str);
+//bool isInt(const std::string& str);
+//bool isFloat(const std::string& str);
+
+int toInt(const std::string& str, char **end);
+float toFloat(const std::string& str);
+date_t getCurrentDate();
+
+std::ostream& operator<<(std::ostream&, const date_s&);
+std::ostream& operator<<(std::ostream&, const rate_s&);
 
 #endif
 

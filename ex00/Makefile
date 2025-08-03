@@ -1,12 +1,11 @@
-NAME 	= 	easyfind	
+NAME 	= 	btc	
 OS = $(shell uname)
 
+CFLAGS	=	-Wall -Wextra -Werror -std=c++98 
 ifeq ($(OS), Darwin)
-	CFLAGS	=	-Wall -Wextra -Werror -std=c++98 
 	CC 		=	/usr/local/bin/g++-15
 else
 	CC 		=	c++
-	CFLAGS	= 	-Wall -Wextra -Werror -std=c++98 
 endif
 SRC_DIR = srcs/
 INC_DIR = incs/

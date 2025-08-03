@@ -9,10 +9,10 @@ int main(int ac, char **av)
 
 	try {
 		trader.getData("data.csv");
-		//trader.outputPrice(av[1]);
-		trader.printAll();
+		trader.outputPrice(av[1]);
+		//trader.printAll();
 	} catch (std::exception& e) {
-		std::cout << "Error: " << e.what();
+		std::cout << "Error: " << e.what() << std::endl;
 		return (1);
 	}
 	return (0);
