@@ -31,6 +31,7 @@ typedef struct rate_s {
 	rate_s(void);
     void print() const;
 	rate_s operator*(const rate_s&) const;
+	bool operator<(const rate_s& other) const;
 } rate_t;
 
 // bad date == std::invalid_argument("bad date format");
@@ -43,7 +44,7 @@ class BitcoinExchange
         BitcoinExchange &operator=(const BitcoinExchange &other);
         ~BitcoinExchange();
 
-		void 	getData(const std::string& dbName);
+		void 	readData(const std::string& dbName);
 		void 	outputPrice(const std::string& inFile);
 		date_t 	getDate(std::string& line);
 		rate_t 	getRate(std::string& line);

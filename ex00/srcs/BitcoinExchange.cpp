@@ -1,4 +1,5 @@
 #include "BitcoinExchange.hpp"
+#include <iostream>
 
 // Date_t
 date_s::date_s(int y, int m, int d) : year(y), month(m), day(d) {}
@@ -36,8 +37,11 @@ std::ostream& operator<<(std::ostream& os, const date_s& date) {
 
 //Rate_t
 rate_s::rate_s(int val) { type = INT; value.i = val; }
+
 rate_s::rate_s(float val) { type = FLOAT; value.f = val; }
+
 rate_s::rate_s(void) { type = NONE; value.f = 0.0f; }
+
 void rate_s::print() const {
         if (type == INT)
             std::cout << value.i;
@@ -57,6 +61,18 @@ rate_s rate_s::operator*(const rate_s& other) const {
 	if (this->type == FLOAT && other.type == FLOAT)
 		return this->value.f * other.value.f; 
 	return rate_s();
+}
+
+bool rate_s::operator<(const rate_s& other) const {
+	if (this->type == INT && other.type == INT)
+		return this->value.i < other.value.i;
+	if (this->type == FLOAT && other.type == INT)
+		return this->value.f < other.value.i;
+	if (this->type == INT && other.type == FLOAT)
+		return this->value.i < other.value.f;
+	if (this->type == FLOAT && other.type == FLOAT)
+		return this->value.f < other.value.f; 
+	throw std::out_of_range("wrong rate value (none)");
 }
 
 std::ostream& operator<<(std::ostream& os, const rate_s& rate) {
@@ -107,8 +123,12 @@ float toFloat(const std::string& str, char **end)
 	errno = 0;
 
 	double value =  std::strtod(cstr, end);
-	if (errno == ERANGE || *end == cstr || value < 0)
-		throw std::invalid_argument("bad float value");
+	if (errno == ERANGE)
+		throw std::invalid_argument("out of range");
+	else if (*end == cstr)
+		throw std::invalid_argument("no conversion made");
+	else if (value < 0)
+		throw std::invalid_argument("negative value");
 	return static_cast<float>(value);
 }
 
@@ -120,13 +140,14 @@ int toInt(const std::string& str, char** endptr)
     errno = 0;
     long value = std::strtol(cstr, endptr, 10);
 
-    if (errno == ERANGE || value < 0 || value > INT_MAX) {
-        throw std::out_of_range("bad int format: negative value or int overflow");
-    } else if (**endptr != '\0' && **endptr != '-' && **endptr != ',' && **endptr != ' ') {
-        throw std::out_of_range("bad int format: bad character");
-	}
+	if (errno == ERANGE||value > INT_MAX)
+        throw std::invalid_argument("int overflow");
+	else if (value < 0) 
+		throw std::invalid_argument("negative value");
+	else if (**endptr == '.')
+		throw std::exception(); // float value
 	if (*endptr == cstr)
-        throw std::out_of_range("bad int format: no conversion made");
+		throw std::invalid_argument("no conversion made");
     return static_cast<int>(value);
 }
 
@@ -147,27 +168,32 @@ date_t BitcoinExchange::getDate(std::string& line)
 	int month;
 	int day;
 	
+	std::string str = line;
 	char *end = NULL;
 	try {
 		year = ::toInt(line, &end);
-		if (end - line.c_str() != 4) throw std::invalid_argument("bad year format");
+		if (end - line.c_str() != 4 || *end != '-') throw std::invalid_argument("invalid date");
 		line.erase(0, 5);
 		end = NULL;
 		month = ::toInt(line, &end);
-		if (end - line.c_str() != 2) throw std::invalid_argument("bad month format");
+		if (end - line.c_str() != 2 || *end != '-') throw std::invalid_argument("invalid date");
 		line.erase(0, 3);
 		end = NULL;
 		day = ::toInt(line, &end);
-		if (end - line.c_str() != 2) throw std::invalid_argument("bad day format");
+		if (end - line.c_str() != 2) throw std::invalid_argument("invalid date");
 		line.erase(0, 2);
-		if (month > 12 || day > 31)
-			throw std::invalid_argument("bad date format");
+		if (year < 1970 || month > 12 || day > 31) {
+			str.erase(10, str.length());
+			throw std::invalid_argument("invalid date");
+		}
 	} catch (std::exception &e) {
+		line = str;
 		throw;
 	}
 	date_t date = date_t(year, month, day);
 	if (getCurrentDate() < date) {
-		throw std::invalid_argument("bad date format");
+		line = str.erase(10, str.length());
+		throw std::invalid_argument("Rate of tomorrow cannot be guess...");
 	}
 	return date;
 }
@@ -179,37 +205,33 @@ rate_t BitcoinExchange::getRate(std::string& line)
 	char *end = NULL;
 	try {
 		rate = rate_t(toInt(line, &end));
+		line.erase(0, end - line.c_str());
 	} catch (...) {
-		try {
-			end = NULL;
-			rate = rate_t(toFloat(line, &end));
-		} catch (...) {
-			throw std::invalid_argument("bad rate format");
-		}
+		end = NULL;
+		rate = rate_t(toFloat(line, &end));
+		line.erase(0, end - line.c_str());
 	}
-	line.erase(0, end - line.c_str());
 	return rate;
 }
 
 // to be improved
-void BitcoinExchange::getData(const std::string& dbName) 
+void BitcoinExchange::readData(const std::string& dbName) 
 {
 	std::ifstream	data;
 	std::string 	line;
 
 	data.open(dbName.c_str());
-	if (!data.is_open() || !data)
+	if (!data || !data.is_open())
 		throw  std::runtime_error("Cannot open database");
 	while(std::getline(data, line)) {
 		try {
 			date_t date = getDate(line);
-			if (line.length() < 2 || line[0] != ',') throw std::invalid_argument("bad date format");
+			if (line.length() < 2 || line[0] != ',') throw std::invalid_argument("invalid date format"); // ??
 			line.erase(0, 1);
 			if (date < _lowestDate) _lowestDate = date;
 			rate_t rate = getRate(line);
 			_rates.insert(std::make_pair(date, rate));
-		} catch (std::exception &e) {
-			std::cout << "Error in database: " << e.what() << std::endl;
+		} catch (...) { 
 		}
 		line.clear();
 	}
@@ -220,21 +242,28 @@ void BitcoinExchange::outputPrice(const std::string& inFile) {
 	std::string line;
 
 	input.open(inFile.c_str());
+	rate_t value;
 	if (!input || !input.is_open())
 		throw  std::runtime_error("cannot open infile");
 	while (std::getline(input, line)) {
 		try {
 			date_t date = getDate(line);
-			if (line.length() < 4) throw std::invalid_argument("no value found");
-			if (line[0] != ' ' || line[1] != '|' || line[2] != ' ') throw std::invalid_argument("bad format");
+			if (line.length() < 4)
+				throw std::invalid_argument("no value found");
+			if (line.length() < 4 || line[0] != ' ' || line[1] != '|' || line[2] != ' ')
+				throw std::invalid_argument("bad format");
 			line.erase(0, 3);
-			rate_t value = getRate(line);
-			if (line[0] != '\0') throw std::invalid_argument("bad format");
-			rate_t rate = rateAt(date);
-			std::cout << date << " => " << value << " => " << value * rate << std::endl;	
-		} catch (std::exception& e) {
-			std::cout << "Bad input: " << e.what() << std::endl;
-		}
+			value = getRate(line);
+			if (rate_s(1000) < value)
+				throw std::out_of_range("value is too large (> 1000)");
+			if (line[0] != '\0')
+				throw std::invalid_argument("invalid format");
+			std::cout << date << " => " << value << " => " << value * rateAt(date) << std::endl;	
+		} catch (std::invalid_argument& e) {
+			std::cout << "Error: " << e.what() << " => '" << line << "'" << std::endl;
+		} catch (std::out_of_range& e) {
+			std::cout << "Error: " << e.what() << " => '" << value << "'" << std::endl;
+		} catch (...) {}
 		line.clear();
 	}
 };
@@ -245,8 +274,7 @@ rate_t BitcoinExchange::rateAt(date_t date) const {
     while (it == _rates.end() && _lowestDate < date) {
         it = _rates.find(--date);
     }
-    if (it == _rates.end())
-        throw std::invalid_argument("no entry for this date");
+    if (it == _rates.end()) throw std::invalid_argument("no entry for this date");
     return it->second;
 }
 //bool isFloat(const std::string& str)
