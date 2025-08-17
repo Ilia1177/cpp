@@ -2,11 +2,19 @@
 #include <iostream>
 
 // Date_t
+date_s::~date_s(void) {}
 date_s::date_s(int y, int m, int d) : year(y), month(m), day(d) {}
-
 date_s::date_s(void) : year(9999), month(12), day(31) {}
+date_s::date_s(const date_s& other) : year(other.year), month(other.month), day(other.day) {}
 
-void date_s::print() const { std::cout << year << "-" << month << "-" << day;}
+date_s& date_s::operator=(const date_s& other) {
+	if (this != &other) {
+		this->year = other.year;
+		this->month = other.month;
+		this->day = other.day;
+	}
+	return (*this);
+}
 
 bool date_s::operator<(const date_s& other) const {
         if (year != other.year) return year < other.year;
@@ -20,7 +28,7 @@ date_s& date_s::operator--() {
             --this->year;
             this->month = 12;
         }
-		if ((this->month < 7 && this->month % 2 == 0) || (this->month >= 7 && this->month % 2 == 1))
+		if ((this->month < 7&& this->month % 2 == 0) || (this->month >= 7 && this->month % 2 == 1))
         	this->day = 30;
 		else 
 			this->day = 31;
@@ -36,19 +44,18 @@ std::ostream& operator<<(std::ostream& os, const date_s& date) {
 }
 
 //Rate_t
+rate_s::~rate_s(void) {}
 rate_s::rate_s(int val) { type = INT; value.i = val; }
-
 rate_s::rate_s(float val) { type = FLOAT; value.f = val; }
-
 rate_s::rate_s(void) { type = NONE; value.f = 0.0f; }
+rate_s::rate_s(const rate_s& other): type(other.type), value(other.value) {}
 
-void rate_s::print() const {
-        if (type == INT)
-            std::cout << value.i;
-        else if (type == FLOAT)
-            std::cout << value.f;
-		else
-			std::cout << "none";
+rate_s& rate_s::operator=(const rate_s& other) {
+	if (this != &other) {
+		type = other.type;
+		value = other.value;
+	}
+	return (*this);
 }
 
 rate_s rate_s::operator*(const rate_s& other) const {
@@ -90,18 +97,20 @@ BitcoinExchange::~BitcoinExchange(void) {}
 // Default constructor
 BitcoinExchange::BitcoinExchange(void): _lowestDate(9999, 12, 31) {}
 
-// to be implemented
 // Copy constructor
 BitcoinExchange::BitcoinExchange(const BitcoinExchange &other) 
 {
-	_lowestDate = date_s(other._lowestDate.year, other._lowestDate.month, other._lowestDate.day) ;
+	_lowestDate = date_s(other._lowestDate.year, other._lowestDate.month, other._lowestDate.day);
+	_rates = other._rates;
 }
 
-// to be mplemented
 // Assignment operator overload
 BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
 {
-	_lowestDate = other._lowestDate;
+	if (this != &other) {
+		_lowestDate = other._lowestDate;
+		_rates = other._rates;
+	}
     return (*this);
 }
 
@@ -185,6 +194,9 @@ date_t BitcoinExchange::getDate(std::string& line)
 		if (year < 1970 || month > 12 || day > 31) {
 			str.erase(10, str.length());
 			throw std::invalid_argument("invalid date");
+		} else if (((month < 7 && month % 2 == 0) || (month >= 7 && month % 2 == 1)) && day > 30) {
+			str.erase(10, str.length());
+			throw std::invalid_argument("invalid date");
 		}
 	} catch (std::exception &e) {
 		line = str;
@@ -231,8 +243,7 @@ void BitcoinExchange::readData(const std::string& dbName)
 			if (date < _lowestDate) _lowestDate = date;
 			rate_t rate = getRate(line);
 			_rates.insert(std::make_pair(date, rate));
-		} catch (...) { 
-		}
+		} catch (...) {}
 		line.clear();
 	}
 }
@@ -248,21 +259,17 @@ void BitcoinExchange::outputPrice(const std::string& inFile) {
 	while (std::getline(input, line)) {
 		try {
 			date_t date = getDate(line);
-			if (line.length() < 4)
-				throw std::invalid_argument("no value found");
 			if (line.length() < 4 || line[0] != ' ' || line[1] != '|' || line[2] != ' ')
 				throw std::invalid_argument("bad format");
 			line.erase(0, 3);
 			value = getRate(line);
-			if (rate_s(1000) < value)
-				throw std::out_of_range("value is too large (> 1000)");
-			if (line[0] != '\0')
-				throw std::invalid_argument("invalid format");
+			if (rate_s(1000) < value) throw std::out_of_range("value is too large (> 1000)");
+			if (line[0] != '\0') throw std::invalid_argument("invalid format");
 			std::cout << date << " => " << value << " => " << value * rateAt(date) << std::endl;	
 		} catch (std::invalid_argument& e) {
-			std::cout << "Error: " << e.what() << " => '" << line << "'" << std::endl;
+			std::cerr << "Error: " << e.what() << " => '" << line << "'" << std::endl;
 		} catch (std::out_of_range& e) {
-			std::cout << "Error: " << e.what() << " => '" << value << "'" << std::endl;
+			std::cerr << "Error: " << e.what() << " => '" << value << "'" << std::endl;
 		} catch (...) {}
 		line.clear();
 	}

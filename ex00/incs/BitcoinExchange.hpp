@@ -13,25 +13,33 @@
 # include <ctime>
 
 typedef struct date_s {
-	int year;
-	int month;
-	int day;
-	date_s(int y, int m, int d);
 	date_s(void);
+	date_s(int y, int m, int d);
+	date_s(const date_s& other);
+	date_s& operator=(const date_s&);
+	~date_s(void);
+
 	void print() const;
 	bool operator<(const date_s& other) const;
 	date_s& operator--();
+
+	int year;
+	int month;
+	int day;
 } date_t;
 
 typedef struct rate_s {
-	enum Type { INT, FLOAT, NONE } type;
-    union { int i; float f; } value;
+	~rate_s(void);
     rate_s(int val);
 	rate_s(float val);
 	rate_s(void);
-    void print() const;
+	rate_s(const rate_s&);
+	rate_s& operator=(const rate_s& other);
 	rate_s operator*(const rate_s&) const;
 	bool operator<(const rate_s& other) const;
+
+	enum Type { INT, FLOAT, NONE } type;
+    union { int i; float f; } value;
 } rate_t;
 
 // bad date == std::invalid_argument("bad date format");
@@ -39,7 +47,6 @@ class BitcoinExchange
 {
     public:
         BitcoinExchange();
-       // BitcoinExchange(std::string& input);
         BitcoinExchange(const BitcoinExchange& other);
         BitcoinExchange &operator=(const BitcoinExchange &other);
         ~BitcoinExchange();
@@ -55,9 +62,6 @@ class BitcoinExchange
 		std::map<date_t, rate_t> _rates;
 		date_t  				_lowestDate;
 };
-
-//bool isInt(const std::string& str);
-//bool isFloat(const std::string& str);
 
 int toInt(const std::string& str, char **end);
 float toFloat(const std::string& str);

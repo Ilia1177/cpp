@@ -9,10 +9,9 @@ int main(int ac, char **av)
 
 	try {
 		trader.readData("data.csv");
-	//	trader.printAll();
 		trader.outputPrice(av[1]);
 	} catch (std::exception& e) {
-		std::cout << "Fatal error: " << e.what() << std::endl;
+		std::cerr << "Fatal error: " << e.what() << std::endl;
 		return (1);
 	}
 	return (0);
