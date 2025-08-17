@@ -19,9 +19,7 @@ class Array
 		size_t	_size;
 		T*		_tab;
 };
-//template<typename T>
-//T& Array<T>::operator[](size_t index);
-//
+
 template<typename T>
 std::ostream& operator<<(std::ostream& os, const Array<T>& array);
 
