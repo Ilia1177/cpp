@@ -18,9 +18,18 @@ int main(int ac, char **av)
 	std::string set3 = " 999 30 87 54 99 49 60 8 888 5 0 6";
 	deq.read(set1);
 	
-	deq.merge_insertion_sort(deq.getContainer(), 1);
+	deq.merge_insertion_sort(deq.getContainer());
 
+	std::cout << deq.jacobsthal(1) << std::endl;
+	std::cout << deq.jacobsthal(2) << std::endl;
+	std::cout << deq.jacobsthal(3) << std::endl;
+	std::cout << deq.jacobsthal(4) << std::endl;
+	std::cout << deq.jacobsthal(5) << std::endl;
+	std::cout << deq.jacobsthal(6) << std::endl;
+	std::cout << deq.jacobsthal(7) << std::endl;
+	std::cout << deq.jacobsthal(8) << std::endl;
 	deq.print(deq.getContainer(), 0);
+	std::cout << "comparison: " << __number_of_comp__ << std::endl;
 //	ford_johnson_sort<std::deque<int> >(deq.getContainer(), 1);
 //
 //	for (std::deque<int>::iterator it = deq.getContainer().begin(); it < deq.getContainer().end(); ++it) {
