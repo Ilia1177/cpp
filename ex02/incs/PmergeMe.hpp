@@ -337,8 +337,8 @@ typename C::iterator binarySearch(typename C::iterator begin, typename C::iterat
 		std::cout << " === SPLIT LEADERS === ";
 		C main, pend;
 		split_leaders(arr, main, pend);
-		//init_label(main, "a");
-		//init_label(pend, "b");
+		init_label(main, "a");
+		init_label(pend, "b");
 		std::cout << "Main is "; print(main, 0);
 		std::cout << "                       Pend is "; print(pend, 0);
 
@@ -349,36 +349,7 @@ typename C::iterator binarySearch(typename C::iterator begin, typename C::iterat
 
 		insert(main, pend);
 
-
-		//typename C::iterator it_a = main.begin();
-		//typename C::iterator it_b = pend.begin();
-	//	typename C::iterator pos;
-	//	typename C::iterator idx;
-
-	//	size_t k = 3;
-	//	size_t inserted = 1; // b1 already placed
-
-	//	while (inserted < pend.size()) {
-	//		size_t idx = jacobsthal(k) - jacobsthal(k - 1);
-	//		std::cout << idx << std::endl;
-	//		for (size_t m = 0; m < idx && inserted < pend.size(); ++m) {
-	//			typename C::iterator it = pend.begin();
-	//			std::advance(it, inserted);
-	//			typename C::iterator pos = binarySearch(main, it->key, 1);
-	//			main.insert(pos, *it);
-	//			++inserted;
-	//		}
-	//		++k;
-	//	}
-
-//		typename C::iterator it = pend.begin();
-		
-//		for (; it < pend.end(); ++it) {
-//			typename C::iterator pos = binarySearch( main, it->key, 1);
-//			main.insert(pos, *it);
-//		}
-
-		std::cout << "                       Result: "; print(main, 0);
+		std::cout << "                       End: "; print(main, 0);
 
 		// Step 5: write back
 		std::cout << " --- END ---" << std::endl;
