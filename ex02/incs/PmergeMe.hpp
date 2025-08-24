@@ -23,12 +23,12 @@ int toInt(const std::string& str, char** endptr);
 
 typedef struct elem_s {
 	elem_s() {};
-	elem_s(int val, std::string lab): value(val), label(lab) {};
-	elem_s(int val): value(val), label("") {};
-	elem_s(const elem_s& other): value(other.value), label(other.label) {};
-	elem_s& operator=(const elem_s &other) {this->value = other.value; this->label = other.label; return *this;}
-	bool operator<(elem_s &other) {return this->value < other.value;}
-	int value;
+	elem_s(int val, std::string lab): key(val), label(lab) {};
+	elem_s(int val): key(val), label("") {};
+	elem_s(const elem_s& other): key(other.key), label(other.label) {};
+	elem_s& operator=(const elem_s &other) {this->key = other.key; this->label = other.label; return *this;}
+	bool operator<(const elem_s &other) const {return this->key < other.key;}
+	int key;
 	std::string label;
 } elem_t;
 
@@ -40,6 +40,8 @@ class PmergeMe
         PmergeMe(const PmergeMe& other) {};
         PmergeMe &operator=(const PmergeMe &other) {};
         ~PmergeMe() {};
+
+		C& getContainer(void) {return _arr;}; 
 
 		void read(const std::string& input) {
 			std::istringstream iss(input);
@@ -59,19 +61,37 @@ class PmergeMe
 			//}	
 		}
 
-		void print(C &c)
+		void print(C &c, size_t size)
 		{
 			typename C::iterator it;
 			typename C::iterator ite = c.end() - 1;
+			size_t i = 0;
+			size_t pair_size = size * 2;
+			size_t curr_pair = 1;
+			size_t nb_pairs;
+			if (size)
+				nb_pairs = c.size() / size / 2;
+			else
+				nb_pairs = 0;
 
 			for (it = c.begin(); it != c.end(); ++it) {
+
+				if (pair_size && i == 0 && curr_pair <= nb_pairs)
+					std::cout << "[";
 				if (it->label == "") {
-					std::cout << it->value;
-				} else if (it->label == "a") {
-					std::cout << GREEN << it->value << RESET;
-				} else if (it->label == "b") {
-					std::cout << RED << it->value << RESET;
+					std::cout << it->key;
+				} else if (it->label[0] == 'a') {
+					std::cout << GREEN << it->key << RESET;
+				} else if (it->label[0] == 'b') {
+					std::cout << RED << it->key << RESET;
 				}
+				if (pair_size == ++i) {
+					++curr_pair;
+					std::cout << "]";
+					i = 0;
+				}
+
+
 				if (it != ite)
 					std::cout << ", ";
 			}
@@ -87,24 +107,43 @@ class PmergeMe
 			std::cout << std::endl;
 		}
 
+// Binary search function that returns the insertion position
+typename C::iterator binarySearch(typename C::iterator begin, typename C::iterator end, const int value) {
+    typename C::iterator low = begin;
+    typename C::iterator high = end;
+    
+    while (low < high) {
+		std::cout << "binary search" << std::endl;
+        typename C::iterator mid = low + (low - high) / 2;
+		if (mid->key == value) {
+			return mid;
+		} else if (mid->key < value) {
+            low = mid + 1;
+        } else {
+            high = mid;
+        }
+    }
+    
+    return low;
+}
 		typename C::iterator binarySearch(C& arr, int x, size_t size) {
 			int low = size - 1;
 			int high = arr.size() - 1;
 			int mid;
 			typename C::iterator best = arr.end(); // default = "not found"
 			
-			std::cout << "binary search: " << std::endl;
+			//std::cout << "binary search: " << std::endl;
 			if (arr.size() < size * 2)
 				return arr.begin() + size - 1;
 			while (low <= high) {
 				mid = low + (((high + 1) - low) / (2 * size)) * size;
 
-				std::cout << "mid: " << mid << " - low: " << low << " - high: " << high << std::endl;
+				//std::cout << "mid: " << mid << " - low: " << low << " - high: " << high << std::endl;
 				typename C::iterator it = arr.begin() + mid;
 
-				if (it->value == x) {
+				if (it->key == x) {
 					return it; // exact match
-				} else if (it->value > x) {
+				} else if (it->key > x) {
 					best = it;          // candidate: closest so far <= x
 					high = mid - size;  // search left
 				} else {
@@ -115,48 +154,6 @@ class PmergeMe
 			}
 			return best; // may be arr.end() if all elements > x
 		}
-
-//		typename C::iterator binarySearch(C& arr, int x, size_t size) {
-//			int low = size - 1;
-//			int high = arr.size() - 1;
-//
-//			while (low <= high) {
-//				int mid = low + (high - low) / 2;
-//				typename C::iterator it = arr.begin() + mid;
-//
-//				if (*it == x)
-//					return it;
-//
-//				if (*it < x)
-//					low = mid + size;
-//				else
-//					high = mid - size;
-//			}
-//			return arr.end(); // not found
-//		}
-//
-//		int binarySearch(int x) {
-//
-//    		int low = 0;
-//			int high = _arr.size() - 1;
-//			while (low <= high) {
-//				int mid = low + (high - low) / 2;
-//
-//				// Check if x is present at mid
-//				if (_arr[mid] == x)
-//					return mid;
-//
-//				// If x greater, ignore left half
-//				if (_arr[mid] < x)
-//					low = mid + 1;
-//
-//				// If x is smaller, ignore right half
-//				else
-//					high = mid - 1;
-//			}
-//			// If we reach here, then element was not present
-//			return -1;
-//		}
 
 		void swap(elem_t &a, elem_t &b) {
 			elem_t tmp = a;
@@ -171,40 +168,54 @@ class PmergeMe
 			}
 		}
 
-		int jacobsthal(int k) {
-		    return round((std::pow(2, k + 1) + std::pow(-1, k)) / 3);
+		size_t jacobsthal(size_t k) {
+			if (k == 0) return 0;
+			if (k == 1) return 1;
+			size_t a = 0, b = 1, c;
+			for (size_t i = 2; i <= k; ++i) {
+				c = b + 2 * a;
+				a = b;
+				b = c;
+			}
+			return b;
 		}
 
-		void init_label(void) {
-			typename C::iterator it = _arr.begin();
-			for (; it < _arr.end(); ++it) {
+		void init_label(C& arr) {
+			typename C::iterator it = arr.begin();
+			for (; it < arr.end(); ++it) {
 					it->label = "";
 				}
 			}
 
-		void assign_label(const size_t nb_pairs, const size_t elem_size)
+		void assign_label(C& arr, const size_t nb_pairs, const size_t elem_size)
 		{
-			typename C::iterator it = _arr.begin();
-			for (; it < _arr.begin() + elem_size * (nb_pairs * 2); it += elem_size * 2) {
-				for (size_t i = 0; i < elem_size; ++i) {
-					(it + i)->label = "a";
+			size_t curr_pair = 1;
+			std::ostringstream oss_b, oss_a;
+			typename C::iterator it = arr.begin();
+
+			for (; it < arr.begin() + elem_size * (nb_pairs * 2); it += elem_size * 2) {
+				oss_b << "b" << curr_pair;
+				oss_a << "a" << curr_pair;
+				size_t i = 0;
+				for (; i < elem_size; ++i) {
+					(it + i)->label = oss_b.str();
 				}
-			}
-			for (it = _arr.begin() + elem_size; it < _arr.begin() + elem_size * (nb_pairs * 2); it += elem_size * 2) {
-				for (size_t i = 0; i < elem_size; ++i) {
-					(it + i)->label = "b";
+				for (; i < elem_size * 2; ++i) {
+					(it + i)->label = oss_a.str();
 				}
+				curr_pair++;
 			}
 		}
+
 		// sort elements inside of pairs by comparing them against each others: a <? b
 		// element are describe by their last number inside it
 		// for elem_size = 1 -> pair_size = 2;
 		// [b1, a1], [b2, a2], [b3, a3] , .... 
-		void sort_pairs(size_t elem_size)
+		void sort_pairs(C& arr, size_t elem_size)
 		{
 			typename C::iterator a, b;
-			typename C::iterator start = _arr.begin();
-			typename C::iterator end = _arr.end();
+			typename C::iterator start = arr.begin();
+			typename C::iterator end = arr.end();
 			const size_t pair_size = elem_size * 2;
 	
 			// Iterate on every pairs [b, a];
@@ -221,86 +232,94 @@ class PmergeMe
 			return (it - size + 1);
 		}
 
-		void insert_in(C& arr, typename C::iterator it, size_t elem_size) {
-			typename C::iterator idx;
-			std::cout << "insert in: " << std::endl;
-			idx = binarySearch(arr, it->value, elem_size);
-			std::cout << "idx to insert from is: " << idx->value << std::endl;
-			if (it->label == "")
-				arr.insert(idx - (elem_size - 1), *it);
-			else
-				arr.insert(idx - (elem_size - 1), it - (elem_size - 1), it + 1);
+	void split_leaders(C& arr, C& main, C& pend, size_t elem_size)
+	{
+		size_t nb_pairs = arr.size() / elem_size / 2;
+
+		typename C::iterator start = arr.begin();
+		typename C::iterator ite = arr.begin() + std::min(arr.size(), (nb_pairs * 2 * elem_size));
+
+		//// Step 3: push all leaders elements into mains 
+		for (typename C::iterator it = start + elem_size; it < ite; it += elem_size * 2) {
+			main.insert(main.end(), it, it + elem_size);
+		}
+		//// Step 3: push all remaining "b" blocks into pend
+		for (typename C::iterator it = arr.begin(); it < ite; it += elem_size * 2) {
+			pend.insert(pend.end(), it, it + elem_size);
+		}
+		//// Step 4: push leftovers into pend
+		for (typename C::iterator it = ite ; it < arr.end(); ++it) {
+			pend.push_back(*it);
+		}
+	}
+
+	void merge_insertion_sort(C& arr, size_t elem_size)
+	{
+		size_t nb_pairs = arr.size() / elem_size / 2;
+
+		if (nb_pairs < 1) return;
+
+		init_label(arr);
+		std::cout << " === FORD JOHNSON " << elem_size << " == ";
+		std::cout << "Input : "; print(arr, elem_size); 
+		std::cout << " === SORTING PAIRS === ";
+		sort_pairs(arr, elem_size);
+		assign_label(arr, nb_pairs, elem_size);
+		std::cout << "Result: "; print(arr, elem_size);
+
+
+		std::cout << " === SPLIT LEADERS === ";
+		C main, pend;
+		split_leaders(arr, main, pend, elem_size);
+		std::cout << "Main is "; print(main, 0);
+		std::cout << "                       Pend is "; print(pend, 0);
+
+		// recursivly sort leaders
+		merge_insertion_sort(main, elem_size);
+		std::cout << " === RECURSIV CALL " << elem_size << " = "; std::cout << "new main: "; print(main, 0);
+		std::cout << " ===   INSERTING   === "; std::cout << "Pend is "; print(pend, 0);
+
+		// push 'b1' into main without comparison (as we know this is smaller than a1
+		main.push_front(*(pend.begin()));
+
+		//pend.erase(pend.begin());
+
+
+		//typename C::iterator it_a = main.begin();
+		//typename C::iterator it_b = pend.begin();
+		typename C::iterator pos;
+		typename C::iterator idx;
+
+		size_t k = 3;
+		size_t inserted = 1; // b1 already placed
+
+		while (inserted < pend.size()) {
+			size_t idx = jacobsthal(k) - jacobsthal(k - 1);
+			std::cout << idx << std::endl;
+			for (size_t m = 0; m < idx && inserted < pend.size(); ++m) {
+				typename C::iterator it = pend.begin();
+				std::advance(it, inserted);
+				typename C::iterator pos = binarySearch(main, it->key, 1);
+				main.insert(pos, *it);
+				++inserted;
+			}
+			++k;
 		}
 
-		void merge_insertion_sort(size_t elem_size)
-		{
-			size_t nb_pairs = _arr.size() / elem_size / 2;
-			size_t nb_elems = nb_pairs * 2;
-			//if (elem_size > _arr.size() / 2)
-			if (nb_pairs < 1)
-				return ;
+	//	typename C::iterator it = pend.begin();
+	//	
+	//	for (; it < pend.end(); ++it) {
 
-			std::cout << "element size: " << elem_size << " - nb of elements: " << nb_elems << " - nb of pairs: " << nb_pairs << std::endl;
+	//		typename C::iterator pos = binarySearch(main.begin(), main.end(), main, it);
+	//		main.insert(pos, *it);
+	//	}
 
-			init_label();
-			std::cout << "Before: "; print(_arr);
-			sort_pairs(elem_size);
-			assign_label(nb_pairs, elem_size);
-			std::cout << "Result: "; print(_arr);
-			merge_insertion_sort(elem_size * 2);
-			
-			std::cout << "Part 2" << std::endl << std::endl;
+		std::cout << "                       Result: "; print(main, 0);
 
-			C pend, main;
-
-			typename C::iterator it = _arr.begin();
-
-			// push b1 element, (as this is the lowest element)
-			for (; it < _arr.begin() + elem_size; ++it) {
-				main.push_back(*it);
-			}
-
-			// push every 'a' elements into main 
-			for (; it < _arr.begin() + elem_size * nb_elems; it += elem_size * 2) {
-			//std::cout << "a elements from: " << *it << " to: " << *(_arr.begin() + elem_size * nb_elems) << std::endl;
-			//std::cout << "push back to main: ";
-				for (size_t i = 0; i < elem_size; ++i) {
-					//if (i != elem_size - 1)
-					//	std::cout << ", ";
-					//else
-					//	std::cout << std::endl;
-					main.push_back(*(it + i));
-				}
-			}
-			
-			// push all other 'b' in pend
-			for (it = _arr.begin() + elem_size * 2; it < _arr.begin() + elem_size * nb_elems; it += elem_size * 2) {
-				for (size_t i = 0; i < elem_size; ++i) {
-					pend.push_back(*(it + i));
-				}
-			}
-			// push the remainder items (not paired items) in pend;
-			for (it = _arr.begin() + elem_size * nb_elems; it < _arr.end(); ++it) {
-				pend.push_back(*it);
-			}
-
-			std::cout << "size :" << elem_size << std::endl;
-			std::cout << "main list: "; print(main);
-			std::cout << "pend list: "; print(pend);
-
-			//std::cout << *it << std::endl;
-			while (!pend.empty()) {
-				it = pend.begin();
-				std::cout << "pend size: " << pend.size() << " - it to insert: " << it->value <<std::endl;;
-				insert_in(main, it, elem_size);
-				if (it->label == "")
-					pend.erase(it);
-				else
-					pend.erase(it, it + elem_size);
-				std::cout << "main list is: "; print(main);
-			}
-			std::cout << "reuslt main list: "; print(main);
-		}
+		// Step 5: write back
+		std::cout << " --- END ---" << std::endl;
+		arr.swap(main);
+	}
 
 	private:
 		C _arr;
