@@ -211,20 +211,18 @@ typename C::iterator binarySearch(typename C::iterator begin, typename C::iterat
 		// element are describe by their last number inside it
 		// for elem_size = 1 -> pair_size = 2;
 		// [b1, a1], [b2, a2], [b3, a3] , .... 
-		void sort_pairs(C& arr, size_t elem_size)
+		void sort_pairs(C& arr)
 		{
 			typename C::iterator a, b;
 			typename C::iterator start = arr.begin();
 			typename C::iterator end = arr.end();
-			const size_t pair_size = elem_size * 2;
 	
 			// Iterate on every pairs [b, a];
 			// the 'a1' element is the second element, defined by its last number (if elem_size > 1)
-			for (a = start + elem_size * 2 - 1; a < end; a += pair_size) {
+			for (a = start + 1; a < end; a += 2) {
 				// define the 'b' element, as the element just before the current 'a' element
-				b = a - elem_size;
-				if (*a < *b)
-					swap_pair(startOf(a, elem_size), startOf(b, elem_size), elem_size);
+				b = a - 1;
+				if (*a < *b) swap(*a, *b);
 			}
 		}
 
@@ -253,19 +251,19 @@ typename C::iterator binarySearch(typename C::iterator begin, typename C::iterat
 		}
 	}
 
-	void merge_insertion_sort(C& arr, size_t elem_size)
+	void merge_insertion_sort(C& arr)
 	{
-		size_t nb_pairs = arr.size() / elem_size / 2;
+		size_t nb_pairs = arr.size() / 2;
 
 		if (nb_pairs < 1) return;
 
 		init_label(arr);
 		std::cout << " === FORD JOHNSON " << elem_size << " == ";
-		std::cout << "Input : "; print(arr, elem_size); 
+		std::cout << "Input : "; print(arr, 1); 
 		std::cout << " === SORTING PAIRS === ";
-		sort_pairs(arr, elem_size);
+		sort_pairs(arr);
 		assign_label(arr, nb_pairs, elem_size);
-		std::cout << "Result: "; print(arr, elem_size);
+		std::cout << "Result: "; print(arr, 1);
 
 
 		std::cout << " === SPLIT LEADERS === ";
