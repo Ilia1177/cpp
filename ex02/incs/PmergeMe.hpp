@@ -136,9 +136,9 @@ class PmergeMe
 			for (it = c->begin(); it != c->end(); ++it) {
 
 				if (it->label == "") {
-					std::cout << std::setw(2) << it->key ;//<< "(" << it->pairIndex << ")" ;
+					std::cout << std::setw(2) << it->key << ":" << it->pairIndex;
 				} else if (it->label[0] == 'a') {
-					std::cout << GREEN << std::setw(2) << it->key;// << "(" << it->pairIndex << ")" << RESET;
+					std::cout << GREEN << std::setw(2) << it->key << ":" << it->pairIndex ;
 				} else if (it->label[0] == 'b') {
 					std::cout << RED << std::setw(2) << it->key;//  << "(" << it->pairIndex << ")" << RESET;
 				}
@@ -148,6 +148,25 @@ class PmergeMe
 			std::cout << std::endl;
 		}
 
+		void print(C &c, C *pend)
+		{
+			typename C::iterator it;
+			typename C::iterator ite = c.end() - 1;
+
+			for (it = c.begin(); it != c.end(); ++it) {
+
+				if (it->label == "") {
+					std::cout << std::setw(2) << it->key << ":" << (pend->begin() + it->pairIndex)->key;
+				} else if (it->label[0] == 'a') {
+					std::cout << GREEN << std::setw(2) << it->key << ":" << (pend->begin() + it->pairIndex)->key;
+				} else if (it->label[0] == 'b') {
+					std::cout << RED << std::setw(2) << it->key << ":" << (pend->begin() + it->pairIndex)->key;
+				}
+				if (it != ite)
+					std::cout << ", ";
+			}
+			std::cout << std::endl;
+		}
 		void print(C &c)
 		{
 			typename C::iterator it;
@@ -269,17 +288,25 @@ class PmergeMe
 			Citer start = arr.begin();
 			Citer end = arr.end();
 	
-			size_t i = 0;
+			size_t pend_a = 1;
+			size_t pend_b = 0;
 			// Iterate on every pairs [b, a];
 			// the 'a1' element is the second element, defined by its last number (if elem_size > 1)
 			for (a = start + 1; a < end; a += 2) {
 				// define the 'b' element, as the element just before the current 'a' element
 				b = a - 1;
 				if (*a < *b) {
-					if (pend && !pend->empty()) swap(*(pend->begin() + i), *(pend->begin() + i + 1));
+					if (pend && !pend->empty()) {
+						(pend->begin() + pend_a)->pairIndex++;
+						(pend->begin() + pend_b)->pairIndex--;
+						swap(*(pend->begin() + pend_a), *(pend->begin() + pend_b));
+					}
+					a->pairIndex++;
+					b->pairIndex--;
 					swap(*a, *b);
 				}
-				i++;
+				pend_a+=2;
+				pend_b+=2;
 			}
 		}
 
@@ -436,15 +463,15 @@ class PmergeMe
 	{
 		// push 'b1' into main without comparison (as we know it is smaller than a1)
 		std::cout << "insert b1 index: " << main.begin()->pairIndex << " === main:   "; print(main);
-		//main.insert(main.begin(), *(pend.begin()) /*+ (main.begin()->pairIndex))*/);
+		main.insert(main.begin(), *(pend.begin()) /*+ (main.begin()->pairIndex))*/);
 
 		assign_pair_index(pend);
 		
 		std::cout << " key | pos | end | === main:   "; print(main);
 
 		size_t curr_idx;
-		size_t k = 2;		 	// 3
-		size_t inserted = 0;	// 1
+		size_t k = 3;		 	// 3 -- 1
+		size_t inserted = 1;	// 1 -- 0
 
 		while (inserted < pend.size()) {
 			size_t to_insert = jacobsthal(k) - jacobsthal(k-1);
@@ -515,6 +542,11 @@ class PmergeMe
 		std::cout << " === FORD JOHNSON === ";
 		std::cout << "Input: "; print(arr); 
 
+		// main is sorting -- mirror is broken
+		sort_pairs(arr);
+		std::cout << " === SORTING PAIRS === ";
+		std::cout << "main: "; print(arr);
+		//std::cout << std::setw(29) << "pend: "; print(pend);
 
 		//sort_pairs(arr);
 		//std::cout << " === SORT ARRAY   === arr :"; print(arr);
@@ -526,15 +558,12 @@ class PmergeMe
 	//	}
 	//	for (; it < arr.end(); ++it) it->pairIndex = -1;
 
+		// split array into main & pend; // arr remain unchanged
 		C main, pend;
 	  	split_leaders(arr, main, pend);
 		std::cout << " === SPLIT LEADERS === main:   "; print(main);
 		std::cout << "                       pend:   "; print(pend);
 
-		sort_pairs(main);
-		std::cout << " === SORTING PAIRS === ";
-		std::cout << "main: "; print(main);
-		std::cout << std::setw(29) << "pend: "; print(pend);
 
 
 		merge_insertion(main);
@@ -550,6 +579,27 @@ class PmergeMe
 		arr.swap(main);
 	}
 
+	void assign_index(C& main, C* pend) {
+		if (pend && !pend->empty()) {
+			size_t i = 0;
+			Citer ita = main.begin();
+			Citer itb = pend->begin();
+			for (;ita < main.end(); ita++) {
+				ita->pairIndex = i;
+				itb->pairIndex = i;
+				i++;
+			}
+		}
+	}
+
+	int* save_index(C& lead, C* rems, std::vector<int> , std::vector<int> remsidx) {
+		Citer itl = lead.begin();
+		Citer itr = rems.begin();
+
+
+	}
+
+
 void merge_insertion(C& main, C* pend) {
 		size_t nb_pairs = main.size() / 2;
 
@@ -560,45 +610,49 @@ void merge_insertion(C& main, C* pend) {
 		std::cout << "Input : "; print(main); 
 		if (pend) {std::cout << std::setw(29) << "pend : "; print(pend); }
 
-
+		sort_pairs(main, pend);
+		std::cout << " === SORTING PAIRS === ";
+		std::cout << "main: "; print(main);
+		std::cout << std::setw(29) << "pend: "; print(pend);
 		//sort_pairs(arr);
 		//std::cout << " === SORT ARRAY   === arr :"; print(arr);
-
-	//	size_t i = 0;
-	//	Citer it;
-	//	for (it = arr.begin(); it < arr.begin() + nb_pairs * 2 - 1; it += 2) {
-	//		it->pairIndex = i; (it + 1)->pairIndex = i++;
-	//	}
-	//	for (; it < arr.end(); ++it) it->pairIndex = -1;
-
+ 
 		C leaders, rems;
 	  	split_leaders(main, leaders, rems);
-		std::cout << " === SPLIT LEADERS === lead:   "; print(leaders);
-		std::cout << "                       rems:   "; print(rems);
 
-		sort_pairs(leaders, &rems);
-		std::cout << " === SORTING PAIRS === ";
-		std::cout << "lead: "; print(leaders);
-		std::cout << std::setw(29) << "Result: "; print(rems);
+		// assign the new pair index to both leaders and rems
+		assign_index(leaders, &rems);
+		std::cout << " === ASSIGN  INDEX === main: "; print(leaders, &rems);
 
+		std::cout << " === SPLIT LEADERS === lead: "; print(leaders);
+		std::cout << "                       rems: "; print(rems);
+		
+		// save_index(old_index); of rems
+		// 
+		int *old_index;
 
+		old_index = new int[leaders.size()]
 		merge_insertion(leaders, &rems);
 
-
-		std::cout << " === RECURSIV CALL === lead:   "; print(leaders);
-		std::cout << " ===   INSERTING   === rems:   "; print(rems);
-
+		
+		std::cout << " === RECURSIV CALL === lead: "; print(leaders);
+		std::cout << " ===   INSERTING   === rems: "; print(rems);
+		
+		for (Citer it = leaders.begin() ; it < leaders.end() ; ++it) {
+			std::cout << "a: " << it->key << " -> b: " << (rems.begin() + it->pairIndex)->key << std::endl;
+		}
+		
 		binary_insertion(leaders, rems);
 	//	binary_insertion(arr, order);
 
-		std::cout << " ===    END        === main:   "; print(main);
+		std::cout << " ===    END        === main: "; print(main);
 		main.swap(leaders);
 	}
 
 
 	void ford_johnson(C &arr)
 	{
-		sort_pairs(arr, NULL);
+		//sort_pairs(arr, NULL);
 		merge_insertion(arr, NULL);
 	}
 
