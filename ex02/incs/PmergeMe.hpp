@@ -631,7 +631,6 @@ void merge_insertion(C& main, C* pend) {
 		// 
 		int *old_index;
 
-		old_index = new int[leaders.size()]
 		merge_insertion(leaders, &rems);
 
 		
@@ -653,7 +652,7 @@ void merge_insertion(C& main, C* pend) {
 	void ford_johnson(C &arr)
 	{
 		//sort_pairs(arr, NULL);
-		merge_insertion(arr, NULL);
+		merge_insertion(arr);
 	}
 
 	private:
