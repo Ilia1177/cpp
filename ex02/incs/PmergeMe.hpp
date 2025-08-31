@@ -346,7 +346,6 @@ class PmergeMe
 		// binary search takes index of block of elements
 		Citer binarySearch(C& arr, size_t start, size_t end, Citer it, size_t size)
 		{
-			std::cout << "Binary search - start: " << start << " end: " << end << " it: " << it->key << " key: " << (it + size -1)->key << std::endl;
 			if (start >= end) return arr.end();
 			
 			size_t low = start;
@@ -366,60 +365,28 @@ class PmergeMe
 
 	void binary_insertion(C& main, C& pend, size_t size) 
 	{
-	
-		init_label(main, "a");
-		init_label(pend, "b");
-		assign_pair_index(main, pend, size);
-		//print_index(pend);
-		// push 'b1' into main without comparison (as we know it is smaller than a1)
-		std::cout << "-- inserting b1" << std::endl;
-		main.insert(main.begin(), pend.begin(), pend.begin() + size);
-		std::cout << "-- update pend index" << std::endl;
-		update_pair_index(main, pend, 0, size);
-		print_index(pend);
 		size_t nb_of_elements = pend.size() / size;
-
 		Citer pos;
 		size_t curr_idx;
-		size_t k = 3;		 	// 3
-		size_t inserted = size;	// 1
+		size_t k = 3;
+		size_t inserted = size;
 
+		assign_pair_index(main, pend, size);
+		// push 'b1' into main without comparison (as we know it is smaller than a1)
+		main.insert(main.begin(), pend.begin(), pend.begin() + size);
+		update_pair_index(main, pend, 0, size);
 		while (inserted < pend.size()) {
 			size_t to_insert = jacobsthal(k) - jacobsthal(k-1);
 			curr_idx = std::min(jacobsthal(k) * size, (nb_of_elements) * size) - size ;  // - size ??
 			while (to_insert > 0 && inserted < pend.size()) {
 				if (pend.size() - inserted < size) {
 					main.insert(main.end(), pend.begin() + inserted, pend.end());
-					std::cout  << "inserted: " << inserted << "PUSH all remainders" << std::endl << std::endl;
 					return ;
 				}
-
-				//std::cout << "start (main): "; print(main);
-				//std::cout << "start (pend): "; print(pend);
-
-				//print_index(pend);
-
 				Citer b = pend.begin() + curr_idx;
 
-				std::cout << "current index: " << curr_idx << " of b to insert: " << b->key << " binary search from: 0 to: " << b->pairIndex  << std::endl;
-
-				// Search for position to insert in main current b element, from 0 to its pair index
-				//if (b->pairIndex >= 0) {
-				if ((size_t)b->pairIndex > main.size() / size) {
-					std::cout << RED << "index max of main: " << main.size() / size << std::endl;
-					std::cout << "while inserting: " << b->key << " to " << (b+size -1)->key; 
-					std::cout << "index: " << b->pairIndex << RESET << std::endl; 
-					throw std::logic_error("index out of range");
-				}
 				pos = binarySearch(main, 0, b->pairIndex, b, size);
-				//} else {
-				//	pos = binarySearch(main, 0, main.size() / size, b, size);
-				//}
-				
 				size_t index = std::distance(main.begin(), pos);
-
-				std::cout << "inserting at index: " << index / size << std::endl;
-				//std::cout << "pend index before insertion: " ; print_index(pend);
 
 				main.insert(pos, b, b + size);
 				update_pair_index(main, pend, index / size, size);
