@@ -155,11 +155,11 @@ void PmergeMe<C>::print(C &c)
 
 	for (it = c.begin(); it != c.end(); ++it) {
 		if (it->label == "") {
-			std::cout << std::setw(2) << it->key; //<< "(" << it->pairIndex << ")" ;
+			std::cout << std::setw(2) << it->key;
 		} else if (it->label[0] == 'a') {
-			std::cout << GREEN << std::setw(2) << it->key << RESET;// << "(" << it->pairIndex << ")" << RESET;
+			std::cout << GREEN << std::setw(2) << it->key << RESET;
 		} else if (it->label[0] == 'b') {
-			std::cout << RED << std::setw(2) << it->key << RESET;// << "(" << it->pairIndex << ")" << RESET;
+			std::cout << RED << std::setw(2) << it->key << RESET;
 		}
 		if (it != ite)
 			std::cout << ", ";
@@ -394,7 +394,7 @@ void PmergeMe<C>::merge_insertion(C& arr, size_t size)
 	// Sort pairs
 	sort_pairs(arr, size);
 	std::cout << " === SORTING PAIRS === size: " << size << std::endl; 
-	std::cout << std::setw(23) << "└─>  arr: ";assign_label(arr, size); print(arr, size);
+	std::cout << std::setw(23) << "└─>  arr: "; assign_label(arr, size); print(arr, size);
 
 	// Recursively sort pairs, increasing the size of the pairs
 	merge_insertion(arr, size * 2);
