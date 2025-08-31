@@ -284,34 +284,36 @@ class PmergeMe
 
 	void update_pair_index(C& main, C& pend, size_t prev_index, size_t size) {
 
-		std::cout << "Update pair index: prev_index: " << prev_index << std::endl;
 		size_t i;
 
-		Citer a = main.begin() + prev_index;
-		a->pairIndex = 0;
-		std::cout << "object just inserted(?): " << a->key << std::endl;
+		Citer a = main.begin() + prev_index * size;
+		std::cout << "update pair index, start at " << a->key << ", previous index: " << prev_index << ", size: " << size << std::endl;
+		for (i = 0; i < size; ++i) {
+			(a + i)->pairIndex = 0;
+		}
 		prev_index++;
 		Citer b = pend.begin();
-		//Citer element = main.begin();
 		// iterate throught main using a->pairIndex to reach b element in pend to update theirs pairs indexes
-		// do not change if their
 		for (i = prev_index * size; i < main.size(); i += size) {
-			Citer a = main.begin() + i;
-			size_t b_index = a->pairIndex;
-			//std::cout << "update index: i=" << i << "current a: " << a->key << " with pair index: " << a->pairIndex << std::endl;
+			a = main.begin() + i;
+			int b_index = a->pairIndex;
 				for (size_t j = 0; j < size; ++j) {
 					b = pend.begin() + b_index * size + j;
-					std::cout << "current a: " << a->key << " current b: " << b->key << std::endl;
-					//std::cout << "current b: " << b->key << " with index: " << b->pairIndex << std::endl;
 					b->pairIndex++;
-					//std::cout << "new index: " << b->pairIndex << std::endl;
+					//if ((size_t)b->pairIndex > main.size() / size)
+					//	throw std::logic_error("index is TOO HIGH");
 				}
-			//std::cout << "i: " << i<< std::endl;
 		}
-		std::cout << "b is " << b->key << std::endl;
-		for (i = 0; b + i < pend.end() ; ++i) {
-			std::cout << "update end of the pend array: " << (b + i)->key << std::endl;
-			(b + i)->pairIndex++;
+
+		Citer unpaired = pend.begin() + a->pairIndex * size + size;
+		for (; unpaired < pend.end(); ++unpaired) {
+			unpaired->pairIndex++;
+			if ((size_t)unpaired->pairIndex > main.size() / size) {
+
+				std::cout << "at index: "<< std::distance(pend.begin(), unpaired) % size << " of a total size of " << pend.size() / size << std::endl;
+				throw std::logic_error("index is TOO HIGH - caught in end of pend");
+				
+			}
 		}
 	}
 	
@@ -323,75 +325,61 @@ class PmergeMe
 	}
 
 	void assign_pair_index(C& main, C& pend, size_t size) {
+		std::cout << "Init index - size: " << size << std::endl;
 		size_t i = 0;
-		size_t index = 0;
-		Citer it_main = main.begin();
-		Citer it_pend = pend.begin();
-		for (; i < main.size(); i += size) {
-			for (size_t j = 0; j < size; ++j) {
-				(it_main + j + i)->pairIndex = index;
-				(it_pend + j + i)->pairIndex = index;
+		int index = 0;
+		Citer a = main.begin();
+		Citer b = pend.begin();
+		for (; a < main.end(); a += size) {
+			for (i = 0; i < size; ++i) {
+				(a + i)->pairIndex = index;
+				(b + i)->pairIndex = index;
+				//std::cout << (b+i)->key << "->" << (b+i)->pairIndex << std::endl;
 			}
 			index++;
+			b += size;
 		}
-		std::cout << "main size: " << main.size() << " - size: :" << size << std::endl ;
-		for (i = main.size(); i < pend.size(); ++i) {
-			(it_pend + i)->pairIndex = (main.size() / size);
+		for (; b < pend.end(); ++b) {
+			b->pairIndex = main.size() / size;
 		}
 	}
+		// binary search takes index of block of elements
 		Citer binarySearch(C& arr, size_t start, size_t end, Citer it, size_t size)
 		{
-			if (start >= end) return arr.begin() + end;
+			std::cout << "Binary search - start: " << start << " end: " << end << " it: " << it->key << " key: " << (it + size -1)->key << std::endl;
+			if (start >= end) return arr.end();
 			
 			size_t low = start;
 			size_t high = end ;
-			std::cout << " --> Binary Search: key: " <<  (it + size - 1)->key << " -> index: " << (it + size - 1)->pairIndex << std::endl;
 			
 			while (low < high) {
-				//size_t mid = low + (((high - low) / (2 * size)) * size);
 				size_t mid = (low + high) / 2;
-				//if (mid == low && high - low > size) mid += size; // avance d’un bloc
 				
-				std::cout << "compare " << (arr.begin() + mid * size + size - 1)->key << "?>" << (it + size - 1)->key << std::endl;
 				if (*(arr.begin() + mid * size + size - 1) > *(it + size - 1)) {
 					high = mid;
 				} else {
-					//low = mid + size; // <-- avancer d’un bloc
 					low = mid + 1;
 				}
 			}
 			return arr.begin() + low * size;
-		//	while (low < high) {
-		//		size_t mid = low + ((high - low) / (2 * size)) * size ;
-		//		std::cout << low << " | " << mid << " | " << high << std::endl;
-		//		std::cout << "compare " << (arr.begin() + mid + size - 1)->key << "?>" << (it + size - 1)->key << std::endl;
-		//		// Only ONE element comparison per iteration
-		//		if (*(arr.begin() + mid + size - 1) > *(it + size - 1)) {
-		//			high = mid;
-		//		} else {
-		//			low = low + 1;
-		//		}
-		//	}
-			return arr.begin() + low;
 		}
 
 	void binary_insertion(C& main, C& pend, size_t size) 
 	{
-		// push 'b1' into main without comparison (as we know it is smaller than a1)
-		//
 	
 		init_label(main, "a");
 		init_label(pend, "b");
 		assign_pair_index(main, pend, size);
-		std::cout << "size: " << size << std::endl;
-		std::cout << "start with main: "; print(main, pend, size);
-		std::cout << "start with pend: "; print(pend, main, size);
+		//print_index(pend);
+		// push 'b1' into main without comparison (as we know it is smaller than a1)
+		std::cout << "-- inserting b1" << std::endl;
 		main.insert(main.begin(), pend.begin(), pend.begin() + size);
-		std::cout << "current index: "; print_index(pend);
+		std::cout << "-- update pend index" << std::endl;
 		update_pair_index(main, pend, 0, size);
-		std::cout << "updated index: "; print_index(pend);
+		print_index(pend);
 		size_t nb_of_elements = pend.size() / size;
 
+		Citer pos;
 		size_t curr_idx;
 		size_t k = 3;		 	// 3
 		size_t inserted = size;	// 1
@@ -402,32 +390,53 @@ class PmergeMe
 			while (to_insert > 0 && inserted < pend.size()) {
 				if (pend.size() - inserted < size) {
 					main.insert(main.end(), pend.begin() + inserted, pend.end());
-					std::cout  << "inserted: " << inserted << "PUSH all remainers" << std::endl << std::endl;
+					std::cout  << "inserted: " << inserted << "PUSH all remainders" << std::endl << std::endl;
 					return ;
 				}
 
-				std::cout << "start (main): "; print(main);
-				std::cout << "start (pend): "; print(pend);
+				//std::cout << "start (main): "; print(main);
+				//std::cout << "start (pend): "; print(pend);
+
+				//print_index(pend);
 
 				Citer b = pend.begin() + curr_idx;
 
-				std::cout << "current index: " << curr_idx << " of b to insert: " << b->key << " binary search from: 0 to: " << b->pairIndex << " (value: " << (main.begin() + b->pairIndex*size)->key << ")" << std::endl;
-				std::cout << "main: "; print_index(main);
+				std::cout << "current index: " << curr_idx << " of b to insert: " << b->key << " binary search from: 0 to: " << b->pairIndex  << std::endl;
 
 				// Search for position to insert in main current b element, from 0 to its pair index
-				Citer pos = binarySearch(main, 0, b->pairIndex, b, size);
+				//if (b->pairIndex >= 0) {
+				if ((size_t)b->pairIndex > main.size() / size) {
+					std::cout << RED << "index max of main: " << main.size() / size << std::endl;
+					std::cout << "while inserting: " << b->key << " to " << (b+size -1)->key; 
+					std::cout << "index: " << b->pairIndex << RESET << std::endl; 
+					throw std::logic_error("index out of range");
+				}
+				pos = binarySearch(main, 0, b->pairIndex, b, size);
+				//} else {
+				//	pos = binarySearch(main, 0, main.size() / size, b, size);
+				//}
+				
 				size_t index = std::distance(main.begin(), pos);
 
-				std::cout << "found insertion index: " << index << std::endl;
-				std::cout << "pend index before insertion: " ; print_index(pend);
+				std::cout << "inserting at index: " << index / size << std::endl;
+				//std::cout << "pend index before insertion: " ; print_index(pend);
 
 				main.insert(pos, b, b + size);
-				update_pair_index(main, pend, index, size);
+				update_pair_index(main, pend, index / size, size);
 
-				std::cout << "pend index after update    : "; print_index(pend);
-				std::cout << "result (main): ";print(main);
-				std::cout << "result (pend):" ;print(pend);
+				//std::cout << "pend index after update    : "; print_index(pend);
+				//std::cout << "result (main): ";print(main);
+				//std::cout << "result (pend):" ;print(pend);
 
+				for (Citer it = main.begin() + size; it < main.end(); it += size) {
+					if ((it + size -1 )->key < (it - 1)->key) {
+						std::cout << RED << "while inserting: " << b->key << " to " << (b+size -1)->key 
+							<< " of index: " << b->pairIndex 
+							<< " in index: " << index / size << std::endl;
+						std::cout << (it - 1)->key << " !< " << (it + size -1)->key << RESET << std::endl;
+						throw std::logic_error("not sorted");
+					}
+				}
 				inserted += size;
 				curr_idx -= size;
 				to_insert--;
