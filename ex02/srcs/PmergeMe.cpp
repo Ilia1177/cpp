@@ -1,38 +1,26 @@
 #include "PmergeMe.hpp"
-//
-//	// Default constructor
-//	PmergeMe::PmergeMe(void)
-//	{
-//		std::cout << "Default constructor called" << std::endl;
-//		return ;
-//	}
-//
-//	// Copy constructor
-//	PmergeMe::PmergeMe(const PmergeMe &other)
-//	{
-//		std::cout << "Copy constructor called" << std::endl;
-//		(void) other;
-//		return ;
-//	}
-//
-//	// Assignment operator overload
-//	PmergeMe &PmergeMe::operator=(const PmergeMe &other)
-//	{
-//		std::cout << "Assignment operator called" << std::endl;
-//		(void) other;
-//		return (*this);
-//	}
-//
-//	// Destructor
-//	PmergeMe::~PmergeMe(void)
-//	{
-//		std::cout << "Destructor called" << std::endl;
-//		return ;
-//	}
-//
-//
-// primary template (false by default)
 
+
+elem_s::elem_s() {};
+elem_s::elem_s(int val, std::string lab): key(val), label(lab), pairIndex(-1) {};
+elem_s::elem_s(int val): key(val), label(""), pairIndex(-1) {};
+elem_s::elem_s(const elem_s& other): key(other.key), label(other.label), pairIndex(other.pairIndex) {};
+elem_s::~elem_s() {};
+elem_s& elem_s::operator=(const elem_s &other)
+{
+	if (this != &other) {
+		this->key = other.key; 
+		this->label = other.label; 
+		this->pairIndex = other.pairIndex;
+	} 
+	return *this;
+}
+
+bool elem_s::operator<(const elem_s &other) const {__number_of_comp__++; return this->key < other.key;}
+bool elem_s::operator==(const elem_s &other) const {__number_of_comp__++; return this->key == other.key;}
+bool elem_s::operator<(const int val) const {__number_of_comp__++; return this->key < val;}
+bool elem_s::operator>(const elem_s &other) const {__number_of_comp__++; return this->key > other.key;}
+bool elem_s::operator>(const int val) const {__number_of_comp__++; return this->key > val;}
 
 size_t __number_of_comp__ = 0;
 
