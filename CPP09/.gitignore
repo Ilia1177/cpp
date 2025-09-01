@@ -1,8 +1,0 @@
-megaphone
-*.o
-*.dSYM
-*.swp
-*.swp
-.*.swp
-.*.swo
-*.DS_Store
