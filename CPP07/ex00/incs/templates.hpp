@@ -1,0 +1,15 @@
+#ifndef TEMPLATES_HPP
+# define TEMPLATES_HPP
+# include <iostream>
+
+template<typename T>
+void swap(T& a, T& b);
+
+template<typename T>
+T min(T a, T b);
+
+template<typename T>
+T max(T a, T b);
+
+# include "templates.tpp"
+#endif
