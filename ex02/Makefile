@@ -7,6 +7,11 @@ ifeq ($(OS), Darwin)
 else
 	CC 		=	c++
 endif
+
+ifdef DETAILS
+    CFLAGS += -DDETAILS=1
+endif
+
 SRC_DIR = srcs/
 INC_DIR = incs/
 OBJ_DIR	= objs/
@@ -39,5 +44,8 @@ fclean			: clean
 	@echo "Folder is like new."
 
 re		: fclean all
+
+details	: fclean
+	$(MAKE) all DETAILS=1
 
 .PHONY	: all clean fclean re 

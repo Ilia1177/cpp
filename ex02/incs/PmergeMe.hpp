@@ -73,7 +73,7 @@ class PmergeMe
 		typedef C container_type;
 		typedef typename C::iterator Citer;
 
-		void read(const std::string& input);
+		C& read(const std::string& input);
 		void print(C &c, size_t size);
 		void print(C &c);
 		void swap(elem_t &a, elem_t &b);
@@ -87,7 +87,7 @@ class PmergeMe
 		Citer binarySearch(C& arr, Citer it, size_t size);
 		void binary_insertion(C& main, C& pend, size_t size) ;
 		void merge_insertion(C& arr, size_t size);
-		void ford_johnson(C &arr);
+		double ford_johnson(const std::string& str);
 		C& getContainer(void); 
 		bool is_sorted(C& arr);
 
@@ -99,8 +99,9 @@ template<typename C>
 C& PmergeMe<C>::getContainer(void) {return _arr;}; 
 
 template<typename C>
-void PmergeMe<C>::read(const std::string& input)
+C& PmergeMe<C>::read(const std::string& input)
 {
+	_arr.clear();
 	std::string str = input;
 	char *end;
 	while (str.length() > 0) {
@@ -108,7 +109,8 @@ void PmergeMe<C>::read(const std::string& input)
 		_arr.push_back(elem_t(::toInt(str, &end)));
 		str = end;
 		str.erase(0, str.find_first_not_of(" \t\n\r\f\v"));
-	}	
+	}
+	return _arr;
 }
 
 template<typename C>
@@ -387,14 +389,18 @@ void PmergeMe<C>::merge_insertion(C& arr, size_t size)
 	if (nb_pairs < 1) return;
 
 	// Start of Ford Johnson, labelling for colored output
+#if DETAILS
 	init_label(arr, "", arr.size());
 	std::cout << " === FORD JOHNSON  === size: " << size << std::endl; 
 	std::cout << std::setw(23) << "└─>  arr: "; print(arr, size);
+#endif
 
-	// Sort pairs
 	sort_pairs(arr, size);
+
+#if DETAILS
 	std::cout << " === SORTING PAIRS === size: " << size << std::endl; 
 	std::cout << std::setw(23) << "└─>  arr: "; assign_label(arr, size); print(arr, size);
+#endif
 
 	// Recursively sort pairs, increasing the size of the pairs
 	merge_insertion(arr, size * 2);
@@ -404,40 +410,42 @@ void PmergeMe<C>::merge_insertion(C& arr, size_t size)
 	C main, pend;
 	split_leaders(arr, main, pend, size);
 
+#if DETAILS
 	init_label(main, "a", main.size());
 	init_label(pend, "b", main.size());
 	std::cout << " === SPLIT LEADERS === size: " << size << std::endl;
 	std::cout << std::setw(23) << "└─>  arr: "; print(arr);
 	std::cout << std::setw(23) << "└─> main: "; print(main);
-	std::cout << std::setw(23) << "└─> pend: "; print(pend);
-
 	std::cout << " ===   INSERTING   === size: " << size << std::endl;
 	std::cout << std::setw(23) << "└─> pend: "; print(pend);
+#endif
 
 	binary_insertion(main, pend, size);
 
+#if DETAILS
 	std::cout << " ===    END        === " << std::endl;
 	std::cout << std::setw(23) << "└─> main: "; print(main);
+#endif
+
 	arr.swap(main);
 }
 
 template<typename C>
-void PmergeMe<C>::ford_johnson(C &arr)
+double PmergeMe<C>::ford_johnson(const std::string& str)
 {
-	size_t size = arr.size();
-	merge_insertion(arr, 1);
-	if (!is_sorted(arr) || arr.size() != size)
-		throw std::logic_error("arr is not sorted");
-}
+	__number_of_comp__ = 0;
+	clock_t start = std::clock();
+	merge_insertion(read(str), 1);
+	clock_t end = std::clock();
 
-template<typename C>
-bool PmergeMe<C>::is_sorted(C& arr) {
-	for (Citer it = arr.begin() + 1; it != arr.end(); ++it) {
-		if (*it < *(it - 1))
-			return false;
-	}
-	return true;
+#if DETAILS
+	std::cout << "number of comparisons: " << __number_of_comp__ << std::endl;
+#endif
+
+	double ms_time = 1000.0 * (end - start) / CLOCKS_PER_SEC;
+
+
+	return ms_time;
 }
 
 #endif
-
