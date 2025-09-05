@@ -20,7 +20,7 @@ void Presidential_tests(Bureaucrat& johnson) {
 
 void Robotomy_tests(Bureaucrat& johnson) {
 	// Robotomize tests
-	std::srand(std::time(0)); 
+	//std::srand(std::time(0)); 
 	RobotomyRequestForm robotisation("R2D2");
 	std::cout << std::endl << "---- ROBOTISATION TESTS" << std::endl;
 	std::cout << robotisation << std::endl;

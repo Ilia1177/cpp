@@ -11,9 +11,6 @@ class Bureaucrat
         Bureaucrat &operator=(const Bureaucrat &other);
         ~Bureaucrat();
 
-		//void	GradeTooHighException();
-		//void	GradeTooLowException();
-
 		void	gradeUp();
 		void	gradeDown();
 		
