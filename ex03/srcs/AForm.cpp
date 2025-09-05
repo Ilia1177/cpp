@@ -76,9 +76,9 @@ const char* AForm::IsNotSigned::what() const throw() {
 }
 
 std::ostream& operator<<(std::ostream& os, const AForm& form) {
-    os << form.getName() << std::endl;
-	os << "Signed: " << form.isSigned() << std::endl;
-	os << "Required Grade to execute: " << form.getExecGrade() << std::endl;
-	os << "Required Grade to sign:    " << form.getSignGrade() << std::endl;
+    os << "Form's name................: " << form.getName() << std::endl;
+	os << "Signed.....................: " << (form.isSigned() ? "yes" : "no") << std::endl;
+	os << "Required Grade to execute..: " << form.getExecGrade() << std::endl;
+	os << "Required Grade to sign.....: " << form.getSignGrade() << std::endl;
     return os;
 }

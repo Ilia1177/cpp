@@ -16,7 +16,7 @@ ShrubberyCreationForm::ShrubberyCreationForm(const ShrubberyCreationForm &other)
 // Assignment operator overload
 ShrubberyCreationForm &ShrubberyCreationForm::operator=(const ShrubberyCreationForm &other)
 {
-    std::cout << "Assignment operator called" << std::endl;
+    std::cout << "Assignment operator called (impossible)" << std::endl;
     (void) other;
     return (*this);
 }
@@ -33,7 +33,7 @@ void	ShrubberyCreationForm::execute(const Bureaucrat& executor) const {
 		throw AForm::IsNotSigned();
 	else if (executor.getGrade() > this->getExecGrade())
 		throw AForm::GradeTooLowException();
-	std::ofstream file(this->_target + "_shrubbery");
+	std::ofstream file((this->_target + "_shrubbery").c_str());
 
 	if (file.is_open()) {
 		file << "-+=--===*#@%++:= =#@#=@:* @@@ = %%=*##-@@#@@.  =-  :--.+       +     . % =##+@**@+=@.@#:#- #--=+@+- =#+%==@#+ *#" << std::endl;

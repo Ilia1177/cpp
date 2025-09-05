@@ -30,7 +30,7 @@ class Form
 		int					getSignGrade() const;
 	
 		// setters
-		void				beSigned(const Bureaucrat& signer);
+		void				beSigned(const Bureaucrat&);
 			
 	private:
 		const std::string	_name;

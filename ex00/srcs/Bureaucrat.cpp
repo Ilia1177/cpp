@@ -18,14 +18,18 @@ Bureaucrat::Bureaucrat(const Bureaucrat &other): _name(other._name), _grade(othe
 }
 
 // Assignment operator overload
-Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other) {
+Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other)
+{
     std::cout << "Assignment operator called" << std::endl;
-	this->_grade = other.getGrade();
+	if (this != &other) {
+		this->_grade = other.getGrade();
+	}
     return (*this);
 }
 
 // Destructor
-Bureaucrat::~Bureaucrat(void) {
+Bureaucrat::~Bureaucrat(void)
+{
     std::cout << "Destructor called" << std::endl;
     return ;
 }
@@ -59,6 +63,6 @@ const char* Bureaucrat::GradeTooLowException::what() const throw() {
 }
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& admin) {
-    os << "Name: " << admin.getName() << ", Grade: " << admin.getGrade();
+    os << admin.getName() << ", grade: " << admin.getGrade();
     return os;
 }
