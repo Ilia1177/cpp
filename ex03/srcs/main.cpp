@@ -3,24 +3,31 @@
 #include "RobotomyRequestForm.hpp"
 #include "ShrubberyCreationForm.hpp"
 #include "Intern.hpp"
+#include <sstream>
 
 // Intern makeform tests
 void Intern_tests(Bureaucrat& johnson) {
-	std::cout << std::endl << "---- Subject Test" << std::endl << "What do you want ? "; 
+	std::cout << std::endl << "---- Subject Test" << std::endl;
 	{
 		Intern someRandomIntern;
 		AForm* rrf;
 		rrf = someRandomIntern.makeForm("robotomy request", "Bender");
 		std::cout << *rrf << std::endl;
+		delete rrf;
 	}
 	
 	Intern		marc;
-	AForm		*newForm = nullptr;
+	AForm		*newForm = NULL;
 	std::string	demand;
 	std::string	supposedGrade;
 	std::string	target = "Undefined";
 
-	std::cout << std::endl << "---- INTERN TESTS" << std::endl << "What do you want ? "; 
+	std::cout << std::endl << "---- INTERN TESTS" << std::endl;
+	std::cout << "Available forms are: " << std::endl
+		<< "-> shrubbery creation" << std::endl
+		<< "-> presidential pardon" << std::endl 
+		<< "-> robotomy request" << std::endl;
+	std::cout << "What do you want ? " << std::endl;
 	while (std::getline(std::cin, demand)) {
 		try {
 			std::cout  << std::endl << "What's the target ? ";
@@ -30,23 +37,30 @@ void Intern_tests(Bureaucrat& johnson) {
 			std::cout << std::endl << "You asked for: " << std::endl << *newForm;
 			std::cout  << std::endl << "What's your grade ? ";
 			std::getline(std::cin, supposedGrade);
-			int grade = std::stoi(supposedGrade);
-			if (johnson.getGrade() > grade)
-				for (; johnson.getGrade() != grade; johnson.gradeUp());
-			else
-				for (; johnson.getGrade() != grade; johnson.gradeDown());
-			johnson.signForm(*newForm);
-			johnson.executeForm(*newForm);
+			std::istringstream iss(supposedGrade); //iss = std::isstringstream(supposedGrade);
+			int grade;
+			if (iss >> grade) {
+				if (johnson.getGrade() > grade)
+					for (; johnson.getGrade() != grade; johnson.gradeUp());
+				else
+					for (; johnson.getGrade() != grade; johnson.gradeDown());
+				johnson.signForm(*newForm);
+				johnson.executeForm(*newForm);
+			} else {
+				std::cout << "this is not a valid number" << std::endl;
+			}
 		}
 		catch (std::exception& e) {
 			std::cout << "Exception caught in main office:" << std::endl;
 			std::cout << "Sorry " << johnson << ", it isn't possible because: " << e.what() << std::endl;
 			std::cin.clear();
 		}
-		delete newForm;
-		newForm = nullptr;
-		std::cout << "You want an other one ? ";
+		if (newForm) delete newForm;
+		newForm = NULL;
+		std::cout << "You want an other one ? " << std::endl;
 	}
+	std::cout << "End of tests" << std::endl;
+	if (newForm) delete newForm;
 }
 
 // Presidential forms tests
@@ -66,7 +80,7 @@ void Presidential_tests(Bureaucrat& johnson) {
 
 // Robotomy forms tests
 void Robotomy_tests(Bureaucrat& johnson) {
-	std::srand(std::time(0)); 
+	//std::srand(std::time(0)); 
 	RobotomyRequestForm robotisation("R2D2");
 	std::cout << std::endl << "---- ROBOTOMY TESTS" << std::endl;
 	std::cout << robotisation << std::endl;

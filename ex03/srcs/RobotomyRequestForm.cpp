@@ -36,9 +36,9 @@ void		RobotomyRequestForm::execute(const Bureaucrat& executor) const {
 
     int hazard = std::rand() % 100 + 1;				// Range [1, 100]
 	std::cout << "* drilling noises *" << std::endl;
-	if (hazard < 50)
+	if (hazard < 51)
 		std::cout << this->_target << " has been robotomized successfully !";
-	else if (hazard > 50)
+	else 
 		std::cout << "Robotony on " << this->_target << " has failed!";
 	std::cout << std::endl;
 }
