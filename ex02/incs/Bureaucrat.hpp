@@ -16,7 +16,6 @@ class Bureaucrat
 		const std::string&	getName(void) const;
 		int					getGrade(void) const;
 
-		// to immplement
 		void	executeForm(const AForm &form) const;
 		void	signForm(AForm& paper) const;
 		void	gradeUp();
