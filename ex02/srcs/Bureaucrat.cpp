@@ -14,20 +14,17 @@ Bureaucrat::Bureaucrat(const std::string& name, int grade): _name(name) {
 
 // Copy constructor
 Bureaucrat::Bureaucrat(const Bureaucrat &other): _name(other._name), _grade(other._grade) {
-    std::cout << "Copy constructor called" << std::endl;
     return ;
 }
 
 // Assignment operator overload
 Bureaucrat &Bureaucrat::operator=(const Bureaucrat &other) {
-    std::cout << "Assignment operator called" << std::endl;
 	this->_grade = other.getGrade();
     return (*this);
 }
 
 // Destructor
 Bureaucrat::~Bureaucrat(void) {
-    std::cout << "Destructor called" << std::endl;
     return ;
 }
 

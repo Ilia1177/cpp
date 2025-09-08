@@ -32,6 +32,8 @@ class AForm
 		bool				isSigned() const;
 		int					getExecGrade() const;
 		int					getSignGrade() const;
+		
+		void				checkPermission(const Bureaucrat&) const;
 	
 		// setters
 		void				beSigned(const Bureaucrat& signer);

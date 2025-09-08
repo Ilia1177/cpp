@@ -3,7 +3,6 @@
 // Default constructor
 AForm::AForm(const std::string& name, int gradeToExecute, int gradeToSign): 
 	_name(name), _signed(false), _gradeToExecute(clamp(gradeToExecute, 1, 150)), _gradeToSign(clamp(gradeToSign, 1, 150)) {
-    std::cout << "Default constructor called" << std::endl;
 	if (gradeToExecute > 150) {
 		throw AForm::GradeTooLowException();
 	} else if (gradeToExecute < 1) {
@@ -35,7 +34,6 @@ AForm &AForm::operator=(const AForm &other) {
 
 // Destructor
 AForm::~AForm(void) {
-    std::cout << "Destructor called" << std::endl;
     return ;
 }
 
@@ -72,6 +70,13 @@ const char* AForm::GradeTooLowException::what() const throw() {
 
 const char* AForm::IsNotSigned::what() const throw() {
 	return "Form is not signed";
+}
+
+void				AForm::checkPermission(const Bureaucrat &executor) const {
+	if (!this->isSigned())
+		throw AForm::IsNotSigned();
+	else if (executor.getGrade() > this->getExecGrade())
+		throw AForm::GradeTooLowException();
 }
 
 std::ostream& operator<<(std::ostream& os, const AForm& form) {

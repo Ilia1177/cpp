@@ -33,6 +33,7 @@ class AForm
 		int					getExecGrade() const;
 		int					getSignGrade() const;
 	
+		void				checkPermission(const Bureaucrat &executor) const;
 		// setters
 		void				beSigned(const Bureaucrat& signer);
 		virtual void		execute(const Bureaucrat& executor) const = 0;
