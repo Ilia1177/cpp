@@ -7,7 +7,7 @@
 class Bureaucrat
 {
     public:
-		Bureaucrat(const std::string &name = "Undefined", int grade = 150);
+		Bureaucrat(const std::string &name = "Unknown", int grade = 150);
         Bureaucrat(const Bureaucrat& other);
         Bureaucrat &operator=(const Bureaucrat &other);
         ~Bureaucrat();
@@ -16,7 +16,6 @@ class Bureaucrat
 		const std::string&	getName(void) const;
 		int					getGrade(void) const;
 
-		// to immplement
 		void	executeForm(const AForm &form) const;
 		void	signForm(AForm& paper) const;
 		void	gradeUp();

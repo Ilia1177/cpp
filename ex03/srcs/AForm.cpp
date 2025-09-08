@@ -2,19 +2,17 @@
 #include "Bureaucrat.hpp"
 // Default constructor
 AForm::AForm(const std::string& name, int gradeToExecute, int gradeToSign): 
-	_name(name), _signed(false), _gradeToExecute(gradeToExecute), _gradeToSign(gradeToSign) {
-    std::cout << "Default constructor called" << std::endl;
-	if (_gradeToExecute > 150) {
+	_name(name), _signed(false), _gradeToExecute(clamp(gradeToExecute, 1, 150)), _gradeToSign(clamp(gradeToSign, 1, 150)) {
+	if (gradeToExecute > 150) {
 		throw AForm::GradeTooLowException();
-	} else if (_gradeToExecute < 1) {
+	} else if (gradeToExecute < 1) {
 		throw AForm::GradeTooHighException();
 	}
-	if (_gradeToSign > 150) {
+	if (gradeToSign > 150) {
 		throw AForm::GradeTooLowException();
-	} else if (_gradeToSign < 1) {
+	} else if (gradeToSign < 1) {
 		throw AForm::GradeTooHighException();
 	}
-    return ;
 }
 
 // Copy constructor
@@ -36,7 +34,6 @@ AForm &AForm::operator=(const AForm &other) {
 
 // Destructor
 AForm::~AForm(void) {
-    std::cout << "Destructor called" << std::endl;
     return ;
 }
 
@@ -75,10 +72,17 @@ const char* AForm::IsNotSigned::what() const throw() {
 	return "Form is not signed";
 }
 
+void				AForm::checkPermission(const Bureaucrat &executor) const {
+	if (!this->isSigned())
+		throw AForm::IsNotSigned();
+	else if (executor.getGrade() > this->getExecGrade())
+		throw AForm::GradeTooLowException();
+}
+
 std::ostream& operator<<(std::ostream& os, const AForm& form) {
-    os << form.getName() << std::endl;
-	os << "Signed: " << form.isSigned() << std::endl;
-	os << "Required Grade to execute: " << form.getExecGrade() << std::endl;
-	os << "Required Grade to sign:    " << form.getSignGrade() << std::endl;
+    os << "Form's name................: " << form.getName() << std::endl;
+	os << "Signed.....................: " << (form.isSigned() ? "yes" : "no") << std::endl;
+	os << "Required Grade to execute..: " << form.getExecGrade() << std::endl;
+	os << "Required Grade to sign.....: " << form.getSignGrade() << std::endl;
     return os;
 }
