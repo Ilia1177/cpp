@@ -40,5 +40,11 @@ class Bureaucrat
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& admin);
 
+template <typename T>
+T clamp(const T& value, const T& low, const T& high) {
+    if (value < low) return low;
+    if (value > high) return high;
+    return value;
+}
 #endif
 

@@ -1,11 +1,11 @@
 #include "Bureaucrat.hpp"
-
 // Default constructor
 Bureaucrat::Bureaucrat(const std::string& name, int grade): _name(name) {
-    std::cout << "Default constructor called" << std::endl;
 	if (grade < 1) {
+		_grade = 1;
         throw Bureaucrat::GradeTooHighException();
 	} else if (grade > 150) {
+		_grade = 150;
         throw Bureaucrat::GradeTooLowException();
 	}
     _grade = grade;
