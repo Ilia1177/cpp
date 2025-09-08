@@ -5,27 +5,23 @@
 
 // Default constructor
 Intern::Intern(void) {
-    std::cout << "Default constructor called" << std::endl;
     return ;
 }
 
 // Copy constructor
 Intern::Intern(const Intern &other) {
-    std::cout << "Copy constructor called" << std::endl;
     (void) other;
     return ;
 }
 
 // Assignment operator overload
 Intern &Intern::operator=(const Intern &other) {
-    std::cout << "Assignment operator called" << std::endl;
     (void) other;
     return (*this);
 }
 
 // Destructor
 Intern::~Intern(void) {
-    std::cout << "Destructor called" << std::endl;
     return ;
 }
 
@@ -44,9 +40,9 @@ AForm* Intern::makeShrubberyForm(const std::string& target) const {
 
 AForm* Intern::makeForm(const std::string& name, const std::string& target) const
 {
-	std::string availableForms[3] = {	"shrubbery creation",
-										"robotomy request",
-										"presidential pardon" };
+	std::string availableForms[3] = 							{	"shrubbery creation",
+																	"robotomy request",
+																	"presidential pardon" };
 	AForm* (Intern::*actualForm[3])(const std::string&) const = {	&Intern::makeShrubberyForm,
 																	&Intern::makeRobotomyForm,
 																	&Intern::makePresidentialForm };
