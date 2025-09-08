@@ -5,13 +5,17 @@ Form::Form(const std::string& name, int gradeToExecute, int gradeToSign):
 	_name(name), _signed(false), _gradeToExecute(gradeToExecute), _gradeToSign(gradeToSign) {
     std::cout << "Default constructor called" << std::endl;
 	if (_gradeToExecute > 150) {
+		_gradeToExecute = 150;
 		throw Form::GradeTooLowException();
 	} else if (_gradeToExecute < 1) {
+		_gradeToExecute = 1;
 		throw Form::GradeTooHighException();
 	}
 	if (_gradeToSign > 150) {
+		_gradeToSign = 150;
 		throw Form::GradeTooLowException();
 	} else if (_gradeToSign < 1) {
+		_gradeToSign = 1;
 		throw Form::GradeTooHighException();
 	}
     return ;
