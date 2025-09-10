@@ -6,7 +6,7 @@ double getNaNd()
     	unsigned long long i;
     	double d;
 	} u;
-    u.i = 0x7FF8000000000000ULL;  // Quiet NaN pattern for double (IEEE 754)
+    u.i = 0x7FF8000000000000ULL;  // NaN pattern for double (IEEE 754)
     return u.d;
 }
 
@@ -29,7 +29,7 @@ bool	notANumber(const std::string& str)
 
 void	ft_c_str(const std::string& str, char *buff, size_t len)
 {
-	if (len == 0)
+	if (len == 0 || buff == NULL)
 		return ;
 	size_t i = 0;
 	for (; i < len - 1 && str[i]; i++) {
