@@ -3,10 +3,14 @@
 
 // Default constructor
 template<typename T>
-Array<T>::Array(void): _size(0), _tab(NULL) {}
+Array<T>::Array(void): _size(0), _tab(new T[0]()) {}
 
 template<typename T>
-Array<T>::Array(const size_t size): _size(size), _tab(new T[size]) {}
+Array<T>::Array(const size_t n): _size(n), _tab(new T[n]) {
+	for (size_t i = 0; i < n; ++i) {
+		_tab[i] = T();
+	}
+}
 
 // Copy constructor
 template<typename T>

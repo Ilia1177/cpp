@@ -1,4 +1,6 @@
-#pragma once
+#ifndef WHATEVER_HPP
+# define WHATEVER_HPP
+# include <iostream>
 
 template<typename T>
 void swap(T& a, T& b) {
@@ -26,3 +28,5 @@ T max(T a, T b) {
 	else
 	 	return b;
 }
+
+#endif

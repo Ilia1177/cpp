@@ -1,13 +1,13 @@
 #include "iter.hpp"
 
 template<typename T>
-void increment(T obj) {
+void increment(T &obj) {
 	obj++;
 }
 
 template<typename T>
-void print(const T obj) {
-	std::cout << obj << ", ";
+void print(const T &obj) {
+	std::cout << obj << " ";
 }
 
 int main() {
