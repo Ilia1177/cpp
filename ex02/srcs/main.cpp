@@ -1,6 +1,7 @@
 #include "Array.hpp"
 #include <exception>
 
+// int *a = new int;   <-- functional but doesnt initialize value (conditional jump);
 int main() {
 	int * a = new int();
 	std::cout << *a << std::endl;
@@ -13,20 +14,31 @@ int main() {
 		delete arr;
 	}
 	{
-		Array<int> *arr = new Array<int>(5);
+		Array<int> arr(5);
 
 		std::cout << "Int Array:" << std::endl;
 		try {
-			std::cout << *arr << std::endl;
-			(*arr)[0] = 48;
-			(*arr)[1] = 49;
-			(*arr)[2] = 50;
-			std::cout << *arr << std::endl;
-			(*arr)[20] = 20;
+			std::cout << arr << std::endl;
+			arr[0] = 43;
+			arr[1] = 43;
+			arr[2] = 43;
+			arr[3] = 43;
+
+			Array<int> twin(arr);
+
+			twin[0] = 17;
+			twin[1] = 17;
+			twin[2] = 17;
+			twin[3] = 17;
+
+
+			std::cout << "original: " << arr << std::endl;
+			std::cout << "Copy    : " << twin << std::endl;
+			std::cout << "array size: " << arr.size() << std::endl;
+			arr[20] = 20;
 		} catch (std::exception &e) {
 			std::cout << "exception caugth: " << e.what() << std::endl;
 		}
-		delete arr;
 	}
 	{
 		Array<char> *arr = new Array<char>(5);
@@ -34,9 +46,9 @@ int main() {
 		std::cout << "Char Array:" << std::endl;
 		try {
 			std::cout << *arr << std::endl;
-			(*arr)[0] = 48;
-			(*arr)[1] = 49;
-			(*arr)[2] = 50;
+			(*arr)[0] = 'T';
+			(*arr)[1] = 'h';
+			(*arr)[2] = 'e';
 			std::cout << *arr << std::endl;
 			(*arr)[20] = 20;
 		} catch (std::exception &e) {
@@ -119,9 +131,9 @@ int main() {
 		try {
 			std::cout << *arr << std::endl;
 			(*arr)[0] = std::make_pair(48, "citron");
-			(*arr)[1] = std::make_pair(48, "citron");
-			(*arr)[2] = std::make_pair(48, "citron");
-			(*arr)[3] = std::make_pair(48, "citron");
+			(*arr)[1] = std::make_pair(48, "peluche");
+			(*arr)[2] = std::make_pair(48, "canard");
+			(*arr)[3] = std::make_pair(48, "andouille");
 			std::cout << *arr << std::endl;
 		} catch (std::exception &e) {
 			std::cout << "exception caugth: " << e.what() << std::endl;
