@@ -3,7 +3,7 @@
 # include <iostream>
 # include <cerrno>
 # include <climits>
-#include <cstdlib>
+# include <cstdlib>
 
 
 class ScalarConverter
@@ -23,7 +23,6 @@ bool	isDouble(const std::string& str);
 bool	isInfinite(const std::string& str);
 bool	notANumber(const std::string& str);
 
-
 double	getNaNd();
 float	getNaNf();
 void	ft_c_str(const std::string& str, char *buff, size_t len);
@@ -33,5 +32,6 @@ int		convertToInt(const std::string& str);
 char	convertToChar(const std::string& str);
 float	convertToFloat(const std::string& str);
 double	convertToDouble(const std::string& str);
+
 #endif
 
