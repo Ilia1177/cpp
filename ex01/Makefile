@@ -13,6 +13,7 @@ INC_DIR = incs/
 OBJ_DIR	= objs/
 INCS		= -I$(INC_DIR)
 SRCS	= 	main.cpp\
+			Data.cpp\
 	   		Serializer.cpp\
 
 SRCS 	:= 	$(addprefix $(SRC_DIR), $(SRCS))

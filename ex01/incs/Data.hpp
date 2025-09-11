@@ -4,8 +4,15 @@
 
 struct Data
 {
-	int value;
 	std::string str;
+	int value;
+
+	Data();
+	Data(const std::string&, int);
+	Data(const Data& other);
+	~Data();
+	Data& operator=(const Data&);
+		
 };
 
 #endif

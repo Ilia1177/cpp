@@ -2,22 +2,6 @@
 #include "ImpossibleConversion.hpp"
 #include <iostream>
 
-//e_type getType(const std::string& str) {
-//	if (isInt(str)) {
-//		return (INT);
-//	} else if (isFloat(str)) {
-//		return (FLOAT);
-//	} else if (isDouble(str)) {
-//		return (DOUBLE);
-//	} else if (isInfinite(str)) {
-//		return (INFINITE);
-//	} else if (isChar(str)) {
-//		return (CHAR);
-//	}
-//	return(FAULT);
-//}
-
-
 bool isDigit(int c) {
 	if (c >= '0' && c <= '9')
 		return true;
@@ -129,7 +113,6 @@ int convertToInt(const std::string& str)
 		if (ft_strlen(endptr) == 1 && cstr - endptr == 0)
 			throw ImpossibleConversion();
 	}
-
     return static_cast<int>(value);
 }
 
@@ -137,20 +120,22 @@ char convertToChar(const std::string& str)
 {
 	if (::isChar(str))
 		return static_cast<char>(str[1]);
-
 	try {
 		int value = convertToInt(str);
 		if (value >= 32 && value <= 126) {
 			return static_cast<char>(value);
+		} else if (value <= 127 && value >= 0){
+			throw std::invalid_argument("Non displayable");
 		} else {
 			throw ImpossibleConversion();
 		}
 	} catch (...) {
-		throw ImpossibleConversion();
+		throw ;
 	}
 }
 
-float convertToFloat(const std::string& str) {
+float convertToFloat(const std::string& str)
+{
 	char *endptr = NULL;
 	char cstr[256];
 	errno = 0;
@@ -162,7 +147,9 @@ float convertToFloat(const std::string& str) {
         return getNaNf();
     }
 	float floatValue =  std::strtof(cstr, &endptr);
-	if (errno == ERANGE || endptr == cstr)
+	if (errno == ERANGE)
+		throw std::invalid_argument("float overflow (impossible conversion: +-inf)");
+	else if (endptr == cstr)
 		throw ImpossibleConversion();
 	return floatValue;
 }
@@ -178,6 +165,8 @@ double convertToDouble(const std::string& str)
 	if (notANumber(str)) {
         return getNaNd();
     }
+	if (ft_strlen(str) > 256)
+		throw std::invalid_argument("String is too long (either overflow or too much precision) for this exercice. Be a reasonable person.");
 	ft_c_str(str, cstr, 256);
 	double doubleValue =  std::strtod(cstr, &endptr);
 	if (errno == ERANGE || cstr == endptr)

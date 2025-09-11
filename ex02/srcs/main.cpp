@@ -14,7 +14,11 @@ int main() {
 	Base* test;
 
 	test = generate();
+	std::cout << "Identify pointer" << std::endl;
 	identify(test);
+	std::cout << "Identify by reference" << std::endl;
 	identify(*test);
+	if (test) delete test;
+
 	return 0;
 }
