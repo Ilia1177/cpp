@@ -2,8 +2,9 @@ NAME 	= 	span
 OS = $(shell uname)
 
 ifeq ($(OS), Darwin)
-	CFLAGS	=	-Wall -Wextra -Werror -std=c++98 
-	CC 		=	/usr/local/bin/g++-15
+	CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -g -O0 -fsanitize=address #-fsanitize=undefined
+	#CC 		=	/usr/local/bin/g++-15
+	CC 		=	clang++
 else
 	CC 		=	c++
 	CFLAGS	= 	-Wall -Wextra -Werror -std=c++98 
