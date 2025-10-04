@@ -16,13 +16,13 @@ elem_s& elem_s::operator=(const elem_s &other)
 	return *this;
 }
 
-bool elem_s::operator<(const elem_s &other) const {__number_of_comp__++; return this->key < other.key;}
-bool elem_s::operator==(const elem_s &other) const {__number_of_comp__++; return this->key == other.key;}
-bool elem_s::operator<(const int val) const {__number_of_comp__++; return this->key < val;}
-bool elem_s::operator>(const elem_s &other) const {__number_of_comp__++; return this->key > other.key;}
-bool elem_s::operator>(const int val) const {__number_of_comp__++; return this->key > val;}
+bool elem_s::operator<(const elem_s &other) const {g_comparison++; return this->key < other.key;}
+bool elem_s::operator==(const elem_s &other) const {g_comparison++; return this->key == other.key;}
+bool elem_s::operator<(const int val) const {g_comparison++; return this->key < val;}
+bool elem_s::operator>(const elem_s &other) const {g_comparison++; return this->key > other.key;}
+bool elem_s::operator>(const int val) const {g_comparison++; return this->key > val;}
 
-size_t __number_of_comp__ = 0;
+size_t g_comparison = 0;
 
 int toInt(const std::string& str, char** endptr)
 {
