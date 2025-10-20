@@ -2,8 +2,9 @@ NAME 	= mutantStack
 OS = $(shell uname)
 
 ifeq ($(OS), Darwin)
-	CFLAGS	=	-Wall -Wextra -Werror -std=c++98 
-	CC 		=	/usr/local/bin/g++-15
+	CFLAGS	=	-Wall -Wextra -Werror -std=c++98 -g -O0 -fsanitize=address 
+    CC = clang++
+	#CC 		=	/usr/local/bin/g++-15
 else
 	CC 		=	c++
 	CFLAGS	= 	-Wall -Wextra -Werror -std=c++98 
