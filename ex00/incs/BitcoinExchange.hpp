@@ -63,6 +63,8 @@ class BitcoinExchange
 		date_t  				_lowestDate;
 };
 
+bool isLeapYear(int year);
+bool isValidDate(int year, int month, int day);
 int toInt(const std::string& str, char **end);
 float toFloat(const std::string& str);
 date_t getCurrentDate();

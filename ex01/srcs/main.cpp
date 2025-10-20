@@ -2,8 +2,10 @@
 
 int main(int ac, char **av) 
 {
-	if (ac < 2)
+	if (ac < 2) {
+		std::cerr << "Need one argument\n";
 		return 1;
+	}
 	RPN polish;
 
 	try {
@@ -12,4 +14,5 @@ int main(int ac, char **av)
 		std::cerr << "Error: " << e.what() << std::endl;
 	}
 	return 0;
+
 }	
