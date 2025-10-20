@@ -17,7 +17,6 @@ INC_DIR = incs/
 OBJ_DIR	= objs/
 INCS		= -I$(INC_DIR)
 SRCS	= 	main.cpp\
-			idea.cpp\
 			PmergeMe.cpp\
 
 SRCS 	:= 	$(addprefix $(SRC_DIR), $(SRCS))
