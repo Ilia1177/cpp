@@ -37,7 +37,7 @@ int toInt(const std::string& str, char** endptr)
 	else if (**endptr == '.')
 		throw std::invalid_argument("decimal value are not valid number (only positive integer please)"); // float value
 	else if (*endptr == cstr)
-		throw std::invalid_argument("no conversion made");
+		throw std::invalid_argument("Invalid character");
 	else if (value < 0)
 		throw std::invalid_argument("negative numbers are forbiden");
     return static_cast<int>(value);

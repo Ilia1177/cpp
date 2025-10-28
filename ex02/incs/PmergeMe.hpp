@@ -104,23 +104,27 @@ template <typename C> class PmergeMe
     C _arr;
 };
 
-template <typename C> C& PmergeMe<C>::getContainer(void) { return _arr; };
+/////////////////////////// PARSING AND UTILS ///////////////////////////////
+template <typename C> 
+C& PmergeMe<C>::getContainer(void) { return _arr; };
 
-template <typename C> C& PmergeMe<C>::read(const std::string& input)
+template <typename C> 
+C& PmergeMe<C>::read(const std::string& input)
 {
     _arr.clear();
     std::string str = input;
     char*       end;
     while (str.length() > 0) {
         str.erase(0, str.find_first_not_of(" \t\n\r\f\v"));
-        _arr.push_back(elem_t(::toInt(str, &end)));
+		_arr.push_back(elem_t(::toInt(str, &end)));
         str = end;
         str.erase(0, str.find_first_not_of(" \t\n\r\f\v"));
     }
     return _arr;
 }
 
-template <typename C> void PmergeMe<C>::print(C& c, size_t size)
+template <typename C>
+void PmergeMe<C>::print(C& c, size_t size)
 {
     Citer  it;
     Citer  ite = c.end() - 1;
@@ -155,7 +159,8 @@ template <typename C> void PmergeMe<C>::print(C& c, size_t size)
     std::cout << std::endl;
 }
 
-template <typename C> void PmergeMe<C>::print(C& c)
+template <typename C>
+void PmergeMe<C>::print(C& c)
 {
     Citer it;
     Citer ite = c.end() - 1;
@@ -174,27 +179,8 @@ template <typename C> void PmergeMe<C>::print(C& c)
     std::cout << std::endl;
 }
 
-template <typename C> void PmergeMe<C>::swap(elem_t& a, elem_t& b)
-{
-    elem_t tmp = a;
-    a = b;
-    b = tmp;
-}
-
-template <typename C> size_t PmergeMe<C>::jacobsthal(size_t k) const
-{
-    if (k == 0 || k == 1)
-        return k;
-    size_t a = 0, b = 1, c;
-    for (size_t i = 2; i <= k; ++i) {
-        c = b + 2 * a;
-        a = b;
-        b = c;
-    }
-    return b;
-}
-
-template <typename C> void PmergeMe<C>::init_label(C& arr, std::string label, size_t size)
+template <typename C>
+void PmergeMe<C>::init_label(C& arr, std::string label, size_t size)
 {
     Citer it = arr.begin();
     for (size_t i = 0; i < size; ++i) {
@@ -221,6 +207,28 @@ template <typename C> void PmergeMe<C>::assign_label(C& arr, const size_t elem_s
         }
         curr_pair++;
     }
+}
+
+/////////////////////////// LOGIC EXECUTION /////////////////////////////////
+
+template <typename C> void PmergeMe<C>::swap(elem_t& a, elem_t& b)
+{
+    elem_t tmp = a;
+    a = b;
+    b = tmp;
+}
+
+template <typename C> size_t PmergeMe<C>::jacobsthal(size_t k) const
+{
+    if (k == 0 || k == 1)
+        return k;
+    size_t a = 0, b = 1, c;
+    for (size_t i = 2; i <= k; ++i) {
+        c = b + 2 * a;
+        a = b;
+        b = c;
+    }
+    return b;
 }
 
 // sort elements inside of pairs by comparing them against each others: a <? b
