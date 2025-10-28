@@ -6,10 +6,10 @@ int main(int ac, char **av)
 		std::cerr << "Need one argument\n";
 		return 1;
 	}
-	RPN polish;
+	RPN polish(av[1]);
 
 	try {
-		polish.exec(av[1]);
+		std::cout << "result: " << polish.exec() << std::endl;
 	} catch (std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
 	}
