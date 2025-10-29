@@ -23,18 +23,27 @@ bool date_s::operator<(const date_s& other) const {
 }
 
 date_s& date_s::operator--() {
-    if (--this->day == 0) {
-        if (--this->month == 0) {
+    --this->day;
+
+    if (this->day == 0) {
+        --this->month;
+
+        if (this->month == 0) {
             --this->year;
             this->month = 12;
         }
-		if ((this->month < 7&& this->month % 2 == 0) || (this->month >= 7 && this->month % 2 == 1))
-        	this->day = 30;
-		else 
-			this->day = 31;
+        if (this->month == 2) { 
+            this->day = isLeapYear(this->year) ? 29 : 28;
+        } else if ((this->month < 7 && this->month % 2 == 0) || (this->month >= 7 && this->month % 2 == 1)) {
+            this->day = 30;
+        } else {
+            this->day = 31;
+        }
     }
+
     return *this;
 }
+
 
 std::ostream& operator<<(std::ostream& os, const date_s& date) {
 	os << std::setfill('0') << date.year << "-";
@@ -114,17 +123,6 @@ BitcoinExchange &BitcoinExchange::operator=(const BitcoinExchange &other)
     return (*this);
 }
 
-// debug
-void BitcoinExchange::printAll() {
-	std::map<date_t, rate_t>::iterator it;
-    for (it = _rates.begin(); it != _rates.end(); ++it) {
-        const date_t& date = it->first;
-        rate_t& val = it->second;
-
-		std::cout << date << " | " << val << std::endl;
-    }
-}
-
 float toFloat(const std::string& str, char **end)
 {
 	*end = NULL;
@@ -160,6 +158,30 @@ int toInt(const std::string& str, char** endptr)
     return static_cast<int>(value);
 }
 
+bool isLeapYear(int year) {
+    return (year % 4 == 0) && (year % 100 != 0 || year % 400 == 0);
+}
+
+bool isValidDate(int year, int month, int day) {
+    if (year < 1970 || month < 1 || month > 12 || day < 1)
+        return false;
+
+    int daysInMonth;
+
+    switch (month) {
+        case 2: // February
+            daysInMonth = isLeapYear(year) ? 29 : 28;
+            break;
+        case 4: case 6: case 9: case 11: // April, June, September, November
+            daysInMonth = 30;
+            break;
+        default: // All other months
+            daysInMonth = 31;
+    }
+
+    return day <= daysInMonth;
+}
+
 date_t getCurrentDate() {
 	std::time_t now = std::time(NULL);
     std::tm* local = std::localtime(&now);
@@ -181,20 +203,20 @@ date_t BitcoinExchange::getDate(std::string& line)
 	char *end = NULL;
 	try {
 		year = ::toInt(line, &end);
-		if (end - line.c_str() != 4 || *end != '-') throw std::invalid_argument("invalid date");
+		if (end - line.c_str() != 4 || *end != '-') 
+			throw std::invalid_argument("invalid date format");
 		line.erase(0, 5);
 		end = NULL;
 		month = ::toInt(line, &end);
-		if (end - line.c_str() != 2 || *end != '-') throw std::invalid_argument("invalid date");
+		if (end - line.c_str() != 2 || *end != '-')
+			throw std::invalid_argument("invalid date format");
 		line.erase(0, 3);
 		end = NULL;
 		day = ::toInt(line, &end);
-		if (end - line.c_str() != 2) throw std::invalid_argument("invalid date");
+		if (end - line.c_str() != 2) 
+			throw std::invalid_argument("invalid date format");
 		line.erase(0, 2);
-		if (year < 1970 || month > 12 || day > 31) {
-			str.erase(10, str.length());
-			throw std::invalid_argument("invalid date");
-		} else if (((month < 7 && month % 2 == 0) || (month >= 7 && month % 2 == 1)) && day > 30) {
+		if (!isValidDate(year, month, day)) {
 			str.erase(10, str.length());
 			throw std::invalid_argument("invalid date");
 		}
@@ -238,11 +260,11 @@ void BitcoinExchange::readData(const std::string& dbName)
 	while(std::getline(data, line)) {
 		try {
 			date_t date = getDate(line);
-			if (line.length() < 2 || line[0] != ',') throw std::invalid_argument("invalid date format"); // ??
+			if (line.length() < 2 || line[0] != ',')
+				throw std::invalid_argument("invalid date format");
 			line.erase(0, 1);
 			if (date < _lowestDate) _lowestDate = date;
-			rate_t rate = getRate(line);
-			_rates.insert(std::make_pair(date, rate));
+			_rates[date] = getRate(line);
 		} catch (...) {}
 		line.clear();
 	}
@@ -263,9 +285,11 @@ void BitcoinExchange::outputPrice(const std::string& inFile) {
 				throw std::invalid_argument("bad format");
 			line.erase(0, 3);
 			value = getRate(line);
-			if (rate_s(1000) < value) throw std::out_of_range("value is too large (> 1000)");
-			if (line[0] != '\0') throw std::invalid_argument("invalid format");
-			std::cout << date << " => " << value << " => " << value * rateAt(date) << std::endl;	
+			if (rate_s(1000) < value) 
+				throw std::out_of_range("value is too large (> 1000)");
+			if (line[0] != '\0') 
+				throw std::invalid_argument("invalid line format");
+			std::cout << date << " => " << value << " = " << value * rateAt(date) << std::endl;	
 		} catch (std::invalid_argument& e) {
 			std::cerr << "Error: " << e.what() << " => '" << line << "'" << std::endl;
 		} catch (std::out_of_range& e) {
@@ -281,44 +305,7 @@ rate_t BitcoinExchange::rateAt(date_t date) const {
     while (it == _rates.end() && _lowestDate < date) {
         it = _rates.find(--date);
     }
-    if (it == _rates.end()) throw std::invalid_argument("no entry for this date");
+    if (it == _rates.end())
+		throw std::invalid_argument("no entry for this date");
     return it->second;
 }
-//bool isFloat(const std::string& str)
-//{
-//	size_t i = 0;
-//
-//	if (str == "inf" || str == "-inf" || str == "+inf")
-//		return true;
-//	if (str.length() == 0)
-//		return false;
-//	if (str[i] == '-' || str[i] == '+')
-//		i++;
-//	for (; i < str.length() && str[i] != '.'; i++) {
-//		if (!std::isdigit(str[i]))
-//			return false;
-//	}
-//	if (str[i++] != '.')
-//		return false;
-//	for (; i < str.length(); i++) {
-//		if (!std::isdigit(str[i]))
-//			return false;
-//	}
-//	return true;
-//}
-//
-//	bool isInt(const std::string& str) {
-//
-//		size_t i = 0;
-//
-//		if (str.length() == 0)
-//			return false;
-//		if (str[i] == '-' || str[i] == '+')
-//			i++;
-//		while (i < str.length()) {
-//			if (!std::isdigit(str[i])) // ?? what about '-' cahr at the end ?
-//				return false;
-//			i++;
-//		}
-//		return true;
-//	}

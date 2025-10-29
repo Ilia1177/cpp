@@ -4,9 +4,11 @@ int main(int ac, char **av)
 {
 	BitcoinExchange trader;
 
-	(void)av;
-	(void)ac;
 
+	if (ac != 2) {
+		std::cerr << "Wrong argument\n";
+		return (1);
+	}
 	try {
 		trader.readData("data.csv");
 		trader.outputPrice(av[1]);
