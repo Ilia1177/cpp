@@ -37,7 +37,7 @@ void Intern_tests(Bureaucrat& johnson) {
 			std::cout << std::endl << "You asked for: " << std::endl << *newForm;
 			std::cout  << std::endl << "What's your grade ? ";
 			std::getline(std::cin, supposedGrade);
-			std::istringstream iss(supposedGrade); //iss = std::isstringstream(supposedGrade);
+			std::istringstream iss(supposedGrade);
 			int grade;
 			if (iss >> grade) {
 				if (johnson.getGrade() > grade)
@@ -116,11 +116,13 @@ void GradeException_tests() {
 	std::cout << std::endl << "---- BUREAUCRAT GRADE EXECEPTION TESTS" << std::endl;
 	Bureaucrat johnson("Johnson", 150);
 	try {
+		std::cout << "should throw exception" << std::endl;
 		Bureaucrat Dave("Dave", 189);
 	}
 	catch (std::exception& e) {
-		std::cout << "couldnot creat bureaucrat because: " << e.what() << std::endl;
+		std::cout << "couldnot create bureaucrat because: " << e.what() << std::endl;
 		try {
+			std::cout << "should throw exception" << std::endl;
 			johnson.gradeDown();
 		}
 		catch (std::exception& e) {
@@ -133,12 +135,10 @@ void GradeException_tests() {
 int main() {
 
 	Bureaucrat johnson("Johnson", 150);
-	//AForm contract; 				// Abstract class doesnt not instantiate
-
-	//GradeException_tests();
-	//Presidential_tests(johnson);
-	//Robotomy_tests(johnson);
-	//Shrubbery_tests(johnson);
+	GradeException_tests();
+	Presidential_tests(johnson);
+	Robotomy_tests(johnson);
+	Shrubbery_tests(johnson);
 	Intern_tests(johnson);
 
 	return (0);

@@ -33,6 +33,7 @@ class AForm
 		int					getExecGrade() const;
 		int					getSignGrade() const;
 	
+		void				checkPermission(const Bureaucrat &executor) const;
 		// setters
 		void				beSigned(const Bureaucrat& signer);
 		virtual void		execute(const Bureaucrat& executor) const = 0;
@@ -45,6 +46,13 @@ class AForm
 };
 
 std::ostream& operator<<(std::ostream& os, const AForm& form);
+
+template <typename T>
+T clamp(const T& value, const T& low, const T& high) {
+    if (value < low) return low;
+    if (value > high) return high;
+    return value;
+}
 
 #endif
 

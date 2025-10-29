@@ -5,15 +5,19 @@
 
 void Presidential_tests(Bureaucrat& johnson) {
 	// PresidentialPardon tests
-	PresidentialPardonForm excuses("Pardon me");
+	PresidentialPardonForm excuses("PAULO");
 	std::cout << std::endl << "---- PRESIDENTIAL TESTS" << std::endl;
 	std::cout << excuses << std::endl;
 	std::cout << johnson << std::endl << std::endl;
+	std::cout << "should not work (form is not signed)" << std::endl;
 	johnson.executeForm(excuses);
+	std::cout << "should not work (grade too low)" << std::endl;
 	johnson.signForm(excuses);
 	for (; johnson.getGrade() > excuses.getSignGrade(); johnson.gradeUp());
 	johnson.signForm(excuses);
 	for (; johnson.getGrade() > excuses.getExecGrade(); johnson.gradeUp());
+
+	std::cout << "should now work" << std::endl;
 	johnson.executeForm(excuses);
 	std::cout << std::endl << excuses << std::endl;
 }
@@ -30,8 +34,9 @@ void Robotomy_tests(Bureaucrat& johnson) {
 	johnson.signForm(robotisation);
 	johnson.executeForm(robotisation);
 	for (; johnson.getGrade() > robotisation.getExecGrade(); johnson.gradeUp());
-	for (int trial = 1; trial < 10; trial++) {
-		std::cout << "trial number: " << trial << std::endl;
+	std::cout << "Test execution for 10 trials" << std::endl;
+	for (int trials = 1; trials < 10; trials++) {
+		std::cout << "trial number: " << trials << std::endl;
 		johnson.executeForm(robotisation);
 	}
 }

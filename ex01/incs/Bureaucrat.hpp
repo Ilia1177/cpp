@@ -7,7 +7,7 @@
 class Bureaucrat
 {
     public:
-		Bureaucrat(const std::string &name = "Undefined", int grade = 150);
+		Bureaucrat(const std::string &name = "Unknown", int grade = 150);
         Bureaucrat(const Bureaucrat& other);
         Bureaucrat &operator=(const Bureaucrat &other);
         ~Bureaucrat();
@@ -40,5 +40,11 @@ class Bureaucrat
 
 std::ostream& operator<<(std::ostream& os, const Bureaucrat& admin);
 
+template <typename T>
+T clamp(const T& value, const T& low, const T& high) {
+    if (value < low) return low;
+    if (value > high) return high;
+    return value;
+}
 #endif
 
