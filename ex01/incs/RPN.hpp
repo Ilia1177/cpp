@@ -26,5 +26,4 @@ class RPN
 };
 
 float toFloat(const std::string& str, char** end);
-int   toInt(const std::string& str, char** end);
 #endif

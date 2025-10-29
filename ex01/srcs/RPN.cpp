@@ -62,6 +62,9 @@ float RPN::exec()
 			break;
 		}
 		try {
+			if (_line[0] == '*' || _line[0] == '/' || _line[0] == '-' || _line[0] == '+') {
+				throw std::invalid_argument("not an operand");
+			}
 			float operand = ::toFloat(_line, &end);
 			_notation.push_back(operand);
 			_line = end;
@@ -70,7 +73,7 @@ float RPN::exec()
 				if (_notation.size() >= 2) {
 					op1 = _notation.front(); _notation.pop_front();
 					op2 = _notation.front(); _notation.pop_front();
-					_notation.push_back(calc(op1, op2, _line[0]));
+					_notation.push_front(calc(op1, op2, _line[0]));
 				} else {
 					throw std::invalid_argument("missing operand or invalid notation");
 				}
