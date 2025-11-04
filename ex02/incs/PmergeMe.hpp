@@ -167,9 +167,14 @@ void PmergeMe<C>::print_trunc(C& c) {
     Citer ite = c.end() - 1;
 	it = c.begin();
 
-	if (c.size() > 5) {
-		std::cout << it->key << ", " << (it + 1)->key << ", ... ";
-		std::cout << (ite - 2)->key << ", " << (ite - 1)->key << "\n";
+	size_t size = 10;
+	if (c.size() > size) {
+		for (size_t i = 0; i < size / 2; ++i)
+			std::cout << (it + i)->key << ", ";
+		std::cout << "... ";
+		for (size_t i = size / 2; i < size; ++i)
+			std::cout << ", " << (ite - (size - 1 - i))->key;
+		std::cout << std::endl;
 		return;
 	} else {
 		for (; it != c.end(); ++it) {
