@@ -33,10 +33,10 @@ int main(int ac, char** av)
     try {
 		std::deque<elem_t> actualDeq = deq.read(set);
         std::cout << "before: ";
-        deq.print(actualDeq);
+        deq.print_trunc(actualDeq);
         double deqTime = deq.ford_johnson(set);
         std::cout << "after : ";
-        deq.print(deq.getContainer());
+        deq.print_trunc(deq.getContainer());
         double vecTime = vec.ford_johnson(set);
         std::cout << "Time to process " << deq.getContainer().size()
                   << " elements in a std::deque: " << deqTime << std::endl;

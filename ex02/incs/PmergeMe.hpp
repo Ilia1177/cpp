@@ -82,9 +82,11 @@ template <typename C> class PmergeMe
     typedef C                    container_type;
     typedef typename C::iterator Citer;
 
+	
     C&     read(const std::string& input);
     void   print(C& c, size_t size);
     void   print(C& c);
+	void print_trunc(C& c);
     void   swap(elem_t& a, elem_t& b);
     size_t jacobsthal(size_t k) const;
     void   init_label(C& arr, std::string label, size_t size);
@@ -160,12 +162,34 @@ void PmergeMe<C>::print(C& c, size_t size)
 }
 
 template <typename C>
+void PmergeMe<C>::print_trunc(C& c) {
+    Citer it;
+    Citer ite = c.end() - 1;
+	it = c.begin();
+
+	if (c.size() > 5) {
+		std::cout << it->key << ", " << (it + 1)->key << ", ... ";
+		std::cout << (ite - 2)->key << ", " << (ite - 1)->key << "\n";
+		return;
+	} else {
+		for (; it != c.end(); ++it) {
+			if (it->label == "")
+				std::cout << it->key;
+			if (it != ite)
+				std::cout << ", ";
+		}
+    	std::cout << std::endl;
+	}
+}
+
+template <typename C>
 void PmergeMe<C>::print(C& c)
 {
     Citer it;
     Citer ite = c.end() - 1;
+	it = c.begin();
 
-    for (it = c.begin(); it != c.end(); ++it) {
+    for (; it != c.end(); ++it) {
         if (it->label == "") {
             std::cout << std::setw(2) << it->key;
         } else if (it->label[0] == 'a') {
